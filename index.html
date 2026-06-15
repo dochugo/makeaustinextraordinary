@@ -75,7 +75,7 @@ nav .navlink:hover{color:var(--ivory)}
 .eyebrow{font-family:var(--font-body);font-size:.72rem;font-weight:600;letter-spacing:.46em;text-transform:uppercase;color:var(--ember);margin-bottom:clamp(1.4rem,3vw,2.4rem);z-index:2}
 .eyebrow .dot{display:inline-block;width:.34rem;height:.34rem;border-radius:50%;background:var(--red);vertical-align:middle;margin:0 .9em;box-shadow:0 0 .6rem var(--red)}
 .wordmark{font-family:var(--font-disp);font-weight:400;line-height:.82;letter-spacing:.01em;color:var(--ivory);font-size:clamp(5.5rem,27vw,22rem);position:relative;z-index:2;display:inline-flex;align-items:center}
-.wordmark .xmark{width:.84em;height:.84em;margin:0 -.2em;filter:drop-shadow(0 0 2.2rem rgba(255,34,51,.55))}
+.wordmark .xmark{width:1.5em;height:1.5em;margin:0 -.42em;filter:drop-shadow(0 0 3rem rgba(255,34,51,.62))}
 .fullword{font-family:var(--font-disp);font-size:clamp(.72rem,1.5vw,1.05rem);letter-spacing:.42em;text-transform:uppercase;color:var(--muted);margin-top:clamp(.9rem,2vw,1.6rem);z-index:2}
 .fullword b{color:var(--ivory);font-weight:400}
 .fullword .r{color:var(--red)}
@@ -223,7 +223,7 @@ footer .fine{margin-top:1.2rem;font-size:.72rem;color:var(--faint)}
     <filter id="kt" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.02 0.5" numOctaves="3" seed="4" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.6 1.25"/></filter>
     <mask id="km" maskUnits="userSpaceOnUse" x="-40" y="-40" width="280" height="280"><rect x="-40" y="-40" width="280" height="280" fill="white"/><rect x="-40" y="-40" width="280" height="280" filter="url(#kt)"/></mask>
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <symbol id="sumix" viewBox="-30 -30 270 270">
+    <symbol id="sumix" viewBox="-8 -10 216 216">
       <g filter="url(#glow)" opacity=".5"><path d="M -22 -6 C 40 40, 150 150, 222 210 C 214 222, 196 222, 182 212 C 120 162, 60 96, -24 6 Z" fill="#ff2e2e" opacity=".35"/><path d="M 222 -4 C 160 42, 50 152, -22 212 C -14 224, 4 224, 18 214 C 80 164, 140 96, 224 6 Z" fill="#ff2e2e" opacity=".28"/></g>
       <g filter="url(#rag)"><g mask="url(#km)">
         <path fill="url(#ig1)" d="M -26 -10 C -8 -4, 8 4, 22 16 C 44 34, 66 58, 86 82 C 100 99, 116 120, 134 142 C 154 166, 182 196, 224 214 C 218 222, 206 223, 194 218 C 168 207, 146 184, 126 160 C 108 138, 92 116, 78 99 C 60 77, 40 52, 22 34 C 10 22, -8 10, -28 7 C -30 0, -30 -5, -26 -10 Z"/>
