@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Diagnosis — Make Austin Extraordinary</title>
+<meta name="description" content="The gap list: everything a great city has that Austin doesn't — third places, late culture, members' houses, salons, a communal body, a real art week. The intellectual backing, and the rooms we've lost. Why MAX must exist." />
+<meta name="theme-color" content="#0a0507" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0507'/%3E%3Cpath d='M22 20C40 36 60 64 80 82M80 20C62 38 40 64 20 82' stroke='%23ff2233' stroke-width='11' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="preload" as="font" type="font/woff2" href="fonts/anton.woff2" crossorigin />
+<link rel="preload" as="font" type="font/woff2" href="fonts/space-grotesk.woff2" crossorigin />
+<style>
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/anton.woff2) format('woff2')}
+@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/space-grotesk.woff2) format('woff2')}
+@font-face{font-family:'EB Garamond';font-style:italic;font-weight:400 600;font-display:swap;src:url(fonts/eb-garamond-italic.woff2) format('woff2')}
+:root{
+  --void:#070406;--ink:#0a0507;--ink-2:#110a0c;--char:#1a0f12;
+  --red:#ff2233;--ember:#ff5a47;--rose:#ff8a90;--wine:#7a0c18;
+  --ivory:#f4ece6;--ivory-2:#cdc1b9;--muted:#9a8a86;--faint:#6f6360;
+  --line:rgba(244,236,230,.10);--line-red:rgba(255,34,51,.30);
+  --font-disp:'Anton','Arial Narrow',Impact,sans-serif;
+  --font-body:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  --font-serif:'EB Garamond',Georgia,serif;
+  --gut:clamp(1.25rem,4vw,3rem);--mw:64rem;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:clamp(0.9375rem,0.84rem + 0.45vw,1.25rem);scroll-behavior:smooth;scrollbar-color:#3a1c22 var(--ink)}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:3px}
+body{font-family:var(--font-body);color:var(--ivory);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  background:radial-gradient(120% 80% at 50% -10%,rgba(255,34,51,.16),transparent 55%),radial-gradient(120% 120% at 50% 120%,rgba(122,12,24,.18),transparent 60%),linear-gradient(180deg,var(--ink),var(--void) 45%,#050304);background-attachment:fixed}
+::selection{background:var(--red);color:#120304}
+a{color:var(--rose);text-decoration:none}
+em,i{font-style:italic;font-family:var(--font-serif)}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:55;box-shadow:inset 0 0 14rem 3rem rgba(5,3,4,.85)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem var(--gut);background:rgba(10,5,7,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.brand{font-family:var(--font-disp);font-size:1.3rem;letter-spacing:.04em;color:var(--ivory)}
+.brand .x{color:var(--red);text-shadow:0 0 1.4rem rgba(255,34,51,.6)}
+.back{font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.back:hover{color:var(--ivory)}
+.wrap{max-width:var(--mw);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) var(--gut)}
+header.top{padding-top:clamp(7rem,14vw,11rem)}
+.eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:var(--ember);margin-bottom:1.4rem;display:flex;align-items:center;gap:1rem}
+.eyebrow::before{content:"";width:2.4rem;height:1px;background:var(--red);box-shadow:0 0 .5rem var(--red)}
+h1{font-family:var(--font-disp);font-weight:400;font-size:clamp(2.6rem,8vw,5.5rem);line-height:.98;color:var(--ivory);letter-spacing:.01em;margin-bottom:1.4rem;text-wrap:balance}
+h1 em{color:var(--red);font-family:var(--font-serif);font-style:italic}
+.dek{font-size:clamp(1.1rem,1rem + .5vw,1.45rem);color:var(--ivory-2);max-width:54ch;line-height:1.55}
+.dek strong{color:var(--ivory);font-weight:600}
+section{position:relative;z-index:2}
+h2{font-family:var(--font-disp);font-weight:400;font-size:clamp(1.7rem,4.4vw,3rem);line-height:1.04;color:var(--ivory);letter-spacing:.01em;margin-bottom:.8rem;text-wrap:balance}
+h2 em{color:var(--red);font-family:var(--font-serif);font-style:italic}
+.sub{font-size:1.05rem;color:var(--muted);max-width:56ch;line-height:1.6;margin-bottom:clamp(1.8rem,4vw,2.8rem)}
+.divider{height:1px;background:var(--line);max-width:var(--mw);margin:0 auto}
+.gaps{display:grid;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.gap{background:linear-gradient(160deg,var(--ink-2),var(--void));display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(.6rem,3vw,2.4rem);padding:clamp(1.4rem,3vw,2.2rem) clamp(.2rem,1.5vw,1rem);transition:background .4s}
+.gap:hover{background:linear-gradient(160deg,var(--char),var(--ink-2))}
+.gap .has{font-family:var(--font-disp);font-weight:400;font-size:clamp(1.15rem,2.4vw,1.6rem);color:var(--ivory);letter-spacing:.01em;line-height:1.08}
+.gap .has small{display:block;font-family:var(--font-body);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ember);margin-bottom:.6rem;font-weight:600}
+.gap .lacks{font-size:.95rem;color:var(--muted);line-height:1.55}
+.gap .lacks b{color:var(--ivory-2);font-weight:600}
+@media(max-width:40rem){.gap{grid-template-columns:1fr;gap:.4rem}}
+.frames{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:clamp(1rem,2vw,1.4rem);margin-top:1rem}
+.frame{background:linear-gradient(160deg,var(--char),var(--ink-2));border:1px solid var(--line);border-radius:.9rem;padding:1.5rem 1.6rem}
+.frame h3{font-family:var(--font-disp);font-weight:400;font-size:1.25rem;color:var(--ivory);letter-spacing:.01em;margin-bottom:.2rem}
+.frame .who{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ember);margin-bottom:.8rem}
+.frame p{font-size:.92rem;color:var(--muted);line-height:1.56}
+.lost{background:linear-gradient(180deg,transparent,rgba(122,12,24,.12) 50%,transparent)}
+.lost ul{list-style:none;margin-top:1rem;border-left:2px solid var(--line-red);padding-left:1.4rem;display:grid;gap:1.1rem}
+.lost li{position:relative}
+.lost li::before{content:"";position:absolute;left:calc(-1.4rem - 6px);top:.5em;width:.55rem;height:.55rem;border-radius:50%;background:var(--red);box-shadow:0 0 .5rem var(--red)}
+.lost li b{font-family:var(--font-disp);font-weight:400;color:var(--ivory);font-size:1.1rem;letter-spacing:.01em}
+.lost li span{display:block;font-size:.92rem;color:var(--muted);line-height:1.55;margin-top:.2rem}
+.lost li em{color:var(--rose)}
+.turn{text-align:center;max-width:48rem;margin:0 auto}
+.turn blockquote{font-family:var(--font-serif);font-style:italic;font-size:clamp(1.4rem,3.6vw,2.3rem);line-height:1.35;color:var(--ivory);margin-bottom:1.4rem}
+.turn blockquote b{color:var(--red);font-style:normal;font-family:var(--font-disp);font-weight:400}
+.turn p{font-size:1.05rem;color:var(--ivory-2);line-height:1.6;max-width:52ch;margin:0 auto 2rem}
+.cta{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--font-body);font-weight:600;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;background:var(--red);color:#fff;border-radius:999px;padding:1rem 1.9rem;box-shadow:0 .8rem 2.4rem -.6rem rgba(255,34,51,.7);transition:transform .25s,box-shadow .25s}
+.cta:hover{transform:translateY(-3px);box-shadow:0 1.3rem 3.2rem -.6rem rgba(255,34,51,.9)}
+footer{border-top:1px solid var(--line);padding:clamp(2.2rem,5vw,3rem) var(--gut);text-align:center}
+footer p{font-size:.8rem;color:var(--faint);max-width:46ch;margin:0 auto;line-height:1.7}
+footer a{color:var(--muted)}
+.reveal{opacity:0;transform:translateY(1.4rem);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.reveal{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<nav aria-label="Primary">
+  <a class="brand" href="index.html" aria-label="MAX home">MA<span class="x">X</span></a>
+  <a class="back" href="index.html">&larr; back to the fire</a>
+</nav>
+
+<header class="top wrap">
+  <p class="eyebrow">The diagnosis &middot; the gap list</p>
+  <h1>Everything a great city has that Austin <em>doesn't.</em></h1>
+  <p class="dek">Austin isn't short on talent, money, or beauty. It's short on <strong>infrastructure</strong> &mdash; the built, repeating, unglamorous rooms where a culture actually happens. This is the inventory: what's missing, who already has it, and the rooms we paved over to get here.</p>
+</header>
+
+<div class="divider"></div>
+
+<section class="wrap">
+  <h2 class="reveal">The gaps, <em>named.</em></h2>
+  <p class="sub reveal">Not complaints &mdash; a build list. Each of these is a room someone could open. That's the whole point of MAX: name the missing thing, then call the right builder to it.</p>
+  <div class="gaps">
+    <div class="gap reveal"><div class="has"><small>The members' house</small>A living room for the city</div><div class="lacks">Berlin, London, New York, LA all have <b>Soho House / NeueHouse</b>-style houses &mdash; a place sophisticated people simply <em>dwell</em>, work, and meet. Austin has hotels and bars; it has no real members' house where a scene has a home base. (Anwen's Portal, opening soon, is the first real attempt.)</div></div>
+    <div class="gap reveal"><div class="has"><small>Late culture</small>A night that doesn't die at 2&nbsp;a.m.</div><div class="lacks">In Miami the night moves to a 24-hour room; in Berlin it runs till Monday. Austin's last call is a wall. <b>A city's soul lives in its after-hours</b> &mdash; the hours when the realest conversations happen and strangers become friends.</div></div>
+    <div class="gap reveal"><div class="has"><small>The salon</small>A recurring room for ideas</div><div class="lacks">Gertrude Stein had a Saturday. The Bhakti Center has a Tuesday. Austin has one-off events that never compound. <b>A salon is a place that repeats</b> &mdash; same room, same night &mdash; so a community can actually form instead of dispersing.</div></div>
+    <div class="gap reveal"><div class="has"><small>The communal body</small>A bathhouse, a hammam, a sauna culture</div><div class="lacks">Berlin, Istanbul, Korea, New York &mdash; the social bathhouse is ancient civic infrastructure. Austin worships its springs but never <em>built</em> the communal-body room: the hammam, the cold plunge, the sauna where the city softens and meets.</div></div>
+    <div class="gap reveal"><div class="has"><small>The art week</small>Galleries that gather a city</div><div class="lacks">New York has art week; Mexico City has Zona Maco; Basel has Basel. Austin has a thin gallery scene and no civic art ritual that pulls the whole city into one conversation. <b>Great art scenes are gatherings</b>, not just walls.</div></div>
+    <div class="gap reveal"><div class="has"><small>The container</small>A temple for the conscious scene</div><div class="lacks">Austin overflows with wellness, music, plant-medicine, and Burning-Man-diaspora community &mdash; and almost nowhere built to hold it. Casa de Luz is a seed; the city needs a real <em>temple-grade</em> gathering space for the soul of its scene.</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="wrap">
+  <h2 class="reveal">The names for what's <em>missing.</em></h2>
+  <p class="sub reveal">This isn't only a feeling. Serious thinkers gave the missing thing its names &mdash; and one of them gives us the way out.</p>
+  <div class="frames">
+    <div class="frame reveal"><h3>Third places</h3><p class="who">Ray Oldenburg, 1989</p><p>The informal public life between home and work &mdash; the cafe, the pub, the salon. Oldenburg showed they're where community is actually made, and documented their steady death across America.</p></div>
+    <div class="frame reveal"><h3>Scenius</h3><p class="who">Brian Eno</p><p>Eno's word for the genius of a <em>scene</em> &mdash; the insight that culture is made by communities of talent in contact, not lone heroes. Austin has the talent. It lacks the contact.</p></div>
+    <div class="frame reveal"><h3>The commons, governed</h3><p class="who">Elinor Ostrom, Nobel 1990</p><p>The hopeful turn. The "tragedy of the commons" isn't fate: Ostrom won the Nobel proving communities <em>can</em> govern shared resources &mdash; with the right design. The topsoil can be built on purpose.</p></div>
+    <div class="frame reveal"><h3>The loneliness cost</h3><p class="who">U.S. Surgeon General, 2023</p><p>Loneliness was declared an epidemic, its mortality risk likened to <em>fifteen cigarettes a day.</em> The missing rooms aren't a luxury. They're public health.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="lost"><div class="wrap">
+  <h2 class="reveal">The rooms we <em>paved over.</em></h2>
+  <p class="sub reveal">A forty-five-year pattern: Austin builds something magnetic, the world arrives, the land gets valuable, and the room becomes an office. The "Live Music Capital" was earned by counting venues &mdash; a title you lose by closing them.</p>
+  <ul>
+    <li class="reveal"><b>Armadillo World Headquarters</b> &middot; 1970&ndash;1980<span>The crucible of the cosmic-cowboy scene &mdash; bulldozed when downtown land got too valuable. <em>The first domino.</em></span></li>
+    <li class="reveal"><b>Liberty Lunch</b> &middot; closed 1999<span>The open-air hall that hosted early Nirvana and Sonic Youth. The night before demolition for an office tower, the scene played <em>"Gloria"</em> for twenty-four hours straight.</span></li>
+    <li class="reveal"><b>Las Manitas</b> &middot; demolished<span>The beloved downtown Mexican cafe &mdash; a true third place &mdash; cleared for a Marriott. <em>The commons is the first thing a boom devours.</em></span></li>
+    <li class="reveal"><b>The original Antone's</b> &middot; moved &amp; moved<span>"Home of the Blues," the room that gave Stevie Ray Vaughan a stage &mdash; a sacred room that could never hold its address.</span></li>
+    <li class="reveal"><b>Threadgill's</b> &middot; closed 2020<span>The Depression-era beer joint where Janis Joplin got her start. <em>We always know how to mourn a room.</em></span></li>
+  </ul>
+</div></section>
+
+<div class="divider"></div>
+
+<section class="wrap turn">
+  <blockquote class="reveal">The commons is not a tragedy. It's a thing you <b>build on purpose</b> &mdash; and then keep.</blockquote>
+  <p class="reveal">Every gap on this page is a room someone could open. MAX exists to name the missing thing, gather the people who can build it, and finally lay the fire this city has always been too distracted to keep lit.</p>
+  <a class="cta reveal" href="index.html#invite">Come lay the fire <span aria-hidden="true">&rarr;</span></a>
+</section>
+
+<footer>
+  <p>The Diagnosis &mdash; <a href="index.html">Make Austin Extraordinary</a>, a cultural initiative of StarHeartSong&nbsp;LLC. &middot; <a href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">@drstarheartsong</a></p>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var r=[].slice.call(document.querySelectorAll('.reveal'));
+  if(reduce||!('IntersectionObserver' in window)){r.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  r.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
