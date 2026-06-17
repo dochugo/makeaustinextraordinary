@@ -6,7 +6,17 @@
 <title>The Diagnosis — Make Austin Extraordinary</title>
 <meta name="description" content="The gap list: everything a great city has that Austin doesn't — third places, late culture, members' houses, salons, a communal body, a real art week. The intellectual backing, and the rooms we've lost. Why MAX must exist." />
 <meta name="theme-color" content="#0a0507" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0507'/%3E%3Cpath d='M22 20C40 36 60 64 80 82M80 20C62 38 40 64 20 82' stroke='%23ff2233' stroke-width='11' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+<meta property="og:title" content="The Diagnosis — Make Austin Extraordinary" />
+<meta property="og:description" content="The gap list: everything a great city has that Austin doesn't — and why MAX must exist." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://makeaustinextraordinary.com/diagnosis.html" />
+<meta property="og:image" content="https://makeaustinextraordinary.com/images/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://makeaustinextraordinary.com/images/og.png" />
+<link rel="canonical" href="https://makeaustinextraordinary.com/diagnosis.html" />
+<link rel="icon" type="image/png" href="images/favicon-64.png" />
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+<link rel="preload" as="image" href="images/max-x.png" />
 <link rel="preload" as="font" type="font/woff2" href="fonts/anton.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="fonts/space-grotesk.woff2" crossorigin />
 <style>
@@ -35,7 +45,8 @@ em,i{font-style:italic;font-family:var(--font-serif)}
 .vignette{position:fixed;inset:0;pointer-events:none;z-index:55;box-shadow:inset 0 0 14rem 3rem rgba(5,3,4,.85)}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem var(--gut);background:rgba(10,5,7,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .brand{font-family:var(--font-disp);font-size:1.3rem;letter-spacing:.04em;color:var(--ivory)}
-.brand .x{color:var(--red);text-shadow:0 0 1.4rem rgba(255,34,51,.6)}
+.brand .x{display:inline-block;vertical-align:middle;color:transparent;overflow:hidden;height:1.04em;width:.56em;margin:0 -.02em;transform:translateY(.05em);background-image:linear-gradient(150deg,#ff5a4d 6%,#ff2233 42%,#c20017 84%,#7a0010);-webkit-mask:url(images/max-x.png) center/contain no-repeat;mask:url(images/max-x.png) center/contain no-repeat}
+@supports not ((-webkit-mask:url(x)) or (mask:url(x))){.brand .x{background-image:none;color:var(--red);width:auto;height:auto;overflow:visible;text-shadow:0 0 1.4rem rgba(255,34,51,.6)}}
 .back{font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .back:hover{color:var(--ivory)}
 .wrap{max-width:var(--mw);margin:0 auto;padding:clamp(3.5rem,8vw,6rem) var(--gut)}

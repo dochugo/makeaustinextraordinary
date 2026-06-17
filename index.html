@@ -10,8 +10,17 @@
 <meta property="og:description" content="Austin had moments. It was never extraordinary — because extraordinary is built. Let's lay the kindling and light the bonfire." />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230a0507'/%3E%3Cpath d='M22 20C40 36 60 64 80 82M80 20C62 38 40 64 20 82' stroke='%23ff2233' stroke-width='11' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+<meta property="og:image" content="https://makeaustinextraordinary.com/images/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="MAX — Make Austin Extraordinary" />
+<meta name="twitter:image" content="https://makeaustinextraordinary.com/images/og.png" />
+<meta property="og:url" content="https://makeaustinextraordinary.com/" />
+<link rel="canonical" href="https://makeaustinextraordinary.com/" />
+<link rel="icon" type="image/png" href="images/favicon-64.png" />
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
 
+<link rel="preload" as="image" href="images/max-x.png" />
 <link rel="preload" as="font" type="font/woff2" href="fonts/anton.woff2" crossorigin />
 <link rel="preload" as="font" type="font/woff2" href="fonts/space-grotesk.woff2" crossorigin />
 
@@ -52,9 +61,12 @@ h1,h2,h3{text-wrap:balance}
 .grain{opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .vignette{z-index:55;box-shadow:inset 0 0 14rem 3rem rgba(5,3,4,.9), inset 0 0 6rem rgba(5,3,4,.55)}
 
-/* The X is a REAL Japanese sumi brushstroke (gpt-image-1), spliced to a transparent luminance
-   mask and filled with the brand red gradient — authentic kasure dry-brush, exact brand color. */
+/* The X is a REAL Japanese sumi brushstroke (gpt-image-1), spliced to a PNG whose shape lives in
+   its ALPHA channel and used as a CSS mask, filled with the brand red gradient — authentic kasure
+   dry-brush, exact brand color. */
 .xmark{display:inline-block;vertical-align:middle;color:transparent;overflow:hidden;background-image:linear-gradient(150deg,#ff5a4d 6%,#ff2233 42%,#c20017 84%,#7a0010);-webkit-mask:url(images/max-x.png) center/contain no-repeat;mask:url(images/max-x.png) center/contain no-repeat}
+/* Fallback for engines without CSS mask (e.g. legacy IE): a readable red text X, not a red box. */
+@supports not ((-webkit-mask:url(x)) or (mask:url(x))){.xmark{background-image:none;color:var(--red);width:auto!important;height:auto!important;overflow:visible;filter:none}}
 
 .skip{position:absolute;left:-200vw;top:.6rem;z-index:120;background:var(--red);color:#120304;font-weight:600;font-size:.8rem;padding:.7rem 1.2rem;border-radius:999px}
 .skip:focus{left:.8rem}
@@ -206,6 +218,7 @@ footer .fine{margin-top:1.2rem;font-size:.72rem;color:var(--faint)}
   @keyframes cue{0%,100%{opacity:.5;transform:translate(-50%,0)}50%{opacity:1;transform:translate(-50%,.3rem)}}
 }
 @media (prefers-reduced-motion: reduce){.reveal{opacity:1!important;transform:none!important}.igniteable .xmark{opacity:1!important;transform:none!important}}
+@media print{*{animation:none!important;transition:none!important}#embers,.grain,.vignette,.scroll-cue,nav{display:none!important}body{background:#fff!important;color:#111!important}.reveal{opacity:1!important;transform:none!important}.wordmark{color:#111!important}.xmark{background-image:none!important;color:#c20017!important;width:auto!important;height:auto!important;overflow:visible;filter:none}a{color:#7a0010!important}}
 </style>
 </head>
 <body class="igniteable">
@@ -366,7 +379,7 @@ footer .fine{margin-top:1.2rem;font-size:.72rem;color:var(--faint)}
 </main>
 
 <footer>
-  <div class="fmark">MA<span class="xmark">X</span></div>
+  <div class="fmark" role="img" aria-label="MAX">MA<span class="xmark" aria-hidden="true">X</span></div>
   <p>Make Austin Extraordinary &mdash; a cultural initiative and passion project of <strong>StarHeartSong&nbsp;LLC</strong>. Extraordinary is a fire you build. Come build it: <a href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">@drstarheartsong</a> &middot; <a href="https://starheartsong.link" target="_blank" rel="noopener">starheartsong.link</a></p>
   <p class="fine">&copy; 2026 StarHeartSong LLC &middot; Austin, Texas</p>
 </footer>
