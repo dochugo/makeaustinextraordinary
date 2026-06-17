@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+.env
+__pycache__/
+*.log
+*.pem
+*-service-account*.json
+.venv/
+node_modules/
+.claude/settings.local.json
+images/gen/
