@@ -234,20 +234,25 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
   // a crossfade window: fades in across [z0,z1], holds, fades out across [z2,z3]
   const win=(v,z0,z1,z2,z3)=>smooth(v,z0,z1)*(1-smooth(v,z2,z3));
 
-  // ── the journey → J(0..1): the Powers-of-Ten descent, LOCKED TO THE SONG. t is song-time
-  //    (audio.currentTime), so every cinematic beat lands on a real musical swell:
-  //    0–1.8s the silent intro holds on the dot · ~2s the melody blooms and Earth appears ·
-  //    ~10s the breath-dip → we plunge to the night side · 11–16s swells drive the dive to
-  //    Austin · ~19s the big drop → the valley breaks open · ~20s swell → the lights bloom.
-  const KEYS=[[0,0],[1.8,0.05],[2.6,0.20],[10.0,0.52],[13.0,0.64],[16.5,0.80],[19.2,0.90],[21.5,1.0]];
+  // ── the journey → J(0..1): ONE continuous exponential descent (van Wijk laminar). The old
+  //    8-keyframe curve eased to a STOP at every node (velocity→0, eight times) — that was the
+  //    jerk. Now J is LINEAR IN TIME through the whole glide, the velocity only easing up over
+  //    the first tenth and down over the last (a trapezoid profile) — so the perceived zoom
+  //    speed is CONSTANT the whole way down. Every octave (dot·Earth·continent) then scales by
+  //    ONE shared exponential of J (see S in render) → identical velocity across every seam.
+  const DUR=22.0;          // the descent runs ~22s — song-paced (the drop lands ~2s in)
+  const RAMP=0.10;         // soft ends only: the velocity ramps 0→v over the first & last tenth
   function journey(t){
-    if(t<=0)return 0;
-    for(let i=1;i<KEYS.length;i++){
-      const a=KEYS[i-1],b=KEYS[i];
-      if(t<=b[0])return lerp(a[1],b[1],smooth(t,a[0],b[0]));
-    }
-    return 1;
+    const x=clamp01(t/DUR), R=RAMP, A=1-R;   // A = area under the unit trapezoid (normaliser)
+    let d;
+    if(x<R)        d=x*x/(2*R);              // ease the velocity up from rest
+    else if(x<1-R) d=R/2+(x-R);             // the long straight glide — constant velocity (laminar)
+    else{const q=1-x; d=(1-1.5*R)+(R*R-q*q)/(2*R);}   // ease down to rest at the valley
+    return clamp01(d/A);
   }
+  // the shared log-zoom: every octave scales by 2^(ZK·J), so all grow at ONE perceived speed.
+  // DOT0/E0F/N0 are per-octave frame-fill bases (E0F is a factor of H) — tuned by eye.
+  const ZK=6.0, DOT0=0.85, E0F=0.161, N0=0.106;
   const phaseFor=j=>j<0.22?0:j<0.74?1:j<0.90?2:3;
 
   // the dark river winding through the valley (a city, unnamed) — cross-position by depth
@@ -447,24 +452,26 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     ctx.save();
     ctx.translate(W*0.5,H*0.5);ctx.rotate(rot);ctx.translate(-W*0.5,-H*0.5);
 
-    // A) pale blue dot — open wide (the mote far off), push in; fade out as Earth takes over
-    const dotScale=lerp(0.85,9.0,easeIn(clamp01(J/0.32)));
-    const dotA=reduce?0:(1-smooth(J,0.22,0.32));
+    // ── THE LAMINAR ZOOM: one exponential, shared by every octave ────────────────
+    // S=2^(ZK·J), and J is linear in time → d(log size)/dt is CONSTANT and identical for the
+    // dot, the Earth and the continent. The seams between them carry no change in velocity (the
+    // old per-layer lerps each accelerated then decelerated; this does not). Only the alphas
+    // crossfade (opacity, not speed) — so the octaves hand off invisibly while the fall never
+    // changes pace. This is the whole cure for the jerk.
+    const S=Math.pow(2,ZK*J);
+
+    // A) pale blue dot — a mote far off, growing with the shared zoom; fades as Earth takes over
+    const dotScale=DOT0*S;
+    const dotA=reduce?0:(1-smooth(J,0.22,0.34));
     if(dotA>0.002)drawDot(dotScale,dotA,fx,fy,ts);
 
-    // B) Earth — a marble born at F, grows to fill, and we fall past into the night side
-    const eA=win(J,0.20,0.30,0.54,0.62);
-    if(eA>0.002){
-      const eR=lerp(H*0.028,H*1.7,smooth(J,0.20,0.62));
-      drawEarth(fx,fy,eR,eA);
-    }
+    // B) Earth — a marble born at F, grows past frame at the SAME rate; we fall through to night
+    const eA=win(J,0.18,0.30,0.54,0.64);
+    if(eA>0.002)drawEarth(fx,fy,H*E0F*S,eA);
 
-    // C) night-lit continent → region → metro — one continuous zoom toward Austin at F
-    const nA=win(J,0.52,0.60,0.80,0.88);
-    if(nA>0.002){
-      const nScale=lerp(0.60,8.0,smooth(J,0.52,0.88));
-      drawNightField(nScale,nA,fx,fy,ts);
-    }
+    // C) night-lit continent → region → metro — same rate, one fall toward Austin at F
+    const nA=win(J,0.52,0.62,0.80,0.90);
+    if(nA>0.002)drawNightField(N0*S,nA,fx,fy,ts);
     ctx.restore();   // end the orbital roll — the valley is level
 
     // D) Austin valley arrival — camera pitches from top-down to oblique; the horizon rises
