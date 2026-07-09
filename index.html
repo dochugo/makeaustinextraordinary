@@ -1,434 +1,323 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Make Austin Extraordinary — extraordinary is a fire you build</title>
-<meta name="description" content="Austin was never extraordinary. It had moments. Extraordinary is a state, and a state needs infrastructure — the rooms, the third places, the topsoil where a scene catches. MAX is the people laying the fire. A cultural initiative by Star Heartsong." />
-<meta name="theme-color" content="#0a0507" />
-<meta property="og:title" content="Make Austin Extraordinary" />
-<meta property="og:description" content="Austin had moments. It was never extraordinary — because extraordinary is built. Let's lay the kindling and light the bonfire." />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="og:image" content="https://makeaustinextraordinary.com/images/og.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="MAX — Make Austin Extraordinary" />
-<meta name="twitter:image" content="https://makeaustinextraordinary.com/images/og.png" />
-<meta property="og:url" content="https://makeaustinextraordinary.com/" />
-<link rel="canonical" href="https://makeaustinextraordinary.com/" />
-<link rel="icon" type="image/png" href="images/favicon-64.png" />
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
-
-<link rel="preload" as="image" href="images/max-x.png" />
-<link rel="preload" as="font" type="font/woff2" href="fonts/anton.woff2" crossorigin />
-<link rel="preload" as="font" type="font/woff2" href="fonts/space-grotesk.woff2" crossorigin />
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make Austin Extraordinary</title>
+<meta name="description" content="A pale blue dot, and one small city on it worth building a hearth for. Now is the time to make Austin extraordinary.">
 <style>
-@font-face{font-family:'Anton';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/anton.woff2) format('woff2')}
+/* ─────────────────────────────────────────────────────────────────────────────
+   MAKE AUSTIN EXTRAORDINARY — cosmos register (v2, Pale Blue Dot → Austin).
+   Anonymous · humble · Tesla-elegant. A movement, not a person. "Follow us."
+   Fonts are local (reused from the fire-era build): EB Garamond (the Sagan voice),
+   Space Grotesk (the quiet UI). No CDNs, no trackers — it runs from a cold disk.
+   ───────────────────────────────────────────────────────────────────────────── */
 @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/space-grotesk.woff2) format('woff2')}
 @font-face{font-family:'EB Garamond';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/eb-garamond.woff2) format('woff2')}
 @font-face{font-family:'EB Garamond';font-style:italic;font-weight:400 600;font-display:swap;src:url(fonts/eb-garamond-italic.woff2) format('woff2')}
 
 :root{
-  --void:#070406; --ink:#0a0507; --ink-2:#110a0c; --char:#1a0f12; --char-2:#241318;
-  --red:#ff2233; --red-2:#ff3b48; --ember:#ff5a47; --rose:#ff8a90; --gold:#ffc56b; --wine:#7a0c18;
-  --ivory:#f4ece6; --ivory-2:#cdc1b9; --muted:#9a8a86; --faint:#6f6360;
-  --line:rgba(244,236,230,.10); --line-2:rgba(244,236,230,.05); --line-red:rgba(255,34,51,.30);
-  --glow-red:0 0 3.5rem rgba(255,34,51,.55);
-  --font-disp:'Anton','Arial Narrow',Impact,sans-serif;
-  --font-body:'Space Grotesk',ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --font-serif:'EB Garamond',Georgia,'Times New Roman',serif;
-  --gut:clamp(1.25rem,4vw,3rem); --mw:70rem;
+  --space:#05070f; --space-2:#080b18; --night:#0c1223; --deep:#040610;
+  --starlight:#eef2fb; --ivory:#dbe3f2; --muted:#8a95ad; --faint:#5b6478;
+  --pale:#8fb8de; --pale-2:#a9cbe9; --pale-soft:rgba(143,184,222,.5);
+  --gold:#e9c98a; --gold-soft:rgba(233,201,138,.55); --green:#86b48d;
+  --line:rgba(222,232,248,.09); --line-2:rgba(222,232,248,.045);
+  --serif:'EB Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Space Grotesk',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --gut:clamp(1.4rem,5vw,4rem); --mw:66rem;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{font-size:clamp(0.9375rem,0.84rem + 0.45vw,1.3125rem);scroll-behavior:smooth;scrollbar-color:#3a1c22 var(--ink)}
-:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:3px}
-body{font-family:var(--font-body);color:var(--ivory);background:var(--void);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+html{font-size:clamp(1rem,.92rem + .4vw,1.28rem);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  font-family:var(--sans);color:var(--ivory);background:var(--space);line-height:1.7;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
   background:
-    radial-gradient(120% 90% at 50% -10%, rgba(255,34,51,.22), transparent 55%),
-    radial-gradient(80% 60% at 84% 8%, rgba(255,90,71,.10), transparent 60%),
-    radial-gradient(140% 120% at 50% 120%, rgba(122,12,24,.20), transparent 60%),
-    linear-gradient(180deg, var(--ink) 0%, var(--void) 40%, #050304 100%);
-  background-attachment:fixed;}
-::selection{background:var(--red);color:#120304}
-a{color:var(--rose);text-decoration:none}
-em,i{font-style:italic}
-h1,h2,h3{text-wrap:balance}
-
-#embers{position:fixed;inset:0;pointer-events:none;z-index:1}
-.grain,.vignette{position:fixed;inset:0;pointer-events:none;z-index:60}
-.grain{opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.vignette{z-index:55;box-shadow:inset 0 0 14rem 3rem rgba(5,3,4,.9), inset 0 0 6rem rgba(5,3,4,.55)}
-
-/* The X is a REAL Japanese sumi brushstroke (gpt-image-1), spliced to a PNG whose shape lives in
-   its ALPHA channel and used as a CSS mask, filled with the brand red gradient — authentic kasure
-   dry-brush, exact brand color. */
-.xmark{display:inline-block;vertical-align:middle;color:transparent;overflow:hidden;background-image:linear-gradient(150deg,#ff5a4d 6%,#ff2233 42%,#c20017 84%,#7a0010);-webkit-mask:url(images/max-x.png) center/contain no-repeat;mask:url(images/max-x.png) center/contain no-repeat}
-/* Fallback for engines without CSS mask (e.g. legacy IE): a readable red text X, not a red box. */
-@supports not ((-webkit-mask:url(x)) or (mask:url(x))){.xmark{background-image:none;color:var(--red);width:auto!important;height:auto!important;overflow:visible;filter:none}}
-
-.skip{position:absolute;left:-200vw;top:.6rem;z-index:120;background:var(--red);color:#120304;font-weight:600;font-size:.8rem;padding:.7rem 1.2rem;border-radius:999px}
-.skip:focus{left:.8rem}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.05rem var(--gut);transition:background .45s,backdrop-filter .45s,padding .45s,border-color .45s;border-bottom:1px solid transparent}
-nav.scrolled{background:rgba(10,5,7,.74);backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2);border-bottom:1px solid var(--line);padding-top:.7rem;padding-bottom:.7rem}
-.brand{font-family:var(--font-disp);font-size:1.5rem;letter-spacing:.04em;color:var(--ivory);display:inline-flex;align-items:center;gap:.02em}
-.brand .xmark{height:1.04em;width:.56em;margin:0 -.02em;transform:translateY(.05em)}
-nav .right{display:flex;align-items:center;gap:1.5rem}
-nav .navlink{font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-nav .navlink:hover{color:var(--ivory)}
-.nav-cta{font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ivory);border:1px solid var(--line-red);border-radius:999px;padding:.6rem 1.1rem;transition:border-color .3s,box-shadow .3s,color .3s}
-.nav-cta:hover{border-color:var(--red);box-shadow:var(--glow-red);color:#fff}
-@media(max-width:52rem){nav .navlink{display:none}}
-
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:7rem var(--gut) 4rem;overflow:hidden}
-.hero-glow{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(22rem 22rem at var(--mx,50%) var(--my,38%), rgba(255,46,46,.16), transparent 70%);transition:opacity .6s;opacity:0}
-.hero:hover .hero-glow{opacity:1}
-.eyebrow{font-family:var(--font-body);font-size:.72rem;font-weight:600;letter-spacing:.46em;text-transform:uppercase;color:var(--ember);margin-bottom:clamp(1.4rem,3vw,2.4rem);z-index:2}
-.eyebrow .dot{display:inline-block;width:.34rem;height:.34rem;border-radius:50%;background:var(--red);vertical-align:middle;margin:0 .9em;box-shadow:0 0 .6rem var(--red)}
-.wordmark{font-family:var(--font-disp);font-weight:400;line-height:.82;letter-spacing:.01em;color:var(--ivory);font-size:clamp(5.5rem,27vw,22rem);position:relative;z-index:2;display:inline-flex;align-items:center}
-.wordmark .xmark{height:1.5em;width:.8em;margin:0 -.05em 0 -.12em;filter:drop-shadow(0 0 2.8rem rgba(255,34,51,.6));transform:translateY(-.02em)}
-.fullword{font-family:var(--font-disp);font-size:clamp(.72rem,1.5vw,1.05rem);letter-spacing:.42em;text-transform:uppercase;color:var(--muted);margin-top:clamp(.9rem,2vw,1.6rem);z-index:2}
-.fullword b{color:var(--ivory);font-weight:400}
-.fullword .r{color:var(--red)}
-.headline{font-family:var(--font-disp);font-weight:400;line-height:.98;letter-spacing:.005em;font-size:clamp(1.9rem,5.6vw,4.4rem);color:var(--ivory);max-width:20ch;margin:clamp(2.4rem,5vw,3.6rem) auto 0;z-index:2}
-.headline .kill{color:var(--red);text-shadow:0 0 2.5rem rgba(255,34,51,.5)}
-.headline em{font-family:var(--font-serif);font-style:italic;font-weight:500;color:var(--rose);letter-spacing:0;font-size:1.1em}
-.subhead{font-size:clamp(1rem,.92rem + .45vw,1.3rem);color:var(--ivory-2);max-width:48ch;margin:clamp(1.6rem,3vw,2.2rem) auto 0;line-height:1.55;z-index:2}
-.subhead em{font-family:var(--font-serif);color:var(--rose)}
-.cta-row{margin-top:clamp(2.2rem,4vw,3rem);display:flex;flex-wrap:wrap;gap:1.1rem;align-items:center;justify-content:center;z-index:2}
-.cta{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--font-body);font-weight:600;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;background:var(--red);color:#fff;border:none;border-radius:999px;padding:1rem 1.9rem;cursor:pointer;position:relative;box-shadow:0 .8rem 2.4rem -.6rem rgba(255,34,51,.7), inset 0 0 0 1px rgba(255,255,255,.08);transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
-.cta:hover{box-shadow:0 1.3rem 3.2rem -.6rem rgba(255,34,51,.9)}
-.cta:active{transform:translateY(0)!important}
-.cta .arr{transition:transform .25s}
-.cta:hover .arr{transform:translate(.3rem)}
-.cta-ghost{font-size:.74rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line-red);padding-bottom:.25rem;transition:color .3s,border-color .3s}
-.cta-ghost:hover{color:var(--ivory);border-color:var(--red)}
-.scroll-cue{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--faint);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.6rem}
-.scroll-cue .bar{width:1px;height:2.2rem;background:linear-gradient(var(--red),transparent)}
-
-.spine{position:relative;z-index:3;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(90deg, rgba(255,34,51,.05), transparent 30%, transparent 70%, rgba(255,34,51,.05));padding:1.15rem 0}
-.spine .track{display:inline-flex;white-space:nowrap;font-family:var(--font-disp);font-size:clamp(1rem,2vw,1.6rem);letter-spacing:.05em;text-transform:uppercase;color:var(--ivory-2);will-change:transform}
-.spine .track span{padding:0 1.1rem}
-.spine .track .o{color:var(--red)}
-.spine .track .sep{color:var(--faint)}
-
-section{position:relative;z-index:3}
-.wrap{max-width:var(--mw);margin:0 auto;padding:clamp(4.5rem,10vw,8rem) var(--gut)}
-.sec-label{font-family:var(--font-body);font-size:.7rem;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:var(--ember);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
-.sec-label::before{content:"";width:2.6rem;height:1px;background:var(--red);box-shadow:0 0 .5rem var(--red)}
-h2.sec{font-family:var(--font-disp);font-weight:400;font-size:clamp(2.1rem,5.4vw,4rem);line-height:1.02;letter-spacing:.005em;color:var(--ivory);max-width:22ch;margin-bottom:1.4rem}
-h2.sec em{font-family:var(--font-serif);font-style:italic;font-weight:500;color:var(--red);letter-spacing:0;font-size:1.06em}
-.lede{font-size:clamp(1.05rem,.95rem + .5vw,1.4rem);color:var(--ivory-2);max-width:56ch;line-height:1.6;margin-bottom:clamp(2.4rem,5vw,3.4rem)}
-.lede strong{color:var(--ivory);font-weight:600}
-.lede em,.lede .topsoil{font-family:var(--font-serif);font-style:italic;color:var(--rose)}
-
-.moments .wrap{padding-bottom:clamp(2rem,5vw,3rem)}
-.timeline{display:grid;gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.beat{background:linear-gradient(160deg, var(--ink-2), var(--void));display:grid;grid-template-columns:minmax(6.5rem,10rem) 1fr;gap:clamp(1rem,3vw,2.4rem);padding:clamp(1.5rem,3.4vw,2.4rem) clamp(.4rem,2vw,1.2rem);transition:background .4s}
-.beat:hover{background:linear-gradient(160deg, var(--char), var(--ink-2))}
-.beat .yr{font-family:var(--font-disp);font-size:clamp(1.5rem,3.4vw,2.6rem);color:var(--red);letter-spacing:.02em;line-height:1;text-shadow:0 0 1.4rem rgba(255,34,51,.45)}
-.beat .yr small{display:block;font-family:var(--font-body);font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);margin-top:.6rem}
-.beat h3{font-family:var(--font-disp);font-weight:400;font-size:clamp(1.2rem,2.6vw,1.7rem);color:var(--ivory);letter-spacing:.01em;margin-bottom:.5rem;line-height:1.05}
-.beat p{font-size:.95rem;color:var(--muted);line-height:1.55;max-width:54ch}
-.beat p em{font-family:var(--font-serif);color:var(--rose)}
-.spark-note{margin-top:clamp(2.2rem,4vw,3rem);font-family:var(--font-serif);font-style:italic;font-size:clamp(1.3rem,3.4vw,2rem);color:var(--ivory);line-height:1.4;max-width:34ch}
-.spark-note b{color:var(--red);font-style:normal;font-family:var(--font-disp);font-weight:400}
-@media(max-width:34rem){.beat{grid-template-columns:1fr;gap:.5rem}.beat .yr small{display:inline;margin:0 0 0 .6em}}
-
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:clamp(1rem,2vw,1.5rem)}
-.card{position:relative;background:linear-gradient(160deg, var(--char) 0%, var(--ink-2) 100%);border:1px solid var(--line);border-radius:1rem;padding:clamp(1.6rem,3vw,2.2rem);overflow:hidden;transition:transform .4s cubic-bezier(.2,.7,.2,1),border-color .4s}
-.card::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 0% 0%, rgba(255,34,51,.12), transparent 55%);opacity:0;transition:opacity .4s}
-.card:hover{transform:translateY(-6px);border-color:var(--line-red)}
-.card:hover::before{opacity:1}
-.card .num{font-family:var(--font-disp);font-size:1.05rem;color:var(--red);letter-spacing:.08em;margin-bottom:1rem;text-shadow:0 0 1rem rgba(255,34,51,.6)}
-.card h3{font-family:var(--font-disp);font-weight:400;font-size:clamp(1.25rem,2.4vw,1.7rem);line-height:1.06;letter-spacing:.01em;color:var(--ivory);margin-bottom:.7rem}
-.card p{font-size:.95rem;color:var(--muted);line-height:1.55}
-.card p em{font-family:var(--font-serif);font-style:italic;color:var(--rose)}
-
-.pull{text-align:center;padding:clamp(3.5rem,8vw,6rem) var(--gut);max-width:52rem;margin:0 auto}
-.pull blockquote{font-family:var(--font-serif);font-style:italic;font-weight:500;font-size:clamp(1.5rem,4vw,2.6rem);line-height:1.3;color:var(--ivory)}
-.pull blockquote .r{color:var(--red);font-style:normal;font-family:var(--font-disp);font-weight:400}
-.pull .by{font-family:var(--font-body);font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);margin-top:1.8rem}
-.pull .by a{color:var(--ember)}
-
-.cities{background:linear-gradient(180deg, transparent, rgba(122,12,24,.10) 50%, transparent)}
-.city-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:1rem;overflow:hidden;margin-top:clamp(1.5rem,3vw,2.4rem)}
-.city{background:var(--ink-2);padding:clamp(1.5rem,3vw,2.2rem);transition:background .4s}
-.city:hover{background:var(--char)}
-.city .name{font-family:var(--font-disp);font-size:clamp(1.3rem,2.6vw,1.9rem);color:var(--ivory);letter-spacing:.02em;margin-bottom:.9rem}
-.city .name b{color:var(--red);font-weight:400}
-.city ul{list-style:none}
-.city li{font-size:.9rem;color:var(--muted);line-height:1.5;padding-left:1.1rem;position:relative;margin-bottom:.5rem}
-.city li::before{content:"";position:absolute;left:0;top:.55em;width:.4rem;height:.4rem;border-radius:50%;background:var(--red);box-shadow:0 0 .4rem var(--red)}
-
-.vision .lede{max-width:60ch}
-.builds{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:clamp(1rem,2.4vw,1.8rem);margin-top:clamp(1.5rem,3vw,2.4rem)}
-.build{border-left:2px solid var(--line-red);padding:.2rem 0 .2rem 1.4rem}
-.build h3{font-family:var(--font-disp);font-weight:400;font-size:1.2rem;color:var(--ivory);letter-spacing:.01em;margin-bottom:.5rem}
-.build p{font-size:.92rem;color:var(--muted);line-height:1.55}
-
-.circle-form{margin-top:clamp(1.5rem,3vw,2.4rem);background:linear-gradient(160deg, var(--char), var(--ink-2));border:1px solid var(--line-red);border-radius:1rem;padding:clamp(1.8rem,4vw,3rem);max-width:46rem;box-shadow:0 0 4rem -1rem rgba(255,34,51,.25)}
-.circle-form .cf-line{font-family:var(--font-serif);font-style:italic;font-size:clamp(1.2rem,3vw,1.7rem);color:var(--ivory);line-height:1.4;margin-bottom:1rem}
-.circle-form .cf-line b{color:var(--red);font-style:normal;font-family:var(--font-disp);font-weight:400}
-.circle-form .cf-sub{font-size:.98rem;color:var(--muted);line-height:1.6;max-width:48ch;margin-bottom:1.8rem}
-.circle-form .cf-sub b{color:var(--ivory-2);font-weight:600}
-
-.sparks .lede{max-width:58ch}
-.spark-grid{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:clamp(1.2rem,3vw,2rem)}
-.spark{font-size:.86rem;color:var(--ivory-2);border:1px solid var(--line);border-radius:999px;padding:.5rem 1rem;transition:border-color .3s,color .3s,background .3s}
-.spark:hover{border-color:var(--line-red);color:var(--ivory);background:rgba(255,34,51,.06)}
-.spark b{color:var(--red);font-weight:600}
-.circle-foot{margin-top:1.6rem;font-size:.92rem;color:var(--faint)}
-.circle-foot a{color:var(--ember)}
-
-.invite{text-align:center}
-.invite .wrap{max-width:54rem}
-.invite h2{font-family:var(--font-disp);font-weight:400;font-size:clamp(2.2rem,6.5vw,4.6rem);line-height:1;color:var(--ivory);margin-bottom:1.6rem}
-.invite h2 .r{color:var(--red);text-shadow:0 0 2.5rem rgba(255,34,51,.5)}
-.invite .q{font-size:clamp(1.05rem,.95rem + .5vw,1.35rem);color:var(--ivory-2);max-width:48ch;margin:0 auto 1.2rem;line-height:1.6}
-.invite .q em{font-family:var(--font-serif);color:var(--rose)}
-.invite .who{font-size:.95rem;color:var(--muted);max-width:46ch;margin:0 auto clamp(2rem,4vw,2.8rem)}
-.invite .who b{color:var(--ivory);font-weight:600}
-.invite .handles{margin-top:1.8rem;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
-.invite .handles a{color:var(--ember)}
-
-footer{border-top:1px solid var(--line);padding:clamp(2.5rem,5vw,3.5rem) var(--gut);text-align:center;position:relative;z-index:3}
-footer .fmark{font-family:var(--font-disp);font-size:1.6rem;color:var(--ivory);display:inline-flex;align-items:center;gap:.02em;margin-bottom:1rem}
-footer .fmark .xmark{height:1.04em;width:.56em;margin:0 -.02em;transform:translateY(.05em)}
-footer p{font-size:.82rem;color:var(--faint);line-height:1.7;max-width:46ch;margin:0 auto}
-footer p a{color:var(--muted)}
-footer p a:hover{color:var(--ember)}
-footer .fine{margin-top:1.2rem;font-size:.72rem;color:var(--faint)}
-
-@media (prefers-reduced-motion: no-preference){
-  .spine .track{animation:slide 40s linear infinite}
-  .spine:hover .track,.spine:focus-within .track{animation-play-state:paused}
-  @keyframes slide{to{transform:translateX(-50%)}}
-  .wordmark .xmark,.brand .xmark{animation:flicker 7s steps(1) infinite}
-  @keyframes flicker{0%,40%{opacity:1}42%{opacity:.45}43.5%{opacity:1}45%{opacity:.6}46%{opacity:1}77%{opacity:1}77.6%{opacity:.5}78.2%{opacity:1}100%{opacity:1}}
-  .igniteable .xmark{opacity:0;transform:scale(.88)}
-  .ignited .xmark{opacity:1;transform:none;transition:opacity .5s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
-  body{animation:breathe 16s ease-in-out infinite alternate}
-  @keyframes breathe{from{background-position:0 0,0 0,0 0,0 0}to{background-position:0 -1.4rem,1.2rem 0,0 1rem,0 0}}
-  .reveal{opacity:0;transform:translateY(1.6rem);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
-  .reveal.in{opacity:1;transform:none}
-  [data-d="1"]{transition-delay:.07s}[data-d="2"]{transition-delay:.14s}[data-d="3"]{transition-delay:.21s}[data-d="4"]{transition-delay:.28s}
-  .scroll-cue{animation:cue 2.4s ease-in-out infinite}
-  @keyframes cue{0%,100%{opacity:.5;transform:translate(-50%,0)}50%{opacity:1;transform:translate(-50%,.3rem)}}
+    radial-gradient(120% 80% at 50% -20%, rgba(143,184,222,.10), transparent 60%),
+    radial-gradient(90% 60% at 82% 4%, rgba(233,201,138,.05), transparent 62%),
+    radial-gradient(140% 130% at 50% 118%, rgba(12,18,35,.9), transparent 55%),
+    linear-gradient(180deg, var(--space) 0%, var(--deep) 55%, #02030a 100%);
+  background-attachment:fixed;
 }
-@media (prefers-reduced-motion: reduce){.reveal{opacity:1!important;transform:none!important}.igniteable .xmark{opacity:1!important;transform:none!important}}
-@media print{*{animation:none!important;transition:none!important}#embers,.grain,.vignette,.scroll-cue,nav{display:none!important}body{background:#fff!important;color:#111!important}.reveal{opacity:1!important;transform:none!important}.wordmark{color:#111!important}.xmark{background-image:none!important;color:#c20017!important;width:auto!important;height:auto!important;overflow:visible;filter:none}a{color:#7a0010!important}}
+::selection{background:var(--pale);color:#04060e}
+a{color:var(--pale-2);text-decoration:none}
+h1,h2,h3{text-wrap:balance;font-weight:400}
+em,i{font-style:italic}
+.serif{font-family:var(--serif)}
+
+/* ── starfield + grain overlays ─────────────────────────────────────────────── */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:fixed;inset:0;z-index:55;pointer-events:none;box-shadow:inset 0 0 16rem 3rem rgba(2,3,8,.85), inset 0 0 7rem rgba(2,3,8,.5)}
+
+/* ── the mark: exponential takeoff crossing a grounded pyramid (hidden A) ────── */
+.xmark{display:inline-block;vertical-align:middle;line-height:0}
+.xmark svg{display:block;height:1em;width:auto;overflow:visible}
+.xmark .yin{stroke:url(#yn);stroke-width:6.4;stroke-linecap:round;fill:none;opacity:.95}
+.xmark .yang{stroke:url(#yg);stroke-width:7.6;stroke-linecap:round;fill:none;
+  filter:drop-shadow(0 0 .5rem rgba(233,201,138,.5))}
+
+/* ── nav ────────────────────────────────────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
+  padding:1.15rem var(--gut);transition:background .5s,backdrop-filter .5s,padding .5s,border-color .5s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(6,9,17,.72);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);
+  border-bottom:1px solid var(--line);padding-top:.8rem;padding-bottom:.8rem}
+.brand{display:inline-flex;align-items:center;gap:.5em;font-family:var(--serif);font-size:1.28rem;letter-spacing:.02em;color:var(--starlight)}
+.brand .xmark{font-size:1.15rem}
+.brand b{font-weight:600}
+nav .right{display:flex;align-items:center;gap:1.7rem}
+.navlink{font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:color .3s}
+.navlink:hover{color:var(--starlight)}
+.follow{font-size:.66rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--starlight);
+  border:1px solid var(--pale-soft);border-radius:999px;padding:.62rem 1.2rem;transition:border-color .3s,box-shadow .3s,background .3s}
+.follow:hover{border-color:var(--pale);box-shadow:0 0 2.2rem rgba(143,184,222,.35);background:rgba(143,184,222,.06)}
+@media(max-width:54rem){.navlink{display:none}}
+
+/* ── hero ───────────────────────────────────────────────────────────────────── */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:8rem var(--gut) 5rem;z-index:2}
+/* the sunbeam the dot is suspended in */
+.sunbeam{position:absolute;top:-10%;left:50%;width:min(52rem,120vw);height:120%;transform:translateX(-50%) rotate(14deg);
+  transform-origin:top center;pointer-events:none;z-index:1;opacity:.55;
+  background:linear-gradient(180deg, rgba(233,201,138,.16), rgba(143,184,222,.05) 42%, transparent 74%);
+  filter:blur(6px);-webkit-mask:linear-gradient(180deg,#000,transparent 82%);mask:linear-gradient(180deg,#000,transparent 82%)}
+/* the pale blue dot */
+.dot{position:relative;z-index:2;width:.62rem;height:.62rem;border-radius:50%;margin-bottom:clamp(2.2rem,6vw,3.6rem);
+  background:radial-gradient(circle at 38% 34%, #cfe3f6, var(--pale) 46%, #4f7fac 90%);
+  box-shadow:0 0 .5rem 1px rgba(143,184,222,.9), 0 0 2.2rem 2px rgba(143,184,222,.5), 0 0 5rem 4px rgba(143,184,222,.22);
+  animation:breathe 6.5s ease-in-out infinite}
+@keyframes breathe{0%,100%{box-shadow:0 0 .5rem 1px rgba(143,184,222,.9),0 0 2.2rem 2px rgba(143,184,222,.5),0 0 5rem 4px rgba(143,184,222,.2)}
+  50%{box-shadow:0 0 .55rem 1px rgba(143,184,222,1),0 0 2.8rem 3px rgba(143,184,222,.62),0 0 6.5rem 5px rgba(143,184,222,.3)}}
+@media(prefers-reduced-motion:reduce){.dot{animation:none}}
+.eyebrow{position:relative;z-index:2;font-size:.66rem;font-weight:600;letter-spacing:.42em;text-transform:uppercase;
+  color:var(--pale);margin-bottom:clamp(1.6rem,4vw,2.6rem)}
+.sagan{position:relative;z-index:2;font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,3.6vw,2.5rem);line-height:1.34;
+  color:var(--starlight);max-width:34ch;margin:0 auto}
+.sagan em{color:var(--pale-2)}
+.sagan .hush{color:var(--muted)}
+.turn{position:relative;z-index:2;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.2vw,1.4rem);
+  color:var(--gold);max-width:30ch;margin:clamp(1.8rem,4vw,2.6rem) auto 0}
+.wordmark{position:relative;z-index:2;margin-top:clamp(2.4rem,6vw,3.8rem);display:inline-flex;align-items:center;gap:.34em}
+.wordmark .xmark{font-size:clamp(2.4rem,7vw,4.2rem)}
+.wordmark .txt{font-family:var(--serif);font-size:clamp(1.7rem,4.6vw,3rem);letter-spacing:.02em;color:var(--starlight)}
+.fullword{position:relative;z-index:2;font-size:clamp(.62rem,1.4vw,.78rem);letter-spacing:.44em;text-transform:uppercase;
+  color:var(--faint);margin-top:1.1rem}
+.scrollcue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:2;font-size:.6rem;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:.7rem}
+.scrollcue .rail{width:1px;height:2.4rem;background:linear-gradient(var(--pale-soft),transparent);animation:drop 2.4s ease-in-out infinite}
+@keyframes drop{0%,100%{opacity:.3;transform:scaleY(.7);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
+@media(prefers-reduced-motion:reduce){.scrollcue .rail{animation:none}}
+
+/* ── sections ───────────────────────────────────────────────────────────────── */
+section{position:relative;z-index:2;padding:clamp(5rem,12vw,9rem) var(--gut)}
+.wrap{max-width:var(--mw);margin:0 auto}
+.kicker{font-size:.66rem;font-weight:600;letter-spacing:.34em;text-transform:uppercase;color:var(--pale);margin-bottom:1.6rem}
+.big{font-family:var(--serif);font-size:clamp(2rem,5vw,3.4rem);line-height:1.16;color:var(--starlight);max-width:20ch}
+.big .g{color:var(--gold)}
+.lede{font-family:var(--serif);font-size:clamp(1.15rem,2.4vw,1.5rem);line-height:1.6;color:var(--ivory);max-width:44ch;margin-top:1.8rem}
+.body{max-width:40ch;margin-top:1.6rem;color:var(--muted);font-size:1rem}
+.body strong{color:var(--ivory);font-weight:500}
+
+/* the moments — sparks */
+.sparks{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.4rem;max-width:46rem}
+.spark{font-size:.72rem;letter-spacing:.06em;color:var(--ivory);border:1px solid var(--line);border-radius:999px;
+  padding:.55rem 1.05rem;background:rgba(143,184,222,.03);transition:border-color .3s,color .3s,background .3s}
+.spark:hover{border-color:var(--pale-soft);color:var(--starlight);background:rgba(143,184,222,.07)}
+.spark .d{display:inline-block;width:.32rem;height:.32rem;border-radius:50%;background:var(--gold);margin-right:.6em;vertical-align:middle;box-shadow:0 0 .5rem var(--gold)}
+
+/* the hearth — three tenets */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:clamp(1.4rem,3vw,2.6rem);margin-top:3rem}
+.card{border-top:1px solid var(--line);padding-top:1.6rem}
+.card .n{font-family:var(--serif);font-size:.9rem;color:var(--pale);letter-spacing:.1em}
+.card h3{font-family:var(--serif);font-size:1.4rem;color:var(--starlight);margin:.7rem 0 .8rem}
+.card p{font-size:.92rem;color:var(--muted)}
+
+/* the call */
+.call{text-align:center}
+.call .big{margin:0 auto;max-width:24ch}
+.call .lede{margin-left:auto;margin-right:auto;text-align:center;color:var(--ivory)}
+.cta{display:inline-flex;align-items:center;gap:.7em;margin-top:2.8rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:#04060e;background:linear-gradient(120deg,var(--pale-2),var(--pale));border-radius:999px;
+  padding:.95rem 1.9rem;transition:box-shadow .35s,transform .35s}
+.cta:hover{box-shadow:0 0 2.6rem rgba(143,184,222,.5);transform:translateY(-2px)}
+
+/* divider hairline of stars */
+.hr{height:1px;max-width:var(--mw);margin:0 auto;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+/* ── footer — anonymous ─────────────────────────────────────────────────────── */
+footer{position:relative;z-index:2;padding:clamp(4rem,9vw,6rem) var(--gut) 3.4rem;text-align:center}
+footer .xmark{font-size:1.8rem}
+.credo{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--muted);margin:1.4rem auto 0;max-width:30ch}
+.foot-follow{margin-top:2.2rem;display:inline-flex;align-items:center;gap:.6em;font-size:.68rem;font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--starlight);border:1px solid var(--pale-soft);border-radius:999px;padding:.7rem 1.4rem;transition:border-color .3s,box-shadow .3s}
+.foot-follow:hover{border-color:var(--pale);box-shadow:0 0 2rem rgba(143,184,222,.35)}
+.fineprint{margin-top:2.6rem;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
+
+/* ── reveal ─────────────────────────────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 1.1s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 </style>
 </head>
-<body class="igniteable">
-<canvas id="embers" aria-hidden="true"></canvas>
-<div class="grain" aria-hidden="true"></div>
-<div class="vignette" aria-hidden="true"></div>
-<a class="skip" href="#diagnosis">Skip to content</a>
+<body>
+<canvas id="stars"></canvas>
 
-<nav id="nav" aria-label="Primary">
-  <a class="brand" href="#top" aria-label="MAX — Make Austin Extraordinary, home">MA<span class="xmark">X</span></a>
+<!-- the mark, defined once (gradient) then referenced by <use> -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="yg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#c79a4e"/><stop offset=".5" stop-color="#e9c98a"/><stop offset="1" stop-color="#fff3d8"/>
+    </linearGradient>
+    <linearGradient id="yn" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bcd7ef"/><stop offset="1" stop-color="#6f9bc4"/>
+    </linearGradient>
+    <g id="maxx">
+      <!-- THE X — yang: an organic exponential, low-start, compounding up-and-right · yin: a natural log,
+           settling into rest. They cross once, just left of centre, so the gold ascent owns the sky. exp−log. -->
+      <path class="yin"  d="M10 26 C 30 52, 44 62, 92 70"/>
+      <path class="yang" d="M12 88 C 40 84, 58 60, 94 6"/>
+    </g>
+  </defs>
+</svg>
+
+<nav id="nav">
+  <a class="brand" href="#top"><span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span> <b>MAX</b></a>
   <div class="right">
-    <a class="navlink" href="#moments">The moments</a>
-    <a class="navlink" href="#diagnosis">The diagnosis</a>
-    <a class="navlink" href="#circle">The circle</a>
-    <a class="nav-cta" href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">Join the circle</a>
+    <a class="navlink" href="#about">About Austin</a>
+    <a class="navlink" href="#hearth">The Hearth</a>
+    <a class="navlink" href="#news">News</a>
+    <a class="follow" href="#follow">Follow us</a>
   </div>
 </nav>
 
+<!-- ── HERO ─────────────────────────────────────────────────────────────────── -->
 <header class="hero" id="top">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <p class="eyebrow reveal" data-d="1">Austin, Texas <span class="dot" aria-hidden="true"></span> a cultural initiative</p>
-  <h1 class="wordmark reveal" data-d="2" aria-label="MAX">MA<span class="xmark">X</span></h1>
-  <p class="fullword reveal" data-d="2"><b>Make</b> <span class="r">Austin</span> <b>Extraordinary</b></p>
-
-  <p class="headline reveal" data-d="3">Austin is full of <em>extraordinary</em> people. Let's build the <em>fire</em> they gather around.</p>
-  <p class="subhead reveal" data-d="4">The talent has always been here &mdash; brilliant, electric, ready. What's missing is the kindling: the rooms, the long tables, the late nights where a scene catches. Extraordinary isn't a memory; it's a <em>fire we build, together.</em></p>
-
-  <div class="cta-row reveal" data-d="4">
-    <a class="cta" id="heroCta" href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">Join the circle <span class="arr" aria-hidden="true">&rarr;</span></a>
-    <a class="cta-ghost" href="#diagnosis">Read the diagnosis</a>
+  <div class="sunbeam"></div>
+  <div class="dot" aria-hidden="true"></div>
+  <div class="eyebrow reveal">A pale blue dot</div>
+  <h1 class="sagan reveal">Look again at that dot. That's here. That's home. That's <em>us</em> —
+    <span class="hush">everyone you love, on a mote of dust suspended in a sunbeam.</span></h1>
+  <p class="turn reveal">One of those motes has a name. And a river, and a hill country, and a strange bright gravity that keeps pulling the extraordinary toward it.</p>
+  <div class="wordmark reveal">
+    <span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span>
+    <span class="txt">Make Austin Extraordinary</span>
   </div>
-  <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><span class="bar"></span></div>
+  <div class="fullword reveal">Now is the time</div>
+  <div class="scrollcue" aria-hidden="true"><span class="rail"></span>Scroll</div>
 </header>
 
-<div class="spine" role="presentation">
-  <div class="track" aria-hidden="true">
-    <span>Make Austin <span class="o">Extraordinary</span></span><span class="sep">&times;</span><span>Lay the <span class="o">kindling</span></span><span class="sep">&times;</span><span>Build the <span class="o">commons</span></span><span class="sep">&times;</span><span>Where a scene <span class="o">catches</span></span><span class="sep">&times;</span><span>Light the <span class="o">bonfire</span></span><span class="sep">&times;</span>
-    <span>Make Austin <span class="o">Extraordinary</span></span><span class="sep">&times;</span><span>Lay the <span class="o">kindling</span></span><span class="sep">&times;</span><span>Build the <span class="o">commons</span></span><span class="sep">&times;</span><span>Where a scene <span class="o">catches</span></span><span class="sep">&times;</span><span>Light the <span class="o">bonfire</span></span><span class="sep">&times;</span>
-  </div>
-</div>
-
-<main>
-<section class="moments" id="moments">
+<!-- ── ABOUT AUSTIN ─────────────────────────────────────────────────────────── -->
+<section id="about">
   <div class="wrap">
-    <p class="sec-label reveal">The moments &middot; the kindling</p>
-    <h2 class="sec reveal">Austin has been throwing <em>sparks</em> for fifty years.</h2>
-    <p class="lede reveal">Singular, beloved, world-changing sparks &mdash; worth naming and worth loving. The only thing they ever lacked was a hearth to keep them burning. Imagine if they'd had one.</p>
-    <div class="timeline">
-      <div class="beat reveal" data-d="1"><div class="yr">1972<small>The Armadillo</small></div><div><h3>Cowboys and hippies in one room</h3><p>Willie Nelson came home to Texas and the Armadillo World Headquarters fused country and counterculture into a sound the world had nowhere else. <em>&ldquo;Rednecks and hippies who had thought they were natural enemies began mixing&hellip; they discovered they both liked good music.&rdquo;</em> The hall was bulldozed in 1980 when the land got too valuable.</p></div></div>
-      <div class="beat reveal" data-d="2"><div class="yr">1974<small>ACL</small></div><div><h3>The longest song on television</h3><p>Austin City Limits taped its pilot with Willie and became the longest-running music program in the history of television &mdash; proof a small city could broadcast its soul to everyone. The soundstage stayed; the affordable city around it did not.</p></div></div>
-      <div class="beat reveal" data-d="3"><div class="yr">1990<small>Slacker</small></div><div><h3>A city that made idleness art</h3><p>Richard Linklater shot <em>Slacker</em> for $23,000 and helped define American independent film &mdash; a self-portrait of a town where being broke and curious was a legitimate creative life. The rent that made it possible is gone.</p></div></div>
-      <div class="beat reveal" data-d="4"><div class="yr">1999<small>Liberty Lunch</small></div><div><h3>A twenty-four-hour goodbye</h3><p>The night before the bulldozers came for Liberty Lunch &mdash; sold for an office tower &mdash; the scene played <em>&ldquo;Gloria&rdquo;</em> for twenty-four hours straight. We have always known how to mourn a room. We have rarely known how to keep one.</p></div></div>
+    <div class="kicker reveal">About Austin</div>
+    <h2 class="big reveal">Austin is the after-party <span class="g">the world drove to.</span></h2>
+    <p class="lede reveal">For fifty years the extraordinary have arrived here — musicians, builders, film-makers, dreamers, refugees of the ordinary. Austin has always had the <em>sparks</em>.</p>
+    <div class="sparks reveal" aria-label="Austin's moments">
+      <span class="spark"><span class="d"></span>Armadillo World HQ, '72</span>
+      <span class="spark"><span class="d"></span>Liberty Lunch, the loud years</span>
+      <span class="spark"><span class="d"></span><em>Slacker</em> &amp; the indie moment</span>
+      <span class="spark"><span class="d"></span>Austin City Limits</span>
+      <span class="spark"><span class="d"></span>Barton Springs &amp; the commons</span>
+      <span class="spark"><span class="d"></span>Tesla, Rogan, Franklin — the arrivals</span>
     </div>
-    <p class="spark-note reveal">Every one of these was <b>kindling.</b> Never a hearth.</p>
+    <p class="body reveal">What a spark needs to become a fire is a <strong>hearth</strong> — the rooms where genius catches and stays. The third places. The salons. The commons. The topsoil a scene grows in. Extraordinary was never a memory to return to; it's a <strong>state</strong> — and a state is built.</p>
   </div>
 </section>
 
-<section class="diagnosis" id="diagnosis">
-  <div class="wrap">
-    <p class="sec-label reveal">The diagnosis</p>
-    <h2 class="sec reveal">Extraordinary is a <em>state.</em> And a state has to be built.</h2>
-    <p class="lede reveal">The talent was never the problem. What's missing is the <span class="topsoil">topsoil</span> &mdash; the standing rooms, the third places, the salons and long tables and late nights where strangers become a scene. <strong>Everyone brings a spark; no one's been building the hearth.</strong> That's the tragedy of the commons &mdash; and it's the most fixable thing in the world.</p>
-    <div class="cards">
-      <article class="card reveal" data-d="1"><p class="num">01</p><h3>The rooms keep closing</h3><p>Armadillo, Liberty Lunch, Las Manitas &mdash; paved one lease at a time for offices and condos. The <em>commons</em> is the first thing a boom devours.</p></article>
-      <article class="card reveal" data-d="2"><p class="num">02</p><h3>Brilliance, scattered</h3><p>Extraordinary people are everywhere here, and almost none of them are in the <em>same room</em> long enough for anything to catch. Genius needs a place to collide.</p></article>
-      <article class="card reveal" data-d="3"><p class="num">03</p><h3>No hearth, no fire</h3><p>A scene isn't a party; it's a <em>place that repeats.</em> Without ground to return to, the energy never compounds &mdash; it disperses, and the extraordinary people leave.</p></article>
-      <article class="card reveal" data-d="4"><p class="num">04</p><h3>The quiet cost</h3><p>The Surgeon General put loneliness on par with <em>fifteen cigarettes a day.</em> The cure isn't an app. It's each other, in a room, after dark.</p></article>
-    </div>
-    <p class="circle-foot reveal" style="margin-top:2rem">The full diagnosis &mdash; everything a great city has that Austin doesn't &mdash; lives on <a href="diagnosis.html">the gap list &rarr;</a></p>
-  </div>
-</section>
+<div class="hr"></div>
 
-<section class="pull">
-  <blockquote class="reveal">&ldquo;Commercializing is the antithesis of weird.&rdquo; <span class="r">&mdash;</span> So we stop selling the myth, and start <em>building the rooms.</em></blockquote>
-  <p class="by reveal">Red Wassenich coined &ldquo;Keep Austin Weird&rdquo; &middot; we intend to keep the promise</p>
-</section>
-
-<section class="cities" id="cities">
+<!-- ── THE HEARTH ───────────────────────────────────────────────────────────── -->
+<section id="hearth">
   <div class="wrap">
-    <p class="sec-label reveal">What the bonfire cities have</p>
-    <h2 class="sec reveal">The extraordinary cities <em>built</em> their fire.</h2>
-    <p class="lede reveal">None of them were born extraordinary either. They built the infrastructure that lets a scene cohere &mdash; the members' houses, the late rooms, the bathhouses, the salons. Austin has the people. It is missing the architecture of belonging.</p>
-    <div class="city-grid">
-      <div class="city reveal" data-d="1"><div class="name"><b>Berlin</b></div><ul><li>Berghain &mdash; a temple of nightlife with its own laws of time</li><li>Soho House in a Bauhaus block, a hammam in the basement</li><li>haunted buildings turned into homes for everyone</li></ul></div>
-      <div class="city reveal" data-d="2"><div class="name"><b>New York</b></div><ul><li>members' houses on every other block</li><li>a real art week; galleries that gather the city</li><li>the Bhakti Center, mature party series, somewhere to belong</li></ul></div>
-      <div class="city reveal" data-d="3"><div class="name"><b>Mexico City</b></div><ul><li>a living culture of the long table and the late salon</li><li>art and ceremony woven into ordinary nights</li><li>hospitality as a civic art form</li></ul></div>
-      <div class="city reveal" data-d="4"><div class="name"><b>Miami</b></div><ul><li>a night that doesn't end at 2&nbsp;a.m.</li><li>international, feminine, cosmopolitan by design</li><li>rooms built to keep people, not just sell them drinks</li></ul></div>
+    <div class="kicker reveal">The idea</div>
+    <h2 class="big reveal">Not a chamber of commerce. <span class="g">A chamber of culture.</span></h2>
+    <p class="lede reveal">A movement that lays the fire — that builds the architecture of belonging, so Austin's people finally have a room worthy of them.</p>
+    <div class="grid">
+      <div class="card reveal"><div class="n">i.</div><h3>Gather the makers</h3><p>The hosts, the venue-makers, the artists and builders — scattered brilliance, woven into a guild that holds together.</p></div>
+      <div class="card reveal"><div class="n">ii.</div><h3>Build the third places</h3><p>The recurring rooms a city keeps losing to condos — salons, stages, commons. The infrastructure of a scene that lasts.</p></div>
+      <div class="card reveal"><div class="n">iii.</div><h3>Circulate what's given</h3><p>Be the trusted place where a city's generosity flows into culture — givers met with the makers who make Austin luminous.</p></div>
     </div>
   </div>
 </section>
 
-<section class="vision" id="vision">
+<div class="hr"></div>
+
+<!-- ── NEWS placeholder ─────────────────────────────────────────────────────── -->
+<section id="news">
   <div class="wrap">
-    <p class="sec-label reveal">The vision</p>
-    <h2 class="sec reveal">MAX is the people who <em>lay the fire.</em></h2>
-    <p class="lede reveal">Not a chamber of commerce &mdash; a <strong>chamber of culture.</strong> A guild of hosts, makers, and magicians who pool what we have to build the topsoil this city has always lacked: the recurring rooms where Austin's sparks finally catch into something that lasts. Give-first, set-the-table, anti-elitist. A bonfire everyone is warmed by.</p>
-    <div class="builds">
-      <div class="build reveal" data-d="1"><h3>The rooms</h3><p>Salons, members' rooms, long tables, late rooms &mdash; third places that repeat, so a scene has ground to return to.</p></div>
-      <div class="build reveal" data-d="2"><h3>The rituals</h3><p>Recurring gatherings with real hospitality &mdash; the moments that knit strangers into a community of communities.</p></div>
-      <div class="build reveal" data-d="3"><h3>The map</h3><p>A diagnosis of what Austin lacks, and a way to call the right builder to each missing thing &mdash; the gaps, named and filled.</p></div>
-    </div>
+    <div class="kicker reveal">Dispatches</div>
+    <h2 class="big reveal">We tell the story of <span class="g">who's making Austin extraordinary.</span></h2>
+    <p class="body reveal">The companies rising, the givers building, the rooms opening, the nights worth showing up for — profiled through our lens, so the whole city can see itself becoming. <em>Soon.</em></p>
   </div>
 </section>
 
-<section class="circle" id="circle">
+<div class="hr"></div>
+
+<!-- ── THE CALL ─────────────────────────────────────────────────────────────── -->
+<section id="follow" class="call">
   <div class="wrap">
-    <p class="sec-label reveal">The founding circle</p>
-    <h2 class="sec reveal">A circle is <em>being laid.</em></h2>
-    <p class="lede reveal">Hosts, venue-makers, chefs, DJs, healers, and magicians &mdash; each already tending a flame, gathering around one fire. A community of communities, forming now.</p>
-    <div class="circle-form reveal">
-      <p class="cf-line">If you build rooms, hold a community, or make the kind of magic this city forgets to keep &mdash; <b>this circle is yours.</b></p>
-      <p class="cf-sub">We name names when they're ready, not before. The founders of Austin's most-loved rooms are already in the conversation &mdash; <b>the table is being set.</b> Come help set it.</p>
-      <a class="cta" href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">Add your fire <span class="arr" aria-hidden="true">&rarr;</span></a>
-    </div>
+    <h2 class="big reveal">You hold the keys <span class="g">to the future.</span></h2>
+    <p class="lede reveal">Now is the time to make Austin extraordinary.</p>
+    <a class="cta reveal" href="https://x.com" target="_blank" rel="noopener">Follow us
+      <span class="xmark" style="font-size:1.1rem"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span></a>
   </div>
 </section>
 
-<section class="sparks" id="sparks">
-  <div class="wrap">
-    <p class="sec-label reveal">Already here</p>
-    <h2 class="sec reveal">The sparks are <em>everywhere.</em> They're just waiting for a hearth.</h2>
-    <p class="lede reveal">Look what gets built in this city when someone bothers to build it. The talent isn't the question &mdash; the rooms are. Imagine all of this, finally in the same place.</p>
-    <div class="spark-grid">
-      <span class="spark reveal"><b>The Comedy Mothership</b> &middot; Joe Rogan</span>
-      <span class="spark reveal"><b>Bumble</b> &middot; Whitney Wolfe Herd</span>
-      <span class="spark reveal"><b>Whole Foods</b> &middot; John Mackey</span>
-      <span class="spark reveal"><b>Black Pumas</b> &middot; Adrian Quesada &amp; Eric Burton</span>
-      <span class="spark reveal"><b>Austin Film Society</b> &middot; Richard Linklater</span>
-      <span class="spark reveal"><b>Troublemaker Studios</b> &middot; Robert Rodriguez</span>
-      <span class="spark reveal"><b>Franklin Barbecue</b> &middot; Aaron Franklin</span>
-      <span class="spark reveal"><b>Uchi</b> &middot; Tyson Cole</span>
-      <span class="spark reveal"><b>Kendra Scott</b></span>
-      <span class="spark reveal"><b>Gary Clark Jr.</b></span>
-      <span class="spark reveal"><b>Spoon</b> &middot; Britt Daniel</span>
-      <span class="spark reveal"><b>Shakey Graves</b></span>
-      <span class="spark reveal"><b>Jackie Venson</b></span>
-      <span class="spark reveal"><b>The Lex Fridman Podcast</b></span>
-      <span class="spark reveal"><b>Dell</b> &middot; Michael Dell</span>
-      <span class="spark reveal"><b>UT &amp; Austin FC</b> &middot; Matthew McConaughey</span>
-    </div>
-    <p class="circle-foot reveal">Tesla, SpaceX, and X moved their work to Texas; the world's builders keep arriving. The gravity is real. The hearth is missing.</p>
-  </div>
-</section>
-
-<section class="invite" id="invite">
-  <div class="wrap">
-    <p class="sec-label reveal" style="justify-content:center">The invitation</p>
-    <h2 class="reveal">Let's light the <span class="r">bonfire.</span></h2>
-    <p class="q reveal">Do you feel Austin has more in it than this &mdash; that the <em>after-party of the world</em> is here, and no one ever set the table? You're not imagining it. And you're not alone.</p>
-    <p class="who reveal">If you're a <b>host, a builder, a connector, a maker</b> &mdash; if you have a room, a community, a craft, or just the same ache for this city to become what it could be &mdash; come lay the fire with us.</p>
-    <div class="cta-row reveal" style="justify-content:center">
-      <a class="cta" href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">Join the circle <span class="arr" aria-hidden="true">&rarr;</span></a>
-      <a class="cta-ghost" href="https://starheartsong.link" target="_blank" rel="noopener">starheartsong.link</a>
-    </div>
-    <p class="handles reveal">Contact Star Heartsong &middot; <a href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">@drstarheartsong</a></p>
-  </div>
-</section>
-</main>
-
+<!-- ── FOOTER — anonymous ───────────────────────────────────────────────────── -->
 <footer>
-  <div class="fmark" role="img" aria-label="MAX">MA<span class="xmark" aria-hidden="true">X</span></div>
-  <p>Make Austin Extraordinary &mdash; a cultural initiative and passion project of <strong>StarHeartSong&nbsp;LLC</strong>. Extraordinary is a fire you build. Come build it: <a href="https://instagram.com/drstarheartsong" target="_blank" rel="noopener">@drstarheartsong</a> &middot; <a href="https://starheartsong.link" target="_blank" rel="noopener">starheartsong.link</a></p>
-  <p class="fine">&copy; 2026 StarHeartSong LLC &middot; Austin, Texas</p>
+  <span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span>
+  <p class="credo">A symbol is stronger than a person. This is a movement, not a name — you'll never be asked to join, only to <em>build</em>.</p>
+  <a class="foot-follow" href="https://x.com" target="_blank" rel="noopener">Follow us</a>
+  <div class="fineprint">Make Austin Extraordinary · MAX</div>
 </footer>
 
-<script>
-(function(){
-  var nav=document.getElementById('nav');
-  var onScroll=function(){nav.classList.toggle('scrolled',window.scrollY>24)};
-  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var reveals=[].slice.call(document.querySelectorAll('.reveal'));
-  if(reduce||!('IntersectionObserver' in window)){reveals.forEach(function(el){el.classList.add('in')});document.body.classList.add('ignited');return;}
-  requestAnimationFrame(function(){document.querySelectorAll('.hero .reveal').forEach(function(el){el.classList.add('in')});});
-  setTimeout(function(){document.body.classList.add('ignited')},420);
-  var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
-  reveals.forEach(function(el){if(!el.closest('.hero'))io.observe(el)});
+<div class="grain"></div>
+<div class="vignette"></div>
 
-  // cursor-reactive hero glow + magnetic CTA
-  var hero=document.querySelector('.hero'), cta=document.getElementById('heroCta');
-  if(hero){hero.addEventListener('mousemove',function(e){var r=hero.getBoundingClientRect();hero.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');hero.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
-    if(cta){var c=cta.getBoundingClientRect(),dx=e.clientX-(c.left+c.width/2),dy=e.clientY-(c.top+c.height/2),d=Math.hypot(dx,dy);
-      if(d<150){cta.style.transform='translate('+dx*0.18+'px,'+dy*0.18+'px)'}else{cta.style.transform=''}}
-  });hero.addEventListener('mouseleave',function(){if(cta)cta.style.transform=''});}
-})();
-</script>
 <script>
+/* ── starfield: gentle drift, soft twinkle, never a flash ──────────────────── */
 (function(){
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var c=document.getElementById('embers'); if(!c||!c.getContext) return;
-  var x=c.getContext('2d'), W=0,H=0, dpr=Math.min(window.devicePixelRatio||1,2), parts=[], raf, running=true;
-  function size(){W=c.width=Math.floor(innerWidth*dpr);H=c.height=Math.floor(innerHeight*dpr);c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';}
-  size(); addEventListener('resize',size,{passive:true});
-  var N=Math.max(18,Math.min(48,Math.round(innerWidth/28)));
-  function spawn(seed){return {x:Math.random()*W, y:seed?Math.random()*H:H+Math.random()*40*dpr, r:(Math.random()*1.5+0.5)*dpr, v:(Math.random()*0.45+0.18)*dpr, drift:(Math.random()-0.5)*0.3*dpr, life:0, max:Math.random()*240+140, warm:Math.random()<0.32};}
-  for(var i=0;i<N;i++) parts.push(spawn(true));
-  function tick(){
-    x.clearRect(0,0,W,H);
-    for(var i=0;i<parts.length;i++){var p=parts[i];p.y-=p.v;p.x+=p.drift;p.life++;
-      if(p.y<-12*dpr||p.life>p.max){parts[i]=spawn(false);continue;}
-      var a=Math.sin(p.life/p.max*Math.PI)*0.75, col=p.warm?'255,150,64':'255,46,46', R=p.r*4;
-      var g=x.createRadialGradient(p.x,p.y,0,p.x,p.y,R);
-      g.addColorStop(0,'rgba('+col+','+a+')'); g.addColorStop(1,'rgba('+col+',0)');
-      x.fillStyle=g; x.beginPath(); x.arc(p.x,p.y,R,0,6.2832); x.fill();
-    }
-    if(running) raf=requestAnimationFrame(tick);
+  const c=document.getElementById('stars'),x=c.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let w,h,stars=[],raf;
+  function size(){w=c.width=innerWidth*devicePixelRatio;h=c.height=innerHeight*devicePixelRatio;build()}
+  function build(){
+    const n=Math.min(220,Math.round(w*h/26000/devicePixelRatio));
+    stars=Array.from({length:n},()=>({
+      x:Math.random()*w,y:Math.random()*h,
+      r:(Math.random()*1.1+.25)*devicePixelRatio,
+      a:Math.random()*.6+.2, tw:Math.random()*.008+.002, dir:Math.random()<.5?1:-1,
+      vy:(Math.random()*.02+.01)*devicePixelRatio,
+      pale:Math.random()<.22
+    }));
   }
-  tick();
-  document.addEventListener('visibilitychange',function(){running=!document.hidden; if(running){tick()} else if(raf){cancelAnimationFrame(raf)}});
+  function frame(){
+    x.clearRect(0,0,w,h);
+    for(const s of stars){
+      if(!reduce){ s.a+=s.tw*s.dir; if(s.a>.85||s.a<.15) s.dir*=-1; s.y+=s.vy; if(s.y>h) s.y=0; }
+      x.beginPath();x.arc(s.x,s.y,s.r,0,6.283);
+      x.fillStyle= s.pale ? 'rgba(169,203,233,'+s.a+')' : 'rgba(238,242,251,'+s.a+')';
+      x.shadowBlur=s.pale?6*devicePixelRatio:0; x.shadowColor='rgba(143,184,222,.6)';
+      x.fill();
+    }
+    x.shadowBlur=0;
+    if(!reduce) raf=requestAnimationFrame(frame);
+  }
+  addEventListener('resize',size,{passive:true}); size(); frame();
 })();
+
+/* ── nav condense on scroll ─────────────────────────────────────────────────── */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+/* ── reveal on enter ────────────────────────────────────────────────────────── */
+const io=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){
+  setTimeout(()=>e.target.classList.add('in'), (e.target.dataset.d||0));
+  io.unobserve(e.target);}})},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.d=(i%5)*90;io.observe(el)});
+/* hero reveals stagger immediately */
+document.querySelectorAll('.hero .reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),160+i*180));
 </script>
 </body>
 </html>
