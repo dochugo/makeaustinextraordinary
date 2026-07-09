@@ -7,10 +7,10 @@
 <meta name="description" content="A pale blue dot, and one small city on it worth building a hearth for. Now is the time to make Austin extraordinary.">
 <style>
 /* ─────────────────────────────────────────────────────────────────────────────
-   MAKE AUSTIN EXTRAORDINARY — cosmos register (v2, Pale Blue Dot → Austin).
+   MAKE AUSTIN EXTRAORDINARY — cosmos register (v3, Pale Blue Dot → Austin).
    Anonymous · humble · Tesla-elegant. A movement, not a person. "Follow us."
-   Fonts are local (reused from the fire-era build): EB Garamond (the Sagan voice),
-   Space Grotesk (the quiet UI). No CDNs, no trackers — it runs from a cold disk.
+   The scroll IS the zoom: space-black at the top warms to earth-gold at the Call.
+   Copy is Starmind's spec (from the creators' own words); fonts are local. No CDNs.
    ───────────────────────────────────────────────────────────────────────────── */
 @font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/space-grotesk.woff2) format('woff2')}
 @font-face{font-family:'EB Garamond';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/eb-garamond.woff2) format('woff2')}
@@ -80,37 +80,6 @@ nav .right{display:flex;align-items:center;gap:1.7rem}
 /* the hero is the film — a full-bleed, isolated iframe (its own starfield, no collision with #stars) */
 .filmframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;z-index:2;background:var(--space)}
 .hero .scrollcue{z-index:3}
-/* the sunbeam the dot is suspended in */
-.sunbeam{position:absolute;top:-10%;left:50%;width:min(52rem,120vw);height:120%;transform:translateX(-50%) rotate(14deg);
-  transform-origin:top center;pointer-events:none;z-index:1;opacity:.55;
-  background:linear-gradient(180deg, rgba(233,201,138,.16), rgba(143,184,222,.05) 42%, transparent 74%);
-  filter:blur(6px);-webkit-mask:linear-gradient(180deg,#000,transparent 82%);mask:linear-gradient(180deg,#000,transparent 82%)}
-/* the pale blue dot */
-.dot{position:relative;z-index:2;width:.62rem;height:.62rem;border-radius:50%;margin-bottom:clamp(2.2rem,6vw,3.6rem);
-  background:radial-gradient(circle at 38% 34%, #cfe3f6, var(--pale) 46%, #4f7fac 90%);
-  box-shadow:0 0 .5rem 1px rgba(143,184,222,.9), 0 0 2.2rem 2px rgba(143,184,222,.5), 0 0 5rem 4px rgba(143,184,222,.22);
-  animation:breathe 6.5s ease-in-out infinite}
-@keyframes breathe{0%,100%{box-shadow:0 0 .5rem 1px rgba(143,184,222,.9),0 0 2.2rem 2px rgba(143,184,222,.5),0 0 5rem 4px rgba(143,184,222,.2)}
-  50%{box-shadow:0 0 .55rem 1px rgba(143,184,222,1),0 0 2.8rem 3px rgba(143,184,222,.62),0 0 6.5rem 5px rgba(143,184,222,.3)}}
-@media(prefers-reduced-motion:reduce){.dot{animation:none}}
-.eyebrow{position:relative;z-index:2;font-size:.66rem;font-weight:600;letter-spacing:.42em;text-transform:uppercase;
-  color:var(--pale);margin-bottom:clamp(1.6rem,4vw,2.6rem)}
-.sagan{position:relative;z-index:2;font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,3.6vw,2.5rem);line-height:1.34;
-  color:var(--starlight);max-width:34ch;margin:0 auto}
-.sagan em{color:var(--pale-2)}
-.sagan .hush{color:var(--muted)}
-.turn{position:relative;z-index:2;font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.2vw,1.4rem);
-  color:var(--gold);max-width:30ch;margin:clamp(1.8rem,4vw,2.6rem) auto 0}
-.wordmark{position:relative;z-index:2;margin-top:clamp(2.4rem,6vw,3.8rem);display:inline-flex;align-items:center;gap:.34em}
-.wordmark .xmark{font-size:clamp(2.4rem,7vw,4.2rem)}
-.wordmark .txt{font-family:var(--serif);font-size:clamp(1.7rem,4.6vw,3rem);letter-spacing:.02em;color:var(--starlight)}
-.fullword{position:relative;z-index:2;font-size:clamp(.62rem,1.4vw,.78rem);letter-spacing:.44em;text-transform:uppercase;
-  color:var(--faint);margin-top:1.1rem}
-.scrollcue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:2;font-size:.6rem;letter-spacing:.34em;
-  text-transform:uppercase;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:.7rem}
-.scrollcue .rail{width:1px;height:2.4rem;background:linear-gradient(var(--pale-soft),transparent);animation:drop 2.4s ease-in-out infinite}
-@keyframes drop{0%,100%{opacity:.3;transform:scaleY(.7);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
-@media(prefers-reduced-motion:reduce){.scrollcue .rail{animation:none}}
 
 /* ── sections ───────────────────────────────────────────────────────────────── */
 section{position:relative;z-index:2;padding:clamp(5rem,12vw,9rem) var(--gut)}
@@ -122,6 +91,29 @@ section{position:relative;z-index:2;padding:clamp(5rem,12vw,9rem) var(--gut)}
 .body{max-width:40ch;margin-top:1.6rem;color:var(--muted);font-size:1rem}
 .body strong{color:var(--ivory);font-weight:500}
 
+/* the scroll IS the zoom — space-black at the top, earth-gold as you descend */
+#overture{background:radial-gradient(120% 80% at 50% -8%, rgba(143,184,222,.06), transparent 58%)}
+#about{background:radial-gradient(125% 95% at 50% 2%, rgba(134,180,141,.05), transparent 62%)}
+#mark{background:radial-gradient(110% 95% at 50% 42%, rgba(233,201,138,.05), rgba(134,180,141,.028) 46%, transparent 72%)}
+#happening{background:radial-gradient(125% 100% at 50% 46%, rgba(233,201,138,.075), rgba(134,180,141,.035) 40%, transparent 74%)}
+#follow{background:radial-gradient(92% 100% at 50% 52%, rgba(233,201,138,.12), rgba(233,201,138,.03) 44%, transparent 72%)}
+
+/* ── the overture — the Pale Blue Dot, in words (the film's afterglow) ───────── */
+.overture{text-align:center}
+.overture .wrap{max-width:52rem}
+.dot-echo{width:.5rem;height:.5rem;border-radius:50%;margin:0 auto clamp(2rem,5vw,3.2rem);
+  background:radial-gradient(circle at 38% 34%, #cfe3f6, var(--pale) 46%, #4f7fac 90%);
+  box-shadow:0 0 .5rem 1px rgba(143,184,222,.85),0 0 2.4rem 2px rgba(143,184,222,.42),0 0 5rem 4px rgba(143,184,222,.18);
+  animation:breathe 6.5s ease-in-out infinite}
+@keyframes breathe{0%,100%{box-shadow:0 0 .5rem 1px rgba(143,184,222,.85),0 0 2.4rem 2px rgba(143,184,222,.42),0 0 5rem 4px rgba(143,184,222,.18)}
+  50%{box-shadow:0 0 .55rem 1px rgba(143,184,222,1),0 0 2.9rem 3px rgba(143,184,222,.56),0 0 6.5rem 5px rgba(143,184,222,.26)}}
+@media(prefers-reduced-motion:reduce){.dot-echo{animation:none}}
+.saganbody{font-family:var(--serif);font-size:clamp(1.35rem,3.1vw,2.1rem);line-height:1.42;color:var(--starlight);max-width:30ch;margin:0 auto}
+.saganbody + .saganbody{margin-top:1.5rem}
+.saganbody em{color:var(--pale-2)}
+.turn{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.3vw,1.5rem);line-height:1.5;
+  color:var(--gold);max-width:38ch;margin:clamp(2.4rem,5vw,3.4rem) auto 0}
+
 /* the moments — sparks */
 .sparks{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.4rem;max-width:46rem}
 .spark{font-size:.72rem;letter-spacing:.06em;color:var(--ivory);border:1px solid var(--line);border-radius:999px;
@@ -129,29 +121,52 @@ section{position:relative;z-index:2;padding:clamp(5rem,12vw,9rem) var(--gut)}
 .spark:hover{border-color:var(--pale-soft);color:var(--starlight);background:rgba(143,184,222,.07)}
 .spark .d{display:inline-block;width:.32rem;height:.32rem;border-radius:50%;background:var(--gold);margin-right:.6em;vertical-align:middle;box-shadow:0 0 .5rem var(--gold)}
 
+/* ── the mark — the idea, and the X drawn large ─────────────────────────────── */
+.markrow{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(2rem,6vw,5rem);align-items:center;margin-top:clamp(2.8rem,6vw,4.4rem)}
+.markrow .glyph{display:flex;justify-content:center;align-items:center}
+.markrow .glyph .xmark{font-size:clamp(7rem,19vw,13rem)}
+.markrow .passage{font-family:var(--serif);font-size:clamp(1.1rem,2.1vw,1.4rem);line-height:1.56;color:var(--ivory)}
+.markrow .passage p + p{margin-top:1.2rem}
+.markrow .passage .g{color:var(--gold);font-style:italic}
+@media(max-width:48rem){.markrow{grid-template-columns:1fr;gap:2.2rem}.markrow .glyph .xmark{font-size:clamp(6rem,32vw,9rem)}}
+
 /* the hearth — three tenets */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:clamp(1.4rem,3vw,2.6rem);margin-top:3rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:clamp(1.4rem,3vw,2.6rem);margin-top:3.2rem}
 .card{border-top:1px solid var(--line);padding-top:1.6rem}
 .card .n{font-family:var(--serif);font-size:.9rem;color:var(--pale);letter-spacing:.1em}
 .card h3{font-family:var(--serif);font-size:1.4rem;color:var(--starlight);margin:.7rem 0 .8rem}
 .card p{font-size:.92rem;color:var(--muted)}
 
+/* ── what's happening — the five verticals ──────────────────────────────────── */
+.verticals{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:clamp(1rem,2.2vw,1.6rem);margin-top:2.8rem}
+.vert{border:1px solid var(--line);border-radius:.9rem;padding:1.5rem 1.4rem;background:rgba(233,201,138,.022);
+  transition:border-color .35s,background .35s,transform .35s}
+.vert:hover{border-color:var(--gold-soft);background:rgba(233,201,138,.05);transform:translateY(-3px)}
+.vert h3{font-family:var(--serif);font-size:1.24rem;color:var(--starlight);margin-bottom:.5rem}
+.vert p{font-size:.86rem;color:var(--muted);line-height:1.5}
+.soon-line{margin-top:2.4rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+
 /* the call */
 .call{text-align:center}
 .call .big{margin:0 auto;max-width:24ch}
-.call .lede{margin-left:auto;margin-right:auto;text-align:center;color:var(--ivory)}
+.call .lede{margin-left:auto;margin-right:auto;text-align:center;color:var(--ivory);max-width:40ch}
 .cta{display:inline-flex;align-items:center;gap:.7em;margin-top:2.8rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;
   text-transform:uppercase;color:#04060e;background:linear-gradient(120deg,var(--pale-2),var(--pale));border-radius:999px;
   padding:.95rem 1.9rem;transition:box-shadow .35s,transform .35s}
 .cta:hover{box-shadow:0 0 2.6rem rgba(143,184,222,.5);transform:translateY(-2px)}
 
-/* divider hairline of stars */
+/* scroll cue + divider hairline of stars */
+.scrollcue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:2;font-size:.6rem;letter-spacing:.34em;
+  text-transform:uppercase;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:.7rem}
+.scrollcue .rail{width:1px;height:2.4rem;background:linear-gradient(var(--pale-soft),transparent);animation:drop 2.4s ease-in-out infinite}
+@keyframes drop{0%,100%{opacity:.3;transform:scaleY(.7);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
+@media(prefers-reduced-motion:reduce){.scrollcue .rail{animation:none}}
 .hr{height:1px;max-width:var(--mw);margin:0 auto;background:linear-gradient(90deg,transparent,var(--line),transparent)}
 
 /* ── footer — anonymous ─────────────────────────────────────────────────────── */
 footer{position:relative;z-index:2;padding:clamp(4rem,9vw,6rem) var(--gut) 3.4rem;text-align:center}
 footer .xmark{font-size:1.8rem}
-.credo{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--muted);margin:1.4rem auto 0;max-width:30ch}
+.credo{font-family:var(--serif);font-style:italic;font-size:1.08rem;line-height:1.6;color:var(--muted);margin:1.4rem auto 0;max-width:34ch}
 .foot-follow{margin-top:2.2rem;display:inline-flex;align-items:center;gap:.6em;font-size:.68rem;font-weight:600;letter-spacing:.2em;
   text-transform:uppercase;color:var(--starlight);border:1px solid var(--pale-soft);border-radius:999px;padding:.7rem 1.4rem;transition:border-color .3s,box-shadow .3s}
 .foot-follow:hover{border-color:var(--pale);box-shadow:0 0 2rem rgba(143,184,222,.35)}
@@ -188,79 +203,106 @@ footer .xmark{font-size:1.8rem}
   <a class="brand" href="#top"><span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span> <b>MAX</b></a>
   <div class="right">
     <a class="navlink" href="#about">About Austin</a>
-    <a class="navlink" href="#hearth">The Hearth</a>
-    <a class="navlink" href="#news">News</a>
+    <a class="navlink" href="#happening">What's Happening</a>
     <a class="follow" href="#follow">Follow us</a>
   </div>
 </nav>
 
-<!-- ── HERO ─────────────────────────────────────────────────────────────────── -->
+<!-- ── HERO — the film ──────────────────────────────────────────────────────── -->
 <header class="hero" id="top">
   <iframe class="filmframe" src="film.html" title="Make Austin Extraordinary — the film" scrolling="no" loading="eager"></iframe>
-  <div class="scrollcue" aria-hidden="true"><span class="rail"></span>Scroll</div>
+  <div class="scrollcue" aria-hidden="true"><span class="rail"></span>Look closer</div>
 </header>
 
-<!-- ── ABOUT AUSTIN ─────────────────────────────────────────────────────────── -->
+<!-- ── THE PALE BLUE DOT — the overture (the film's afterglow, in words) ─────── -->
+<section id="overture" class="overture">
+  <div class="wrap">
+    <div class="dot-echo reveal" aria-hidden="true"></div>
+    <div class="kicker reveal">A pale blue dot</div>
+    <p class="saganbody reveal">Look again at that dot. That's here. That's home. That's everyone you have ever loved — every maker and dreamer, every stranger you were about to meet — on a mote of dust, suspended in a sunbeam.</p>
+    <p class="saganbody reveal">Now look closer. One of those motes has a name. It has a green river, and a range of low gold hills, and a strange bright gravity that has been pulling the extraordinary toward it for fifty years.</p>
+    <p class="turn reveal">From every coast and across the oceans, they keep arriving — drawn as if by a quiet gravity toward one bend in one warm river, to build a life among strangers who do not stay strangers for long.</p>
+  </div>
+</section>
+
+<div class="hr"></div>
+
+<!-- ── ABOUT AUSTIN — the story ─────────────────────────────────────────────── -->
 <section id="about">
   <div class="wrap">
     <div class="kicker reveal">About Austin</div>
     <h2 class="big reveal">Austin is the after-party <span class="g">the world drove to.</span></h2>
-    <p class="lede reveal">For fifty years the extraordinary have arrived here — musicians, builders, film-makers, dreamers, refugees of the ordinary. Austin has always had the <em>sparks</em>.</p>
+    <p class="lede reveal">For half a century the extraordinary have arrived here — the musicians and the builders, the film-makers and the founders, everyone quietly finished with the ordinary. Austin has always had the <em>sparks</em>.</p>
     <div class="sparks reveal" aria-label="Austin's moments">
       <span class="spark"><span class="d"></span>Armadillo World HQ, '72</span>
       <span class="spark"><span class="d"></span>Liberty Lunch, the loud years</span>
-      <span class="spark"><span class="d"></span><em>Slacker</em> &amp; the indie moment</span>
+      <span class="spark"><span class="d"></span><em>Slacker</em>, and the indie dawn</span>
       <span class="spark"><span class="d"></span>Austin City Limits</span>
       <span class="spark"><span class="d"></span>Barton Springs &amp; the commons</span>
-      <span class="spark"><span class="d"></span>Tesla, Rogan, Franklin — the arrivals</span>
+      <span class="spark"><span class="d"></span>The arrivals — Tesla, Rogan, Franklin</span>
     </div>
-    <p class="body reveal">What a spark needs to become a fire is a <strong>hearth</strong> — the rooms where genius catches and stays. The third places. The salons. The commons. The topsoil a scene grows in. Extraordinary was never a memory to return to; it's a <strong>state</strong> — and a state is built.</p>
+    <p class="body reveal">A spark becomes a fire only when it has a <strong>hearth</strong> — a room where genius can catch, and gather, and stay. That has always been the one thing the sparks were missing: not more brilliance, but a place to keep it. The third places. The salons. The long tables and the late rooms. The topsoil a scene grows in. Extraordinary was never a memory to look back on. It is a <strong>state</strong> — and a state is built.</p>
   </div>
 </section>
 
 <div class="hr"></div>
 
-<!-- ── THE HEARTH ───────────────────────────────────────────────────────────── -->
-<section id="hearth">
+<!-- ── THE MARK — the idea, and the X ───────────────────────────────────────── -->
+<section id="mark">
   <div class="wrap">
     <div class="kicker reveal">The idea</div>
     <h2 class="big reveal">Not a chamber of commerce. <span class="g">A chamber of culture.</span></h2>
-    <p class="lede reveal">A movement that lays the fire — that builds the architecture of belonging, so Austin's people finally have a room worthy of them.</p>
+    <p class="lede reveal">One movement to lay the fire — to gather the makers, build the rooms, and give a city's people a hearth worthy of them. The architecture of belonging.</p>
+    <div class="markrow">
+      <div class="glyph reveal"><span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span></div>
+      <div class="passage reveal">
+        <p>Our mark is a single ✕ — two curves that cross once. One reaches: the line that will not be satisfied, that doubles and redoubles and strains toward the takeoff. One rests: the long, steady curve of the earth, of nature, of an unhurried hand at the end of the day.</p>
+        <p>A great city is neither the pure reaching nor the pure resting. It is <span class="g">the difference between them</span> — the narrow, luminous band where a life is actually lived.</p>
+      </div>
+    </div>
     <div class="grid">
-      <div class="card reveal"><div class="n">i.</div><h3>Gather the makers</h3><p>The hosts, the venue-makers, the artists and builders — scattered brilliance, woven into a guild that holds together.</p></div>
-      <div class="card reveal"><div class="n">ii.</div><h3>Build the third places</h3><p>The recurring rooms a city keeps losing to condos — salons, stages, commons. The infrastructure of a scene that lasts.</p></div>
-      <div class="card reveal"><div class="n">iii.</div><h3>Circulate what's given</h3><p>Be the trusted place where a city's generosity flows into culture — givers met with the makers who make Austin luminous.</p></div>
+      <div class="card reveal"><div class="n">i.</div><h3>Gather the makers</h3><p>The hosts and the venue-keepers, the artists and the builders — scattered brilliance, woven into a guild that holds together.</p></div>
+      <div class="card reveal"><div class="n">ii.</div><h3>Build the third places</h3><p>The recurring rooms a culture grows in — salons, stages, long tables, late nights. The infrastructure of a scene that lasts.</p></div>
+      <div class="card reveal"><div class="n">iii.</div><h3>Circulate the good</h3><p>Be the trusted ground where a city's generosity meets the makers who make it luminous. Given, and given again.</p></div>
     </div>
   </div>
 </section>
 
 <div class="hr"></div>
 
-<!-- ── NEWS placeholder ─────────────────────────────────────────────────────── -->
-<section id="news">
+<!-- ── WHAT'S HAPPENING IN AUSTIN — the dispatches ──────────────────────────── -->
+<section id="happening">
   <div class="wrap">
-    <div class="kicker reveal">Dispatches</div>
+    <div class="kicker reveal">What's Happening in Austin</div>
     <h2 class="big reveal">We tell the story of <span class="g">who's making Austin extraordinary.</span></h2>
-    <p class="body reveal">The companies rising, the givers building, the rooms opening, the nights worth showing up for — profiled through our lens, so the whole city can see itself becoming. <em>Soon.</em></p>
+    <p class="lede reveal">The companies rising and the givers building. The rooms opening and the nights worth showing up for. The people who moved here from everywhere and decided to make something that lasts — noticed, celebrated, and kept, through one shared lens. This is the pitch-book you send a friend who's thinking of moving here.</p>
+    <div class="verticals">
+      <div class="vert reveal"><h3>The Makers</h3><p>The companies building the future from here.</p></div>
+      <div class="vert reveal"><h3>The Rooms</h3><p>New spaces, stages, and the projects remaking the city.</p></div>
+      <div class="vert reveal"><h3>The Nights</h3><p>What's on, who's playing, where to be.</p></div>
+      <div class="vert reveal"><h3>The Givers</h3><p>Generosity done right, and where it lands.</p></div>
+      <div class="vert reveal"><h3>The Voices</h3><p>Austin's next generation, in their own words.</p></div>
+    </div>
+    <p class="soon-line reveal">The first dispatches are on their way.</p>
   </div>
 </section>
 
 <div class="hr"></div>
 
-<!-- ── THE CALL ─────────────────────────────────────────────────────────────── -->
+<!-- ── THE CALL — the invitation ────────────────────────────────────────────── -->
 <section id="follow" class="call">
   <div class="wrap">
     <h2 class="big reveal">You hold the keys <span class="g">to the future.</span></h2>
-    <p class="lede reveal">Now is the time to make Austin extraordinary.</p>
+    <p class="lede reveal">You are here, on this one bright dot, at exactly the right time. You can make a difference. Now is the time to make Austin extraordinary.</p>
     <a class="cta reveal" href="https://x.com" target="_blank" rel="noopener">Follow us
       <span class="xmark" style="font-size:1.1rem"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span></a>
   </div>
 </section>
 
-<!-- ── FOOTER — anonymous ───────────────────────────────────────────────────── -->
+<!-- ── FOOTER — anonymous, and the Law ──────────────────────────────────────── -->
 <footer>
   <span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span>
-  <p class="credo">A symbol is stronger than a person. This is a movement, not a name — you'll never be asked to join, only to <em>build</em>.</p>
+  <p class="credo">The power of a symbol is greater than the power of a person. This is a movement, not a name — you will never be asked to join, only to <em>build</em>.</p>
   <a class="foot-follow" href="https://x.com" target="_blank" rel="noopener">Follow us</a>
   <div class="fineprint">Make Austin Extraordinary · MAX</div>
 </footer>
@@ -309,8 +351,6 @@ const io=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting)
   setTimeout(()=>e.target.classList.add('in'), (e.target.dataset.d||0));
   io.unobserve(e.target);}})},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.d=(i%5)*90;io.observe(el)});
-/* hero reveals stagger immediately */
-document.querySelectorAll('.hero .reveal').forEach((el,i)=>setTimeout(()=>el.classList.add('in'),160+i*180));
 </script>
 </body>
 </html>
