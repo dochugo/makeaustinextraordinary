@@ -276,7 +276,8 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
   // zooms. RE = Earth's radius in world-units (so 1 wu ≈ 6.371 km).
   const RE=1000, R0=3, ZK=20;
   const D2R=Math.PI/180;                               // degrees→radians, for the orthographic globe
-  const phaseFor=j=>j<0.18?0:j<0.52?1:j<0.85?2:3;
+  // 0 dot · 1 the lit fall · 5 the skyline (wordless — the city speaks) · 2 the lights kindle · 3 invite
+  const phaseFor=j=>j<0.16?0:j<0.44?1:j<0.72?5:j<0.88?2:3;
 
   // fixed city-light specks for Earth's night hemisphere (lower-right) — seed the gold to come
   const earthLights=[[0.30,0.26,0.9],[0.44,0.10,0.7],[0.22,0.42,0.8],[0.50,0.30,0.6],[0.16,0.30,0.7],[0.36,0.48,0.6],[0.28,0.16,0.55],[0.40,0.40,0.65]];
@@ -465,6 +466,71 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     ctx.restore();ctx.globalAlpha=1;
   }
 
+  // ── the Austin skyline at sunset — where the metaphor lands on a REAL place ───────────────────
+  // Star's choreography (chrome, 2026-07-09): stay LIT down to Austin, reach the skyline and TILT UP
+  // to see the city's outline against the sunset, HOLD, then tilt back overhead → then dark → then
+  // the lights kindle. Never an infinite starfield. The recognizable towers, left→right: [xfrac, wfrac,
+  // hfrac-of-sky, crown]. The stars are the Independent ("jenga"), the Austonian ("slab"), the Frost
+  // "owl" crown, and the Capitol "dome" — an unmistakable Austin silhouette (researched 2026-07-09).
+  const SKYLINE=[
+    [0.05,0.045,0.15,'flat'],[0.10,0.040,0.21,'flat'],[0.15,0.050,0.33,'ant'],
+    [0.205,0.050,0.28,'flat'],[0.26,0.058,0.46,'jenga'],[0.335,0.042,0.29,'flat'],
+    [0.385,0.048,0.54,'slab'],[0.45,0.045,0.33,'flat'],[0.505,0.060,0.48,'owl'],
+    [0.58,0.045,0.28,'flat'],[0.635,0.050,0.22,'flat'],[0.70,0.088,0.16,'dome'],
+    [0.80,0.042,0.25,'ant'],[0.86,0.050,0.19,'flat'],[0.915,0.040,0.13,'flat']
+  ];
+  function silhouette(baseY,span){
+    for(const b of SKYLINE){
+      const cx=b[0]*W, w=b[1]*W, h=b[2]*span, top=baseY-h, L=cx-w/2, R=cx+w/2, ty=b[3];
+      if(ty==='jenga'){                                    // The Independent — 4 offset stacked boxes
+        const seg=h/4;
+        for(let k=0;k<4;k++){const off=(k%2?1:-1)*w*0.16;
+          ctx.beginPath();ctx.rect(L+off,baseY-seg*(k+1),w,seg+0.6);ctx.fill();}
+      }else if(ty==='owl'){                                // Frost Bank Tower — the twin-peak "owl" crown
+        ctx.beginPath();ctx.rect(L,top,w,h);ctx.fill();
+        const ph=h*0.17;
+        ctx.beginPath();ctx.moveTo(L,top);ctx.lineTo(L+w*0.30,top-ph);ctx.lineTo(cx,top-ph*0.35);
+        ctx.lineTo(R-w*0.30,top-ph);ctx.lineTo(R,top);ctx.closePath();ctx.fill();
+      }else if(ty==='dome'){                               // the Texas Capitol — base, dome, lantern
+        ctx.beginPath();ctx.rect(L,top,w,h);ctx.fill();
+        ctx.beginPath();ctx.arc(cx,top,w*0.34,Math.PI,2*Math.PI);ctx.fill();
+        ctx.beginPath();ctx.rect(cx-w*0.03,top-w*0.34-h*0.14,w*0.06,h*0.14);ctx.fill();
+      }else{
+        ctx.beginPath();ctx.rect(L,top,w,h);ctx.fill();
+        if(ty==='slab')ctx.fillRect(cx-w*0.30,top-h*0.09,w*0.60,h*0.09);          // Austonian crown
+        if(ty==='ant'){const aw=Math.max(1,w*0.08);ctx.fillRect(cx-aw/2,top-h*0.24,aw,h*0.24);} // spire
+      }
+    }
+  }
+  function drawSkyline(A,tilt){
+    if(A<=0.004)return;
+    ctx.save();ctx.globalAlpha=A;
+    const horizon=Math.round(H*0.60+(1-tilt)*H*0.44);      // rises from below-frame → 0.60H as we tilt up
+    const span=horizon;                                    // sky height available (horizon → top)
+    const sky=ctx.createLinearGradient(0,0,0,horizon);     // 1) the sunset sky
+    sky.addColorStop(0,'#141833');sky.addColorStop(0.32,'#3f3a66');sky.addColorStop(0.56,'#8a5578');
+    sky.addColorStop(0.78,'#dd7f5c');sky.addColorStop(1,'#f6c675');
+    ctx.fillStyle=sky;ctx.fillRect(0,0,W,horizon+1);
+    const sx=W*0.60, sy=horizon-H*0.035, sr=H*0.20;        // 2) the setting sun, low + a touch right
+    const sun=ctx.createRadialGradient(sx,sy,0,sx,sy,sr);
+    sun.addColorStop(0,'rgba(255,241,205,0.95)');sun.addColorStop(0.35,'rgba(255,206,150,0.55)');
+    sun.addColorStop(1,'rgba(255,190,130,0)');
+    ctx.fillStyle=sun;ctx.beginPath();ctx.arc(sx,sy,sr,0,6.283);ctx.fill();
+    const grd=ctx.createLinearGradient(0,horizon,0,H);     // 3) Lady Bird Lake / the ground
+    grd.addColorStop(0,'#5a3a4a');grd.addColorStop(0.34,'#28203a');grd.addColorStop(1,'#0b0c18');
+    ctx.fillStyle=grd;ctx.fillRect(0,horizon,W,H-horizon+1);
+    const gl=ctx.createLinearGradient(sx-W*0.1,0,sx+W*0.1,0); // the sun's glitter on the water
+    gl.addColorStop(0,'rgba(255,200,140,0)');gl.addColorStop(0.5,'rgba(255,212,152,0.16)');gl.addColorStop(1,'rgba(255,200,140,0)');
+    ctx.fillStyle=gl;ctx.fillRect(sx-W*0.1,horizon,W*0.2,H-horizon);
+    ctx.save();ctx.globalAlpha=A*0.15;                     // 4) the reflection — dim, squashed about the horizon
+    ctx.translate(0,horizon);ctx.scale(1,-0.5);ctx.translate(0,-horizon);
+    ctx.fillStyle='#0a0b16';silhouette(horizon,span);ctx.restore();
+    ctx.fillStyle='#080910';silhouette(horizon,span);      // 5) the skyline, backlit near-black
+    ctx.strokeStyle='rgba(255,214,160,0.35)';ctx.lineWidth=1; // the bright water-line at the horizon
+    ctx.beginPath();ctx.moveTo(0,horizon+0.5);ctx.lineTo(W,horizon+0.5);ctx.stroke();
+    ctx.restore();
+  }
+
   function render(ts){
     ctx.clearRect(0,0,W,H);
     ctx.fillStyle='#04060e';ctx.fillRect(0,0,W,H);
@@ -510,10 +576,18 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     }
     drawEarth(fx,fy,Math.min(Rpx,2.8*frame),eA);
 
+    // 2.5) THE AUSTIN SKYLINE AT SUNSET — we reach the city; the camera tilts up to its outline against
+    //      the sunset, holds, then tilts back overhead (→ then night, → then the lights). The metaphor
+    //      lands on a real place instead of an infinite starfield (Star, chrome, 2026-07-09).
+    const skyRise=reduce?0:smooth(J,0.44,0.55);
+    const skyFall=smooth(J,0.635,0.735);
+    const cityA=skyRise*(1-skyFall);
+    if(cityA>0.004)drawSkyline(cityA,clamp01(cityA*1.18));
+
     // 3) the DIVE INTO NIGHT — as the marble fills the frame we fall onto its night side. A navy
     //    wash pooled at F ramps in (opacity, not size) so the surface reads as Earth-at-night and
     //    the city lights get a uniform dark ground. Continuous — no scene swap, no tracked size.
-    const nightA=reduce?1:smooth(J,0.22,0.44);
+    const nightA=reduce?1:smooth(J,0.62,0.76);   // night falls AFTER the skyline (Star's choreography)
     if(nightA>0.002){
       const np=ctx.createRadialGradient(fx,fy,0,fx,fy,frame*1.15);
       np.addColorStop(0,'rgba(6,12,24,'+nightA.toFixed(3)+')');
@@ -527,6 +601,7 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     //    size z·(its size) capped to a few px, fading up out of the sub-pixel dark as the zoom
     //    resolves it — so nothing ever pops in; where there was dark, a light simply becomes.
     const pulse=0.85+audioLevel*0.7;
+    const lightsUp=reduce?1:smooth(J,0.66,0.82);   // the points of light KINDLE only after dark
     for(const L of lights){
       if(L.user)continue;
       const sx=fx+z*L.x, sy=fy+z*L.y; L.sx=sx; L.sy=sy;
