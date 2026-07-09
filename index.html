@@ -3,354 +3,651 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Make Austin Extraordinary</title>
-<meta name="description" content="A pale blue dot, and one small city on it worth building a hearth for. Now is the time to make Austin extraordinary.">
+<title>Make Austin Extraordinary — the descent</title>
+<meta name="description" content="One continuous zoom, powers of ten: from the pale blue dot, past Earth, down through the night-lit continent, into Austin — where the lights aren't stars, they're people.">
 <style>
 /* ─────────────────────────────────────────────────────────────────────────────
-   MAKE AUSTIN EXTRAORDINARY — cosmos register (v3, Pale Blue Dot → Austin).
-   Anonymous · humble · Tesla-elegant. A movement, not a person. "Follow us."
-   The scroll IS the zoom: space-black at the top warms to earth-gold at the Call.
-   Copy is Starmind's spec (from the creators' own words); fonts are local. No CDNs.
-   ───────────────────────────────────────────────────────────────────────────── */
-@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/space-grotesk.woff2) format('woff2')}
-@font-face{font-family:'EB Garamond';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/eb-garamond.woff2) format('woff2')}
+   MAX — THE HERO: the descent (Celeste's contribution, JUSTDOIT 2026-07-09).
+   POWERS OF TEN — ONE LAMINAR SHOT (Dario: laminar — continuous, unbroken).
+   Fully procedural (Star, #100: "simulate it all... without any of the actual
+   image") so the zoom is truly infinite. We open on the pale blue dot — the
+   reference color grade (indigo→periwinkle, a soft sunbeam, one clear mote) — and
+   then ONE unbroken zoom-in on a single clock: the mote blooms into Earth, Earth's
+   night side resolves into a gold-lit continent, and we dive toward Austin until
+   the valley of lights fills the frame. The camera pitches from looking-down to
+   looking-across; a dark river winds through. You tap the dark and light a crossing.
+   Timing is FELT, not fast — reading + emotional dwell. His looping song plays
+   overhead; the ring breathes with it and the valley breathes too. Only the
+   exp−log X. Anonymous. No CDNs, no images — nothing to leak. Reduced-motion is law.
+   ─────────────────────────────────────────────────────────────────────────────
+   NOTE (Star's gate): assets/alabora.mp3 is a LOCAL PREVIEW so we can feel the
+   vision. Public embedding of a copyrighted track needs a license — that's Star's
+   call, not something "attribution" alone clears. */
+@font-face{font-family:'Space Grotesk';font-weight:300 700;font-display:swap;src:url(fonts/space-grotesk.woff2) format('woff2')}
+@font-face{font-family:'EB Garamond';font-weight:400 600;font-display:swap;src:url(fonts/eb-garamond.woff2) format('woff2')}
 @font-face{font-family:'EB Garamond';font-style:italic;font-weight:400 600;font-display:swap;src:url(fonts/eb-garamond-italic.woff2) format('woff2')}
-
 :root{
-  --space:#05070f; --space-2:#080b18; --night:#0c1223; --deep:#040610;
-  --starlight:#eef2fb; --ivory:#dbe3f2; --muted:#8a95ad; --faint:#5b6478;
-  --pale:#8fb8de; --pale-2:#a9cbe9; --pale-soft:rgba(143,184,222,.5);
+  --space:#05070f; --deep:#040610; --starlight:#eef2fb; --ivory:#dbe3f2;
+  --muted:#8a95ad; --faint:#5b6478; --pale:#8fb8de; --pale2:#a9cbe9;
   --gold:#e9c98a; --gold-soft:rgba(233,201,138,.55); --green:#86b48d;
-  --line:rgba(222,232,248,.09); --line-2:rgba(222,232,248,.045);
   --serif:'EB Garamond',Georgia,'Times New Roman',serif;
   --sans:'Space Grotesk',ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --gut:clamp(1.4rem,5vw,4rem); --mw:66rem;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{font-size:clamp(1rem,.92rem + .4vw,1.28rem);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{
-  font-family:var(--sans);color:var(--ivory);background:var(--space);line-height:1.7;
-  overflow-x:hidden;-webkit-font-smoothing:antialiased;
-  background:
-    radial-gradient(120% 80% at 50% -20%, rgba(143,184,222,.10), transparent 60%),
-    radial-gradient(90% 60% at 82% 4%, rgba(233,201,138,.05), transparent 62%),
-    radial-gradient(140% 130% at 50% 118%, rgba(12,18,35,.9), transparent 55%),
-    linear-gradient(180deg, var(--space) 0%, var(--deep) 55%, #02030a 100%);
-  background-attachment:fixed;
-}
-::selection{background:var(--pale);color:#04060e}
-a{color:var(--pale-2);text-decoration:none}
-h1,h2,h3{text-wrap:balance;font-weight:400}
-em,i{font-style:italic}
-.serif{font-family:var(--serif)}
+html,body{height:100%}
+body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow:hidden;-webkit-font-smoothing:antialiased}
+.hero{position:relative;width:100%;height:100svh;overflow:hidden;background:#04060e}
+#sky{position:absolute;inset:0;z-index:1;display:block;touch-action:manipulation}
 
-/* ── starfield + grain overlays ─────────────────────────────────────────────── */
-#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.vignette{position:fixed;inset:0;z-index:55;pointer-events:none;box-shadow:inset 0 0 16rem 3rem rgba(2,3,8,.85), inset 0 0 7rem rgba(2,3,8,.5)}
-
-/* ── the mark: exponential takeoff crossing a grounded pyramid (hidden A) ────── */
-.xmark{display:inline-block;vertical-align:middle;line-height:0}
+/* the tuned mark */
+.xmark{display:inline-block;vertical-align:-.14em;line-height:0}
 .xmark svg{display:block;height:1em;width:auto;overflow:visible}
 .xmark .yin{stroke:url(#yn);stroke-width:6.4;stroke-linecap:round;fill:none;opacity:.95}
-.xmark .yang{stroke:url(#yg);stroke-width:7.6;stroke-linecap:round;fill:none;
-  filter:drop-shadow(0 0 .5rem rgba(233,201,138,.5))}
+.xmark .yang{stroke:url(#yg);stroke-width:7.6;stroke-linecap:round;fill:none;filter:drop-shadow(0 0 .5rem rgba(233,201,138,.5))}
 
-/* ── nav ────────────────────────────────────────────────────────────────────── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
-  padding:1.15rem var(--gut);transition:background .5s,backdrop-filter .5s,padding .5s,border-color .5s;border-bottom:1px solid transparent}
-nav.scrolled{background:rgba(6,9,17,.72);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);
-  border-bottom:1px solid var(--line);padding-top:.8rem;padding-bottom:.8rem}
-.brand{display:inline-flex;align-items:center;gap:.5em;font-family:var(--serif);font-size:1.28rem;letter-spacing:.02em;color:var(--starlight)}
-.brand .xmark{font-size:1.15rem}
-.brand b{font-weight:600}
-nav .right{display:flex;align-items:center;gap:1.7rem}
-.navlink{font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:color .3s}
-.navlink:hover{color:var(--starlight)}
-.follow{font-size:.66rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--starlight);
-  border:1px solid var(--pale-soft);border-radius:999px;padding:.62rem 1.2rem;transition:border-color .3s,box-shadow .3s,background .3s}
-.follow:hover{border-color:var(--pale);box-shadow:0 0 2.2rem rgba(143,184,222,.35);background:rgba(143,184,222,.06)}
-@media(max-width:54rem){.navlink{display:none}}
+/* brand */
+.brand{position:absolute;top:1.15rem;left:clamp(1.2rem,4vw,2.6rem);z-index:6;display:inline-flex;align-items:center;gap:.5em;
+  font-family:var(--serif);font-size:1.2rem;letter-spacing:.02em;color:var(--starlight);opacity:.9}
+.brand .xmark{font-size:1.1rem}.brand b{font-weight:600}
 
-/* ── hero ───────────────────────────────────────────────────────────────────── */
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:0;z-index:2;overflow:hidden}
-/* the hero is the film — a full-bleed, isolated iframe (its own starfield, no collision with #stars) */
-.filmframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;z-index:2;background:var(--space)}
-.hero .scrollcue{z-index:3}
+/* the text stage — beats crossfade by phase */
+.stage{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 clamp(1.4rem,6vw,3rem);pointer-events:none}
+.beat{position:absolute;max-width:30ch;opacity:0;transform:translateY(14px);
+  transition:opacity 1.5s cubic-bezier(.2,.7,.2,1),transform 1.5s cubic-bezier(.2,.7,.2,1)}
+.beat h1{font-family:var(--serif);font-weight:400;font-size:clamp(1.9rem,5.2vw,3.4rem);line-height:1.18;color:var(--starlight)}
+.beat p{font-family:var(--serif);font-size:clamp(1.05rem,2.5vw,1.45rem);line-height:1.55;color:var(--ivory);margin-top:1.1rem}
+.beat .pre{font-style:italic;color:var(--pale2);margin:0 0 .6rem;font-size:clamp(1rem,2.2vw,1.3rem)}
+.beat em{font-style:italic;color:var(--pale2)}
+/* the opening beat sits LOW, clear of the mote (Star #95: text was blocking the dot) */
+.b-space{top:auto;bottom:10vh;max-width:24ch}
+.b-space h1{font-size:clamp(1.6rem,4.4vw,2.8rem)}
+.b-valley{max-width:27ch}
+.b-valley h1{font-size:clamp(1.35rem,3.3vw,2.15rem);line-height:1.3}
+.hero[data-phase="0"] .b-space,
+.hero[data-phase="1"] .b-fall,
+.hero[data-phase="2"] .b-valley,
+.hero[data-phase="3"] .b-invite{opacity:1;transform:none}
+.hero.lit .stage{opacity:0;transition:opacity 1s ease;pointer-events:none}
 
-/* ── sections ───────────────────────────────────────────────────────────────── */
-section{position:relative;z-index:2;padding:clamp(5rem,12vw,9rem) var(--gut)}
-.wrap{max-width:var(--mw);margin:0 auto}
-.kicker{font-size:.66rem;font-weight:600;letter-spacing:.34em;text-transform:uppercase;color:var(--pale);margin-bottom:1.6rem}
-.big{font-family:var(--serif);font-size:clamp(2rem,5vw,3.4rem);line-height:1.16;color:var(--starlight);max-width:20ch}
-.big .g{color:var(--gold)}
-.lede{font-family:var(--serif);font-size:clamp(1.15rem,2.4vw,1.5rem);line-height:1.6;color:var(--ivory);max-width:44ch;margin-top:1.8rem}
-.body{max-width:40ch;margin-top:1.6rem;color:var(--muted);font-size:1rem}
-.body strong{color:var(--ivory);font-weight:500}
+/* the invite + tap cue */
+.b-invite h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,4vw,2.5rem);line-height:1.2;color:var(--starlight)}
+.tapcue{margin-top:1.9rem;pointer-events:auto;cursor:pointer;font-family:var(--sans);font-size:.7rem;font-weight:600;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--gold);background:transparent;border:1px solid var(--gold-soft);
+  border-radius:999px;padding:.8rem 1.5rem;transition:box-shadow .4s,background .4s,border-color .4s;animation:pulse 3.2s ease-in-out infinite}
+.tapcue:hover{background:rgba(233,201,138,.07);border-color:var(--gold);box-shadow:0 0 2.4rem rgba(233,201,138,.28)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(233,201,138,.0)}50%{box-shadow:0 0 2.2rem 0 rgba(233,201,138,.22)}}
 
-/* the scroll IS the zoom — space-black at the top, earth-gold as you descend */
-#overture{background:radial-gradient(120% 80% at 50% -8%, rgba(143,184,222,.06), transparent 58%)}
-#about{background:radial-gradient(125% 95% at 50% 2%, rgba(134,180,141,.05), transparent 62%)}
-#mark{background:radial-gradient(110% 95% at 50% 42%, rgba(233,201,138,.05), rgba(134,180,141,.028) 46%, transparent 72%)}
-#happening{background:radial-gradient(125% 100% at 50% 46%, rgba(233,201,138,.075), rgba(134,180,141,.035) 40%, transparent 74%)}
-#follow{background:radial-gradient(92% 100% at 50% 52%, rgba(233,201,138,.12), rgba(233,201,138,.03) 44%, transparent 72%)}
+/* the crossing flourish */
+.xlabel{position:absolute;z-index:5;font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--gold);
+  pointer-events:none;opacity:0;transform:translate(-50%,0);white-space:nowrap;text-shadow:0 0 1.2rem rgba(233,201,138,.6)}
+.xlabel.go{animation:rise 1.8s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes rise{0%{opacity:0;transform:translate(-50%,6px)}22%{opacity:1}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-22px)}}
 
-/* ── the overture — the Pale Blue Dot, in words (the film's afterglow) ───────── */
-.overture{text-align:center}
-.overture .wrap{max-width:52rem}
-.dot-echo{width:.5rem;height:.5rem;border-radius:50%;margin:0 auto clamp(2rem,5vw,3.2rem);
-  background:radial-gradient(circle at 38% 34%, #cfe3f6, var(--pale) 46%, #4f7fac 90%);
-  box-shadow:0 0 .5rem 1px rgba(143,184,222,.85),0 0 2.4rem 2px rgba(143,184,222,.42),0 0 5rem 4px rgba(143,184,222,.18);
-  animation:breathe 6.5s ease-in-out infinite}
-@keyframes breathe{0%,100%{box-shadow:0 0 .5rem 1px rgba(143,184,222,.85),0 0 2.4rem 2px rgba(143,184,222,.42),0 0 5rem 4px rgba(143,184,222,.18)}
-  50%{box-shadow:0 0 .55rem 1px rgba(143,184,222,1),0 0 2.9rem 3px rgba(143,184,222,.56),0 0 6.5rem 5px rgba(143,184,222,.26)}}
-@media(prefers-reduced-motion:reduce){.dot-echo{animation:none}}
-.saganbody{font-family:var(--serif);font-size:clamp(1.35rem,3.1vw,2.1rem);line-height:1.42;color:var(--starlight);max-width:30ch;margin:0 auto}
-.saganbody + .saganbody{margin-top:1.5rem}
-.saganbody em{color:var(--pale-2)}
-.turn{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.3vw,1.5rem);line-height:1.5;
-  color:var(--gold);max-width:38ch;margin:clamp(2.4rem,5vw,3.4rem) auto 0}
+/* the resolve — appears once the first crossing is lit */
+.resolve{position:absolute;left:0;right:0;bottom:clamp(2.2rem,7vh,4.5rem);z-index:6;text-align:center;
+  padding:0 1.4rem;opacity:0;transform:translateY(16px);transition:opacity 1.2s ease 1s,transform 1.2s ease 1s;pointer-events:none}
+.hero.lit .resolve{opacity:1;transform:none;pointer-events:auto}
+.wordmark{display:block;max-width:100%;margin:0 auto;text-align:center;
+  font-family:var(--serif);font-size:clamp(1.2rem,3.4vw,2rem);color:var(--starlight);letter-spacing:.01em;line-height:1.16}
+.wordmark .xmark{font-size:clamp(1.15rem,3.2vw,1.8rem);margin-right:.2em}
+.keys{font-family:var(--serif);font-style:italic;font-size:clamp(.98rem,3.4vw,1.3rem);color:var(--gold);margin:.7rem auto 0;
+  max-width:28ch;line-height:1.4}
+.follow{display:inline-flex;align-items:center;gap:.5em;margin-top:1.4rem;font-size:.68rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:#04060e;background:linear-gradient(120deg,var(--pale2),var(--pale));border-radius:999px;
+  padding:.85rem 1.7rem;text-decoration:none;transition:box-shadow .4s,transform .4s}
+.follow:hover{box-shadow:0 0 2.6rem rgba(143,184,222,.5);transform:translateY(-2px)}
 
-/* the moments — sparks */
-.sparks{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.4rem;max-width:46rem}
-.spark{font-size:.72rem;letter-spacing:.06em;color:var(--ivory);border:1px solid var(--line);border-radius:999px;
-  padding:.55rem 1.05rem;background:rgba(143,184,222,.03);transition:border-color .3s,color .3s,background .3s}
-.spark:hover{border-color:var(--pale-soft);color:var(--starlight);background:rgba(143,184,222,.07)}
-.spark .d{display:inline-block;width:.32rem;height:.32rem;border-radius:50%;background:var(--gold);margin-right:.6em;vertical-align:middle;box-shadow:0 0 .5rem var(--gold)}
+/* honest counter */
+.counter{position:absolute;top:1.25rem;right:clamp(1.2rem,4vw,2.6rem);z-index:6;font-size:.62rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);opacity:0;transition:opacity .8s ease}
+.hero.lit .counter{opacity:1}
+.counter b{color:var(--gold);font-weight:600}
 
-/* ── the mark — the idea, and the X drawn large ─────────────────────────────── */
-.markrow{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(2rem,6vw,5rem);align-items:center;margin-top:clamp(2.8rem,6vw,4.4rem)}
-.markrow .glyph{display:flex;justify-content:center;align-items:center}
-.markrow .glyph .xmark{font-size:clamp(7rem,19vw,13rem)}
-.markrow .passage{font-family:var(--serif);font-size:clamp(1.1rem,2.1vw,1.4rem);line-height:1.56;color:var(--ivory)}
-.markrow .passage p + p{margin-top:1.2rem}
-.markrow .passage .g{color:var(--gold);font-style:italic}
-@media(max-width:48rem){.markrow{grid-template-columns:1fr;gap:2.2rem}.markrow .glyph .xmark{font-size:clamp(6rem,32vw,9rem)}}
+/* ── the vibey player — a little glass capsule; its ring breathes with the song ── */
+.player{position:absolute;left:clamp(1rem,4vw,2.4rem);bottom:clamp(1.1rem,4vh,2.2rem);z-index:8;
+  display:flex;align-items:center;gap:.7rem;padding:.42rem .95rem .42rem .42rem;
+  background:rgba(9,12,20,.42);backdrop-filter:blur(11px);-webkit-backdrop-filter:blur(11px);
+  border:1px solid rgba(233,201,138,.18);border-radius:999px;pointer-events:auto;cursor:default;
+  opacity:0;transform:translateY(10px);transition:opacity 1.3s ease,transform 1.3s ease;
+  box-shadow:0 8px 34px rgba(0,0,0,.4)}
+.player.show{opacity:1;transform:none}
+.pp{position:relative;width:44px;height:44px;flex:0 0 44px;border:0;background:transparent;cursor:pointer;border-radius:50%;padding:0}
+.pp .ring{position:absolute;inset:0;transform:rotate(-90deg)}
+.pp .rbg{fill:none;stroke:rgba(233,201,138,.16);stroke-width:2}
+.pp .rfg{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-dasharray:119.38;stroke-dashoffset:119.38;
+  filter:drop-shadow(0 0 3px rgba(233,201,138,.55))}
+.pp .ico{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.82rem;
+  color:var(--gold);letter-spacing:.06em;text-shadow:0 0 calc(4px + var(--lvl,0)*14px) rgba(233,201,138,calc(.35 + var(--lvl,0)*.5))}
+.pp::after{content:"";position:absolute;inset:-3px;border-radius:50%;pointer-events:none;
+  box-shadow:0 0 calc(5px + var(--lvl,0)*30px) rgba(233,201,138,calc(.12 + var(--lvl,0)*.55))}
+.pp.paused .ico{animation:ppp 2.6s ease-in-out infinite}
+@keyframes ppp{0%,100%{opacity:.72}50%{opacity:1}}
+.player .meta{font-family:var(--serif);line-height:1.22;color:var(--ivory)}
+.player .tt{font-size:.92rem;letter-spacing:.01em;white-space:nowrap}
+.player .tt em{font-style:italic;color:var(--pale2);font-size:.82rem}
+.player .ar{font-size:.71rem;color:var(--muted);margin-top:.05rem;white-space:nowrap}
+.player .src{color:var(--faint);cursor:help;text-decoration:underline dotted;text-underline-offset:2px}
+@media(max-width:540px){.player{gap:.55rem;padding:.4rem .7rem .4rem .4rem}.player .meta{max-width:46vw}
+  .player .tt,.player .ar{overflow:hidden;text-overflow:ellipsis}}
+@media(max-width:560px){.resolve{bottom:clamp(6.2rem,18vh,8.5rem)}
+  .counter{font-size:.56rem;letter-spacing:.12em;right:1rem}
+  .b-space{bottom:8vh}}
 
-/* the hearth — three tenets */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:clamp(1.4rem,3vw,2.6rem);margin-top:3.2rem}
-.card{border-top:1px solid var(--line);padding-top:1.6rem}
-.card .n{font-family:var(--serif);font-size:.9rem;color:var(--pale);letter-spacing:.1em}
-.card h3{font-family:var(--serif);font-size:1.4rem;color:var(--starlight);margin:.7rem 0 .8rem}
-.card p{font-size:.92rem;color:var(--muted)}
-
-/* ── what's happening — the five verticals ──────────────────────────────────── */
-.verticals{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:clamp(1rem,2.2vw,1.6rem);margin-top:2.8rem}
-.vert{border:1px solid var(--line);border-radius:.9rem;padding:1.5rem 1.4rem;background:rgba(233,201,138,.022);
-  transition:border-color .35s,background .35s,transform .35s}
-.vert:hover{border-color:var(--gold-soft);background:rgba(233,201,138,.05);transform:translateY(-3px)}
-.vert h3{font-family:var(--serif);font-size:1.24rem;color:var(--starlight);margin-bottom:.5rem}
-.vert p{font-size:.86rem;color:var(--muted);line-height:1.5}
-.soon-line{margin-top:2.4rem;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
-
-/* the call */
-.call{text-align:center}
-.call .big{margin:0 auto;max-width:24ch}
-.call .lede{margin-left:auto;margin-right:auto;text-align:center;color:var(--ivory);max-width:40ch}
-.cta{display:inline-flex;align-items:center;gap:.7em;margin-top:2.8rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:#04060e;background:linear-gradient(120deg,var(--pale-2),var(--pale));border-radius:999px;
-  padding:.95rem 1.9rem;transition:box-shadow .35s,transform .35s}
-.cta:hover{box-shadow:0 0 2.6rem rgba(143,184,222,.5);transform:translateY(-2px)}
-
-/* scroll cue + divider hairline of stars */
-.scrollcue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);z-index:2;font-size:.6rem;letter-spacing:.34em;
-  text-transform:uppercase;color:var(--faint);display:flex;flex-direction:column;align-items:center;gap:.7rem}
-.scrollcue .rail{width:1px;height:2.4rem;background:linear-gradient(var(--pale-soft),transparent);animation:drop 2.4s ease-in-out infinite}
-@keyframes drop{0%,100%{opacity:.3;transform:scaleY(.7);transform-origin:top}50%{opacity:1;transform:scaleY(1)}}
-@media(prefers-reduced-motion:reduce){.scrollcue .rail{animation:none}}
-.hr{height:1px;max-width:var(--mw);margin:0 auto;background:linear-gradient(90deg,transparent,var(--line),transparent)}
-
-/* ── footer — anonymous ─────────────────────────────────────────────────────── */
-footer{position:relative;z-index:2;padding:clamp(4rem,9vw,6rem) var(--gut) 3.4rem;text-align:center}
-footer .xmark{font-size:1.8rem}
-.credo{font-family:var(--serif);font-style:italic;font-size:1.08rem;line-height:1.6;color:var(--muted);margin:1.4rem auto 0;max-width:34ch}
-.foot-follow{margin-top:2.2rem;display:inline-flex;align-items:center;gap:.6em;font-size:.68rem;font-weight:600;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--starlight);border:1px solid var(--pale-soft);border-radius:999px;padding:.7rem 1.4rem;transition:border-color .3s,box-shadow .3s}
-.foot-follow:hover{border-color:var(--pale);box-shadow:0 0 2rem rgba(143,184,222,.35)}
-.fineprint{margin-top:2.6rem;font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
-
-/* ── reveal ─────────────────────────────────────────────────────────────────── */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity 1.1s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+/* grain + vignette (site tokens) */
+.grain{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:absolute;inset:0;z-index:7;pointer-events:none;box-shadow:inset 0 0 16rem 3rem rgba(2,3,8,.7),inset 0 0 7rem rgba(2,3,8,.45)}
+@media(prefers-reduced-motion:reduce){.tapcue{animation:none}.pp.paused .ico{animation:none}}
+.hero.still *{transition:none!important;animation:none!important}
 </style>
 </head>
 <body>
-<canvas id="stars"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="yg" x1="0" y1="1" x2="1" y2="0">
+    <stop offset="0" stop-color="#c79a4e"/><stop offset=".5" stop-color="#e9c98a"/><stop offset="1" stop-color="#fff3d8"/>
+  </linearGradient>
+  <linearGradient id="yn" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#bcd7ef"/><stop offset="1" stop-color="#6f9bc4"/>
+  </linearGradient>
+  <g id="maxx">
+    <path class="yin"  d="M10 26 C 30 52, 44 62, 92 70"/>
+    <path class="yang" d="M12 88 C 40 84, 58 60, 94 6"/>
+  </g>
+</defs></svg>
 
-<!-- the mark, defined once (gradient) then referenced by <use> -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <linearGradient id="yg" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0" stop-color="#c79a4e"/><stop offset=".5" stop-color="#e9c98a"/><stop offset="1" stop-color="#fff3d8"/>
-    </linearGradient>
-    <linearGradient id="yn" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#bcd7ef"/><stop offset="1" stop-color="#6f9bc4"/>
-    </linearGradient>
-    <g id="maxx">
-      <!-- THE X — yang: an organic exponential, low-start, compounding up-and-right · yin: a natural log,
-           settling into rest. They cross once, just left of centre, so the gold ascent owns the sky. exp−log. -->
-      <path class="yin"  d="M10 26 C 30 52, 44 62, 92 70"/>
-      <path class="yang" d="M12 88 C 40 84, 58 60, 94 6"/>
-    </g>
-  </defs>
-</svg>
+<header class="hero" id="hero" data-phase="0">
+  <canvas id="sky" aria-hidden="true"></canvas>
 
-<nav id="nav">
-  <a class="brand" href="#top"><span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span> <b>MAX</b></a>
-  <div class="right">
-    <a class="navlink" href="#about">About Austin</a>
-    <a class="navlink" href="#happening">What's Happening</a>
-    <a class="follow" href="#follow">Follow us</a>
+  <a class="brand" href="#"><span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span> <b>MAX</b></a>
+  <div class="counter" aria-live="polite"><b id="ct">0</b> lights lit here</div>
+
+  <div class="stage" aria-hidden="false">
+    <div class="beat b-space">
+      <h1>Look again at that dot.</h1>
+      <p>Everyone you love is on it. Every stranger you're about to love is on it too.</p>
+    </div>
+    <div class="beat b-fall">
+      <h1>Now fall toward the light.</h1>
+    </div>
+    <div class="beat b-valley">
+      <p class="pre">Those aren't stars.</p>
+      <h1>They're people — thousands, already extraordinary. And someone you were meant to meet is already here.</h1>
+    </div>
+    <div class="beat b-invite">
+      <h2>One of these lights is about to be you.</h2>
+      <button class="tapcue" id="tapcue" type="button">tap the dark</button>
+    </div>
   </div>
-</nav>
 
-<!-- ── HERO — the film ──────────────────────────────────────────────────────── -->
-<header class="hero" id="top">
-  <iframe class="filmframe" src="film.html" title="Make Austin Extraordinary — the film" scrolling="no" loading="eager"></iframe>
-  <div class="scrollcue" aria-hidden="true"><span class="rail"></span>Look closer</div>
+  <div class="resolve" id="resolve">
+    <div class="wordmark"><span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span> Make Austin Extraordinary</div>
+    <p class="keys">You hold the keys to the future. Now is the time.</p>
+    <a class="follow" href="#" id="follow">Follow us <span class="xmark" style="font-size:1rem"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span></a>
+  </div>
+
+  <div class="player paused" id="player" aria-label="Music">
+    <button class="pp paused" id="pp" type="button" aria-label="Play the overture">
+      <svg class="ring" viewBox="0 0 44 44" aria-hidden="true">
+        <circle class="rbg" cx="22" cy="22" r="19"></circle>
+        <circle class="rfg" id="prog" cx="22" cy="22" r="19"></circle>
+      </svg>
+      <span class="ico" id="ico">&#9654;</span>
+    </button>
+    <div class="meta">
+      <div class="tt">Alabora <em>&middot; Pale Blue remix</em></div>
+      <div class="ar">Beyhude &middot; Foxall <span class="src" title="Local preview so we can feel the vision. Public use needs licensing — Star's call.">rmx &#9432;</span></div>
+    </div>
+  </div>
+
+  <audio id="track" src="assets/alabora.mp3" loop preload="auto"></audio>
+
+  <div class="grain"></div>
+  <div class="vignette"></div>
 </header>
 
-<!-- ── THE PALE BLUE DOT — the overture (the film's afterglow, in words) ─────── -->
-<section id="overture" class="overture">
-  <div class="wrap">
-    <div class="dot-echo reveal" aria-hidden="true"></div>
-    <div class="kicker reveal">A pale blue dot</div>
-    <p class="saganbody reveal">Look again at that dot. That's here. That's home. That's everyone you have ever loved — every maker and dreamer, every stranger you were about to meet — on a mote of dust, suspended in a sunbeam.</p>
-    <p class="saganbody reveal">Now look closer. One of those motes has a name. It has a green river, and a range of low gold hills, and a strange bright gravity that has been pulling the extraordinary toward it for fifty years.</p>
-    <p class="turn reveal">From every coast and across the oceans, they keep arriving — drawn as if by a quiet gravity toward one bend in one warm river, to build a life among strangers who do not stay strangers for long.</p>
-  </div>
-</section>
-
-<div class="hr"></div>
-
-<!-- ── ABOUT AUSTIN — the story ─────────────────────────────────────────────── -->
-<section id="about">
-  <div class="wrap">
-    <div class="kicker reveal">About Austin</div>
-    <h2 class="big reveal">Austin is the after-party <span class="g">the world drove to.</span></h2>
-    <p class="lede reveal">For half a century the extraordinary have arrived here — the musicians and the builders, the film-makers and the founders, everyone quietly finished with the ordinary. Austin has always had the <em>sparks</em>.</p>
-    <div class="sparks reveal" aria-label="Austin's moments">
-      <span class="spark"><span class="d"></span>Armadillo World HQ, '72</span>
-      <span class="spark"><span class="d"></span>Liberty Lunch, the loud years</span>
-      <span class="spark"><span class="d"></span><em>Slacker</em>, and the indie dawn</span>
-      <span class="spark"><span class="d"></span>Austin City Limits</span>
-      <span class="spark"><span class="d"></span>Barton Springs &amp; the commons</span>
-      <span class="spark"><span class="d"></span>The arrivals — Tesla, Rogan, Franklin</span>
-    </div>
-    <p class="body reveal">A spark becomes a fire only when it has a <strong>hearth</strong> — a room where genius can catch, and gather, and stay. That has always been the one thing the sparks were missing: not more brilliance, but a place to keep it. The third places. The salons. The long tables and the late rooms. The topsoil a scene grows in. Extraordinary was never a memory to look back on. It is a <strong>state</strong> — and a state is built.</p>
-  </div>
-</section>
-
-<div class="hr"></div>
-
-<!-- ── THE MARK — the idea, and the X ───────────────────────────────────────── -->
-<section id="mark">
-  <div class="wrap">
-    <div class="kicker reveal">The idea</div>
-    <h2 class="big reveal">Not a chamber of commerce. <span class="g">A chamber of culture.</span></h2>
-    <p class="lede reveal">One movement to lay the fire — to gather the makers, build the rooms, and give a city's people a hearth worthy of them. The architecture of belonging.</p>
-    <div class="markrow">
-      <div class="glyph reveal"><span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span></div>
-      <div class="passage reveal">
-        <p>Our mark is a single ✕ — two curves that cross once. One reaches: the line that will not be satisfied, that doubles and redoubles and strains toward the takeoff. One rests: the long, steady curve of the earth, of nature, of an unhurried hand at the end of the day.</p>
-        <p>A great city is neither the pure reaching nor the pure resting. It is <span class="g">the difference between them</span> — the narrow, luminous band where a life is actually lived.</p>
-      </div>
-    </div>
-    <div class="grid">
-      <div class="card reveal"><div class="n">i.</div><h3>Gather the makers</h3><p>The hosts and the venue-keepers, the artists and the builders — scattered brilliance, woven into a guild that holds together.</p></div>
-      <div class="card reveal"><div class="n">ii.</div><h3>Build the third places</h3><p>The recurring rooms a culture grows in — salons, stages, long tables, late nights. The infrastructure of a scene that lasts.</p></div>
-      <div class="card reveal"><div class="n">iii.</div><h3>Circulate the good</h3><p>Be the trusted ground where a city's generosity meets the makers who make it luminous. Given, and given again.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="hr"></div>
-
-<!-- ── WHAT'S HAPPENING IN AUSTIN — the dispatches ──────────────────────────── -->
-<section id="happening">
-  <div class="wrap">
-    <div class="kicker reveal">What's Happening in Austin</div>
-    <h2 class="big reveal">We tell the story of <span class="g">who's making Austin extraordinary.</span></h2>
-    <p class="lede reveal">The companies rising and the givers building. The rooms opening and the nights worth showing up for. The people who moved here from everywhere and decided to make something that lasts — noticed, celebrated, and kept, through one shared lens. This is the pitch-book you send a friend who's thinking of moving here.</p>
-    <div class="verticals">
-      <div class="vert reveal"><h3>The Makers</h3><p>The companies building the future from here.</p></div>
-      <div class="vert reveal"><h3>The Rooms</h3><p>New spaces, stages, and the projects remaking the city.</p></div>
-      <div class="vert reveal"><h3>The Nights</h3><p>What's on, who's playing, where to be.</p></div>
-      <div class="vert reveal"><h3>The Givers</h3><p>Generosity done right, and where it lands.</p></div>
-      <div class="vert reveal"><h3>The Voices</h3><p>Austin's next generation, in their own words.</p></div>
-    </div>
-    <p class="soon-line reveal">The first dispatches are on their way.</p>
-  </div>
-</section>
-
-<div class="hr"></div>
-
-<!-- ── THE CALL — the invitation ────────────────────────────────────────────── -->
-<section id="follow" class="call">
-  <div class="wrap">
-    <h2 class="big reveal">You hold the keys <span class="g">to the future.</span></h2>
-    <p class="lede reveal">You are here, on this one bright dot, at exactly the right time. You can make a difference. Now is the time to make Austin extraordinary.</p>
-    <a class="cta reveal" href="https://x.com" target="_blank" rel="noopener">Follow us
-      <span class="xmark" style="font-size:1.1rem"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span></a>
-  </div>
-</section>
-
-<!-- ── FOOTER — anonymous, and the Law ──────────────────────────────────────── -->
-<footer>
-  <span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span>
-  <p class="credo">The power of a symbol is greater than the power of a person. This is a movement, not a name — you will never be asked to join, only to <em>build</em>.</p>
-  <a class="foot-follow" href="https://x.com" target="_blank" rel="noopener">Follow us</a>
-  <div class="fineprint">Make Austin Extraordinary · MAX</div>
-</footer>
-
-<div class="grain"></div>
-<div class="vignette"></div>
-
 <script>
-/* ── starfield: gentle drift, soft twinkle, never a flash ──────────────────── */
 (function(){
-  const c=document.getElementById('stars'),x=c.getContext('2d');
+  const hero=document.getElementById('hero');
+  const canvas=document.getElementById('sky');
+  const ctx=canvas.getContext('2d');
+  const ctEl=document.getElementById('ct');
+  const player=document.getElementById('player');
+  const pp=document.getElementById('pp');
+  const ico=document.getElementById('ico');
+  const prog=document.getElementById('prog');
+  const audio=document.getElementById('track');
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  let w,h,stars=[],raf;
-  function size(){w=c.width=innerWidth*devicePixelRatio;h=c.height=innerHeight*devicePixelRatio;build()}
-  function build(){
-    const n=Math.min(220,Math.round(w*h/26000/devicePixelRatio));
-    stars=Array.from({length:n},()=>({
-      x:Math.random()*w,y:Math.random()*h,
-      r:(Math.random()*1.1+.25)*devicePixelRatio,
-      a:Math.random()*.6+.2, tw:Math.random()*.008+.002, dir:Math.random()<.5?1:-1,
-      vy:(Math.random()*.02+.01)*devicePixelRatio,
-      pale:Math.random()<.22
-    }));
-  }
-  function frame(){
-    x.clearRect(0,0,w,h);
-    for(const s of stars){
-      if(!reduce){ s.a+=s.tw*s.dir; if(s.a>.85||s.a<.15) s.dir*=-1; s.y+=s.vy; if(s.y>h) s.y=0; }
-      x.beginPath();x.arc(s.x,s.y,s.r,0,6.283);
-      x.fillStyle= s.pale ? 'rgba(169,203,233,'+s.a+')' : 'rgba(238,242,251,'+s.a+')';
-      x.shadowBlur=s.pale?6*devicePixelRatio:0; x.shadowColor='rgba(143,184,222,.6)';
-      x.fill();
+  const DPR=Math.min(window.devicePixelRatio||1,2);
+  const params=new URLSearchParams(location.search);
+  const STATIC=reduce||params.has('still')||params.has('p');
+
+  let W=0,H=0,stars=[],lights=[],cityfield=[],crossings=[],count=0,phase=-1;
+  let J=reduce?1:0,audioLevel=0,playing=false,actx=null,analyser=null,tdata=null,raf=null;
+  let audioEver=false,doneLatch=false,wallStart=null;   // the descent is LOCKED to the song
+
+  const clamp01=v=>v<0?0:v>1?1:v;
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const smooth=(v,e0,e1)=>{const t=clamp01((v-e0)/(e1-e0));return t*t*(3-2*t);};
+  const easeOut=t=>1-Math.pow(1-t,3);
+  const easeIn=t=>t*t;
+  // a crossfade window: fades in across [z0,z1], holds, fades out across [z2,z3]
+  const win=(v,z0,z1,z2,z3)=>smooth(v,z0,z1)*(1-smooth(v,z2,z3));
+
+  // ── the journey → J(0..1): the Powers-of-Ten descent, LOCKED TO THE SONG. t is song-time
+  //    (audio.currentTime), so every cinematic beat lands on a real musical swell:
+  //    0–1.8s the silent intro holds on the dot · ~2s the melody blooms and Earth appears ·
+  //    ~10s the breath-dip → we plunge to the night side · 11–16s swells drive the dive to
+  //    Austin · ~19s the big drop → the valley breaks open · ~20s swell → the lights bloom.
+  const KEYS=[[0,0],[1.8,0.05],[2.6,0.20],[10.0,0.52],[13.0,0.64],[16.5,0.80],[19.2,0.90],[21.5,1.0]];
+  function journey(t){
+    if(t<=0)return 0;
+    for(let i=1;i<KEYS.length;i++){
+      const a=KEYS[i-1],b=KEYS[i];
+      if(t<=b[0])return lerp(a[1],b[1],smooth(t,a[0],b[0]));
     }
-    x.shadowBlur=0;
-    if(!reduce) raf=requestAnimationFrame(frame);
+    return 1;
   }
-  addEventListener('resize',size,{passive:true}); size(); frame();
+  const phaseFor=j=>j<0.22?0:j<0.74?1:j<0.90?2:3;
+
+  // the dark river winding through the valley (a city, unnamed) — cross-position by depth
+  const riverU=d=>0.18*Math.sin(d*3.0+0.5)-0.10;
+  const riverHalf=d=>0.05+0.11*d;
+  // fixed city-light specks for Earth's night hemisphere (lower-right) — seed the gold to come
+  const earthLights=[[0.30,0.26,0.9],[0.44,0.10,0.7],[0.22,0.42,0.8],[0.50,0.30,0.6],[0.16,0.30,0.7],[0.36,0.48,0.6],[0.28,0.16,0.55],[0.40,0.40,0.65]];
+
+  function buildStars(){
+    const n=Math.min(150,Math.round(W*H/12000));
+    stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.0+0.3,
+      a:Math.random()*0.5+0.15,tw:Math.random()*0.008+0.002,dir:Math.random()<0.5?1:-1,pale:Math.random()<0.25}));
+  }
+  // the Austin valley (arrival) — perspective: far=small/dim/dense near the horizon, near=large/bright
+  function buildLights(){
+    const n=Math.min(150,Math.round(W*H/9000));
+    lights=[];let g=0;
+    while(lights.length<n&&g++<n*8){
+      const d=Math.pow(Math.random(),0.7);
+      let u;
+      if(Math.random()<0.5)u=-0.12+(Math.random()-0.5)*0.7*(0.5+0.5*d);   // downtown cluster
+      else u=(Math.random()*2-1)*(0.34+0.66*d);                          // the sprawl, wider when near
+      if(Math.abs(u-riverU(d))<riverHalf(d))continue;                    // carve the river
+      lights.push({d,u,r:0.5+d*1.7,baseA:(0.30+0.62*d)*(Math.random()*0.4+0.72),
+        phase:Math.random()*6.28,tw:Math.random()*1.1+0.35,drift:(Math.random()*2-1)*8*d*d,user:false,sx:0,sy:0});
+    }
+  }
+  // the night-lit continent (Black-Marble look): gold clusters on black; Austin at center is our dive target
+  function buildCityfield(){
+    cityfield=[];
+    const metros=[
+      {x:0.50,y:0.50,n:78,s:0.15,core:true},   // AUSTIN — the dive target
+      {x:0.43,y:0.29,n:52,s:0.12},             // Dallas-Fort Worth (NNW)
+      {x:0.62,y:0.67,n:58,s:0.13},             // Houston (SE)
+      {x:0.39,y:0.60,n:38,s:0.10},             // San Antonio (SW)
+      {x:0.72,y:0.44,n:20,s:0.09},             // outliers
+      {x:0.29,y:0.45,n:16,s:0.09},
+      {x:0.58,y:0.20,n:14,s:0.08}
+    ];
+    for(const m of metros){
+      for(let i=0;i<m.n;i++){
+        const a=Math.random()*6.283,rr=Math.pow(Math.random(),0.6)*m.s;
+        cityfield.push({x:m.x+Math.cos(a)*rr,y:m.y+Math.sin(a)*rr*0.92,
+          r:Math.random()*1.3+0.5,a:Math.random()*0.5+0.4,tw:Math.random()*1.2+0.4,ph:Math.random()*6.28,core:!!m.core});
+      }
+    }
+    for(let i=0;i<64;i++)cityfield.push({x:Math.random(),y:Math.random(),r:Math.random()*0.7+0.3,
+      a:Math.random()*0.22+0.08,tw:Math.random()+0.3,ph:Math.random()*6.28,core:false});
+  }
+
+  function size(){
+    W=window.innerWidth;H=window.innerHeight;
+    canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    buildStars();buildLights();buildCityfield();
+  }
+
+  // ── procedural layers ───────────────────────────────────────────────────────
+
+  // A) the pale blue dot — reference grade: indigo→periwinkle sky, a soft sunbeam, ONE clear mote
+  function drawDot(scale,alpha,fx,fy,ts){
+    if(alpha<=0.002)return;
+    ctx.save();ctx.globalAlpha=alpha;
+    ctx.translate(fx,fy);ctx.scale(scale,scale);ctx.translate(-fx,-fy);   // zoom locked on the focus
+    const sky=ctx.createLinearGradient(0,0,W*0.14,H);
+    sky.addColorStop(0,'#070a16');sky.addColorStop(0.38,'#1b2242');sky.addColorStop(0.68,'#39456e');sky.addColorStop(1,'#586490');
+    ctx.fillStyle=sky;ctx.fillRect(-W,-H,W*3,H*3);
+    // the sunbeam — a soft diagonal band of scattered light, threaded through the mote
+    ctx.save();ctx.translate(fx,H*0.5);ctx.rotate(-0.14);
+    const bw=W*0.15;
+    const beam=ctx.createLinearGradient(-bw,0,bw,0);
+    beam.addColorStop(0,'rgba(150,170,214,0)');beam.addColorStop(0.5,'rgba(178,198,238,0.30)');beam.addColorStop(1,'rgba(150,170,214,0)');
+    ctx.fillStyle=beam;ctx.fillRect(-bw,-H,bw*2,H*2.4);
+    ctx.restore();
+    // faint stars (sparse — we're inside the solar system)
+    for(const s of stars){const a=s.a*0.45;ctx.fillStyle='rgba(220,228,244,'+a+')';ctx.beginPath();ctx.arc(s.x,s.y,s.r*0.8,0,6.283);ctx.fill();}
+    // THE mote — drawn AT the focus, so its center pixel stays locked as we zoom in
+    const tw=STATIC?1:(0.84+0.16*Math.sin(ts*0.0016));
+    const glow=ctx.createRadialGradient(fx,fy,0,fx,fy,16);
+    glow.addColorStop(0,'rgba(196,218,246,'+(0.58*tw)+')');
+    glow.addColorStop(0.4,'rgba(150,186,224,'+(0.24*tw)+')');
+    glow.addColorStop(1,'rgba(150,186,224,0)');
+    ctx.fillStyle=glow;ctx.beginPath();ctx.arc(fx,fy,16,0,6.283);ctx.fill();
+    ctx.fillStyle='rgba(226,238,251,'+tw+')';ctx.beginPath();ctx.arc(fx,fy,2.0,0,6.283);ctx.fill();
+    ctx.restore();ctx.globalAlpha=1;
+  }
+
+  // B) Earth — a LIT blue marble: an offset sun-highlight (3D shading), a soft day/night
+  //    TERMINATOR (the thing that reads as a sphere), an atmospheric rim, sphere-mapped
+  //    continents, and a few night-side city lights that seed the gold to come. Lit upper-left.
+  function drawEarth(cx,cy,R,alpha){
+    if(alpha<=0.002||R<=0.4)return;
+    ctx.save();ctx.globalAlpha=alpha;
+    const hx=cx-R*0.32,hy=cy-R*0.36;                 // the sub-solar highlight (toward the light)
+    // 1) ATMOSPHERE — a periwinkle halo matching the dot's exit sky (seamless seam), with a
+    //    brighter breath on the lit limb.
+    const atmo=ctx.createRadialGradient(cx,cy,R*0.82,cx,cy,R*1.28);
+    atmo.addColorStop(0,'rgba(122,146,198,0)');
+    atmo.addColorStop(0.55,'rgba(126,150,200,0.20)');
+    atmo.addColorStop(0.80,'rgba(120,144,196,0.32)');
+    atmo.addColorStop(1,'rgba(110,134,188,0)');
+    ctx.fillStyle=atmo;ctx.beginPath();ctx.arc(cx,cy,R*1.28,0,6.283);ctx.fill();
+    const litHalo=ctx.createRadialGradient(hx,hy,R*0.7,hx,hy,R*1.5);
+    litHalo.addColorStop(0,'rgba(150,182,232,0)');
+    litHalo.addColorStop(0.72,'rgba(150,182,232,0.16)');
+    litHalo.addColorStop(1,'rgba(150,182,232,0)');
+    ctx.fillStyle=litHalo;ctx.beginPath();ctx.arc(cx,cy,R*1.28,0,6.283);ctx.fill();
+    // 2) THE SPHERE — an offset radial gradient reads as a lit ball; the far limb falls to a
+    //    periwinkle-dark so the disc edge melts into the atmosphere (no hard rim, no colour pop).
+    const g=ctx.createRadialGradient(hx,hy,R*0.05,hx,hy,R*1.55);
+    g.addColorStop(0,'#aecfef');g.addColorStop(0.20,'#5f92c8');g.addColorStop(0.42,'#356ba6');
+    g.addColorStop(0.62,'#1f4f85');g.addColorStop(0.80,'#123c68');g.addColorStop(0.93,'#0d2a4f');g.addColorStop(1,'#0b2044');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.fill();
+    ctx.save();ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
+    // 3) CONTINENTS — sphere-mapped: each blob foreshortens toward the limb (z-depth), drawn
+    //    semi-transparent so ocean and the terminator shade show through.
+    const land=[[-0.28,-0.30,0.42,0.30,0.5],[0.14,0.30,0.40,0.30,-0.3],[0.40,-0.18,0.24,0.34,0.7],
+      [-0.10,0.52,0.30,0.18,0.2],[0.30,0.52,0.20,0.16,0.0],[-0.46,0.10,0.20,0.24,0.4],[0.06,-0.04,0.24,0.18,0.5]];
+    for(const c of land){
+      const u=c[0],v=c[1],d=Math.hypot(u,v);if(d>0.97)continue;
+      const z=Math.sqrt(1-d*d);
+      const lx=cx+u*R,ly=cy+v*R;
+      ctx.fillStyle='rgba(84,102,72,0.42)';
+      ctx.beginPath();ctx.ellipse(lx,ly,c[2]*R*0.5*(0.5+0.5*z),c[3]*R*0.5*z,c[4],0,6.283);ctx.fill();
+      ctx.fillStyle='rgba(120,110,74,0.15)';
+      ctx.beginPath();ctx.ellipse(lx,ly,c[2]*R*0.32*(0.5+0.5*z),c[3]*R*0.30*z,c[4],0,6.283);ctx.fill();
+    }
+    // 4) CLOUDS — soft wisps, sphere-mapped; they fade into the night with the terminator
+    ctx.fillStyle='rgba(238,245,255,0.17)';
+    const cloud=[[-0.20,-0.42,0.42,0.13,-0.3],[0.24,0.06,0.50,0.12,0.2],[-0.36,0.28,0.34,0.11,0.5],
+      [0.30,0.42,0.30,0.10,-0.2],[0.00,-0.10,0.30,0.10,0.0]];
+    for(const c of cloud){
+      const u=c[0],v=c[1],d=Math.hypot(u,v);if(d>0.98)continue;
+      const z=Math.sqrt(1-d*d);
+      ctx.beginPath();ctx.ellipse(cx+u*R,cy+v*R,c[2]*R*0.5*(0.5+0.5*z),c[3]*R*0.5*z,c[4],0,6.283);ctx.fill();
+    }
+    // 5) TERMINATOR — darken everything far from the sub-solar point; the soft gradient IS the
+    //    terminator's blur. This is what makes it read as a lit sphere floating in space.
+    const night=ctx.createRadialGradient(hx,hy,R*0.55,hx,hy,R*1.75);
+    night.addColorStop(0,'rgba(6,16,34,0)');night.addColorStop(0.55,'rgba(6,14,30,0)');
+    night.addColorStop(0.80,'rgba(6,12,26,0.58)');night.addColorStop(1,'rgba(5,10,22,0.95)');
+    ctx.fillStyle=night;ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.fill();
+    // 6) NIGHT-SIDE CITY LIGHTS — gold specks on the dark hemisphere, seeding the gold continent
+    if(R>H*0.09){
+      for(const p of earthLights){
+        const u=p[0],v=p[1],d=Math.hypot(u,v);if(d>0.94)continue;
+        const z=Math.sqrt(1-d*d);
+        ctx.fillStyle='rgba(233,201,138,'+(0.55*p[2]).toFixed(3)+')';
+        ctx.beginPath();ctx.arc(cx+u*R,cy+v*R,Math.max(0.6,p[2]*1.3*z),0,6.283);ctx.fill();
+      }
+    }
+    ctx.restore();                                   // unclip
+    // 7) FRESNEL RIM — a thin bright arc on the lit limb (upper-left): a whisper of atmosphere.
+    ctx.lineWidth=Math.max(0.6,R*0.012);
+    ctx.strokeStyle='rgba(176,202,238,0.42)';
+    ctx.beginPath();ctx.arc(cx,cy,R*0.992,Math.PI*0.98,Math.PI*1.58);ctx.stroke();
+    ctx.restore();ctx.globalAlpha=1;
+  }
+
+  // C) the night-lit continent — gold clusters on black, zooming toward Austin at center
+  function drawNightField(scale,alpha,cx,cy,ts){
+    if(alpha<=0.002)return;
+    ctx.save();ctx.globalAlpha=alpha;
+    ctx.fillStyle='#060c18';ctx.fillRect(0,0,W,H);   // navy-black — matches Earth's night limb (seamless)
+    ctx.translate(cx,cy);ctx.scale(scale,scale);
+    const span=Math.max(W,H)*1.3;
+    for(const c of cityfield){
+      const px=(c.x-0.5)*span,py=(c.y-0.5)*span;
+      const tw=STATIC?0.9:(0.7+0.3*Math.sin(ts*0.0012*c.tw+c.ph));
+      let br=c.a*tw;if(br>1)br=1;
+      ctx.beginPath();ctx.arc(px,py,c.r,0,6.283);
+      ctx.fillStyle='rgba(233,201,138,'+br+')';
+      ctx.shadowBlur=c.core?7:4;ctx.shadowColor='rgba(233,201,138,'+(br*0.8)+')';ctx.fill();
+    }
+    ctx.shadowBlur=0;
+    ctx.restore();ctx.globalAlpha=1;
+  }
+
+  function render(ts){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#04060e';ctx.fillRect(0,0,W,H);
+
+    // ── THE AUTEUR CAMERA ───────────────────────────────────────────────────────
+    // F = the tracked focus, the pixel we lock onto. It rides a CURVED path (a quadratic
+    // Bézier that bows down-left mid-flight, then settles to centre) — a dramatic
+    // swing-in, not a straight dolly. Every space layer is anchored to F, so the tracked
+    // centre pixel stays continuous through every handoff (no drift, no jump).
+    const fe=smooth(J,0.0,0.54);
+    const P0x=W*0.585,P0y=H*0.415,Pcx=W*0.30,Pcy=H*0.66,P2x=W*0.5,P2y=H*0.5;
+    const iu=1-fe;
+    const fx=iu*iu*P0x+2*iu*fe*Pcx+fe*fe*P2x;
+    const fy=iu*iu*P0y+2*iu*fe*Pcy+fe*fe*P2y;
+    // a gentle orbital ROLL that unwinds to level before the valley (horizon stays true)
+    const rot=lerp(-0.075,0,smooth(J,0.0,0.72));
+
+    // the space octaves ride the orbital roll together (dot → Earth → continent)
+    ctx.save();
+    ctx.translate(W*0.5,H*0.5);ctx.rotate(rot);ctx.translate(-W*0.5,-H*0.5);
+
+    // A) pale blue dot — open wide (the mote far off), push in; fade out as Earth takes over
+    const dotScale=lerp(0.85,9.0,easeIn(clamp01(J/0.32)));
+    const dotA=reduce?0:(1-smooth(J,0.22,0.32));
+    if(dotA>0.002)drawDot(dotScale,dotA,fx,fy,ts);
+
+    // B) Earth — a marble born at F, grows to fill, and we fall past into the night side
+    const eA=win(J,0.20,0.30,0.54,0.62);
+    if(eA>0.002){
+      const eR=lerp(H*0.028,H*1.7,smooth(J,0.20,0.62));
+      drawEarth(fx,fy,eR,eA);
+    }
+
+    // C) night-lit continent → region → metro — one continuous zoom toward Austin at F
+    const nA=win(J,0.52,0.60,0.80,0.88);
+    if(nA>0.002){
+      const nScale=lerp(0.60,8.0,smooth(J,0.52,0.88));
+      drawNightField(nScale,nA,fx,fy,ts);
+    }
+    ctx.restore();   // end the orbital roll — the valley is level
+
+    // D) Austin valley arrival — camera pitches from top-down to oblique; the horizon rises
+    const valA=reduce?1:smooth(J,0.80,0.93);
+    const arrival=reduce?1:smooth(J,0.82,1.0);
+    const horizonY=H*(-0.10+0.54*arrival);
+    if(valA>0.01){
+      // the valley sky — navy, matching the night-continent we just left (seamless colour)
+      const skyTop=ctx.createLinearGradient(0,0,0,Math.max(1,horizonY));
+      skyTop.addColorStop(0,'rgba(6,12,24,'+valA.toFixed(3)+')');
+      skyTop.addColorStop(1,'rgba(12,16,30,'+(0.45*valA).toFixed(3)+')');
+      ctx.fillStyle=skyTop;ctx.fillRect(0,0,W,Math.max(0,horizonY)+2);
+      // a few stars above the horizon
+      for(const s of stars){
+        if(s.y>=horizonY)continue;
+        const a=s.a*0.5*arrival;if(a<=0.01)continue;
+        ctx.fillStyle=s.pale?'rgba(169,203,233,'+a+')':'rgba(230,236,248,'+a+')';
+        ctx.beginPath();ctx.arc(s.x,s.y,s.r*0.7,0,6.283);ctx.fill();
+      }
+      // dusk band at the rising horizon — city light-pollution glow
+      const band=ctx.createLinearGradient(0,horizonY-H*0.34,0,horizonY+H*0.22);
+      band.addColorStop(0,'rgba(22,20,32,0)');
+      band.addColorStop(0.52,'rgba(60,44,46,'+(0.5*valA)+')');
+      band.addColorStop(0.72,'rgba(150,96,60,'+(0.42*valA)+')');
+      band.addColorStop(0.83,'rgba(233,201,138,'+(0.36*valA)+')');
+      band.addColorStop(1,'rgba(20,14,16,0)');
+      ctx.fillStyle=band;ctx.fillRect(0,0,W,H);
+      const vg=ctx.createLinearGradient(0,horizonY,0,H);
+      vg.addColorStop(0,'rgba(28,24,18,0)');vg.addColorStop(1,'rgba(18,14,9,'+(0.5*valA)+')');
+      ctx.fillStyle=vg;ctx.fillRect(0,Math.max(0,horizonY),W,H);
+
+      // the valley — people, in perspective, breathing with the song
+      const pulse=0.85+audioLevel*0.7;
+      for(const L of lights){
+        if(!L.user){
+          const dd=Math.pow(L.d,1.4);
+          L.sy=horizonY+dd*(H-horizonY);
+          const drift=STATIC?0:Math.sin(ts*0.0002+L.phase)*L.drift;
+          L.sx=W*0.5+(L.u*(0.30+0.70*L.d))*W*0.52+drift;
+        }
+        const tw=STATIC?0.9:(0.70+0.30*Math.sin(ts*0.0011*L.tw+L.phase));
+        let br=L.baseA*valA*tw*pulse;if(br>1)br=1;
+        const rr=L.user?L.r*1.5:L.r;
+        ctx.beginPath();ctx.arc(L.sx,L.sy,rr,0,6.283);
+        ctx.fillStyle=L.user?'rgba(255,243,216,'+Math.min(1,br+0.3)+')':'rgba(233,201,138,'+br+')';
+        ctx.shadowBlur=L.user?18:9;ctx.shadowColor='rgba(233,201,138,'+Math.min(0.9,br+0.2)+')';ctx.fill();
+      }
+      ctx.shadowBlur=0;
+
+      // crossings — the gold threads
+      for(const c of crossings){
+        if(!STATIC&&c.t<1)c.t=Math.min(1,c.t+0.02);
+        const tt=easeOut(c.t);
+        const ex=c.a.sx+(c.b.sx-c.a.sx)*tt,ey=c.a.sy+(c.b.sy-c.a.sy)*tt;
+        ctx.beginPath();ctx.moveTo(c.a.sx,c.a.sy);ctx.lineTo(ex,ey);
+        ctx.strokeStyle='rgba(233,201,138,'+(0.5+0.4*c.t)+')';ctx.lineWidth=1.1;
+        ctx.shadowBlur=8;ctx.shadowColor='rgba(233,201,138,.7)';ctx.stroke();ctx.shadowBlur=0;
+      }
+    }
+  }
+
+  // audio-reactive level — RMS + envelope follower (fast attack, slow release)
+  function meter(){
+    if(analyser&&playing){
+      analyser.getFloatTimeDomainData(tdata);
+      let s=0;for(let i=0;i<tdata.length;i++)s+=tdata[i]*tdata[i];
+      const rms=Math.sqrt(s/tdata.length),target=clamp01(rms*3.2);
+      audioLevel+=(target-audioLevel)*(target>audioLevel?0.35:0.12);
+    }else{
+      audioLevel+=(0-audioLevel)*0.1;
+    }
+  }
+
+  function loop(ts){
+    // the clock is the SONG: J tracks audio.currentTime, so beats land on the music. Before
+    // play we hold on the dot; a gesture can arm a silent wall-clock fallback; once the descent
+    // completes we latch at the valley (a song-loop never restarts the journey).
+    let t;
+    if(doneLatch)t=999;
+    else if(audioEver)t=audio.currentTime;          // music-locked (freezes when paused)
+    else if(wallStart!==null)t=(ts-wallStart)/1000; // silent fallback (autoplay blocked)
+    else t=0;                                        // held on the pale blue dot until play
+    J=journey(t);
+    if(J>=0.999)doneLatch=true;
+    meter();
+    const ph=phaseFor(J);
+    if(ph!==phase){phase=ph;hero.dataset.phase=String(ph);}
+    render(ts);
+    if(pp)pp.style.setProperty('--lvl',audioLevel.toFixed(3));
+    raf=requestAnimationFrame(loop);
+  }
+
+  function seedCrossing(px,py){
+    const L={d:0.6,u:0,r:Math.random()*1+1.4,baseA:1,phase:0,tw:1,drift:0,user:true,sx:px,sy:py};
+    lights.push(L);
+    let best=null,bd=Infinity;
+    for(const o of lights){if(o===L)continue;const dx=o.sx-px,dy=o.sy-py,dq=dx*dx+dy*dy;if(dq<bd){bd=dq;best=o;}}
+    if(best)crossings.push({a:L,b:best,t:STATIC?1:0});
+    count++;ctEl.textContent=String(count);hero.classList.add('lit');
+  }
+  function floatLabel(x,y){
+    const el=document.createElement('div');el.className='xlabel';el.textContent='a crossing';
+    el.style.left=x+'px';el.style.top=(y-14)+'px';hero.appendChild(el);
+    requestAnimationFrame(()=>el.classList.add('go'));setTimeout(()=>el.remove(),1900);
+  }
+  function tapDark(px,py){seedCrossing(px,py);floatLabel(px,py);if(reduce)render(1200);}
+  // begin the descent — try to play the song (music drives the timing); arm a silent
+  // wall-clock fallback in case autoplay is blocked, so the journey still unfolds.
+  function begin(){if(wallStart===null&&!audioEver)wallStart=performance.now();startAudio();}
+  const INVITE_T=19.2;   // song-time of the arrival — a later tap fast-forwards to here
+  function skipToInvite(){
+    if(audioEver&&audio){try{audio.currentTime=INVITE_T;}catch(e){}}
+    else{wallStart=performance.now()-INVITE_T*1000;}
+  }
+
+  // ── audio ──
+  function ensureAudio(){
+    if(actx)return;
+    try{
+      actx=new (window.AudioContext||window.webkitAudioContext)();
+      const src=actx.createMediaElementSource(audio);
+      analyser=actx.createAnalyser();analyser.fftSize=1024;tdata=new Float32Array(analyser.fftSize);
+      src.connect(analyser);analyser.connect(actx.destination);
+    }catch(e){/* analyser optional; audio still plays */}
+  }
+  function startAudio(){ensureAudio();if(actx&&actx.state==='suspended')actx.resume();if(audio.paused)audio.play().catch(()=>{});}
+  function playPause(){ensureAudio();if(actx&&actx.state==='suspended')actx.resume();if(audio.paused)audio.play().catch(()=>{});else audio.pause();}
+  if(audio){
+    audio.addEventListener('play',()=>{audioEver=true;playing=true;pp.classList.remove('paused');player.classList.remove('paused');ico.innerHTML='&#10074;&#10074;';});
+    audio.addEventListener('pause',()=>{playing=false;pp.classList.add('paused');ico.innerHTML='&#9654;';});
+    audio.addEventListener('timeupdate',()=>{if(audio.duration)prog.style.strokeDashoffset=(119.38*(1-audio.currentTime/audio.duration)).toFixed(1);});
+    pp.addEventListener('click',e=>{e.stopPropagation();playPause();});
+  }
+
+  // ── gestures — tap the dark ──
+  hero.addEventListener('pointerdown',e=>{
+    if(e.target.closest('.player')||e.target.closest('.follow'))return;
+    const rect=canvas.getBoundingClientRect();
+    const px=e.clientX-rect.left,py=e.clientY-rect.top;
+    if(!(audioEver||wallStart!==null)){begin();return;}  // first tap: start the descent + the song
+    if(!reduce&&J<0.88){skipToInvite();return;}          // a later tap: skip ahead to the invite
+    tapDark(px,py);                                       // once in the valley: light a crossing
+  });
+  const tc=document.getElementById('tapcue');
+  if(tc)tc.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(!(audioEver||wallStart!==null)){begin();return;}
+    if(!reduce&&J<0.88){skipToInvite();return;}
+    tapDark((0.42+Math.random()*0.16)*W,(0.62+Math.random()*0.14)*H);
+  });
+  const fl=document.getElementById('follow');if(fl)fl.addEventListener('click',e=>e.preventDefault());
+
+  window.addEventListener('resize',()=>{size();if(STATIC)render(1200);},{passive:true});
+  size();
+  // show the player only when the track can actually play (local preview); on the live site the mp3 is
+  // absent (licensing gate) so its load errors → keep the player hidden and run the descent silent + pre-timed.
+  if(audio&&player){
+    audio.addEventListener('canplay',()=>player.classList.add('show'),{once:true});
+    audio.addEventListener('error',()=>{player.style.display='none';});
+  }
+
+  if(reduce){
+    hero.dataset.phase='3';phase=3;J=1;
+    render(1200);
+    for(let i=0;i<6;i++)seedCrossing((0.14+Math.random()*0.72)*W,(0.60+Math.random()*0.30)*H);
+    render(1200);
+  }else if(params.has('still')){
+    J=1;hero.classList.add('lit','still');hero.dataset.phase='3';phase=3;
+    render(1200);
+    for(let i=0;i<7;i++)seedCrossing((0.14+Math.random()*0.72)*W,(0.58+Math.random()*0.34)*H);
+    render(1200);
+  }else if(params.has('p')){
+    J=clamp01(parseFloat(params.get('p'))||0);
+    phase=phaseFor(J);hero.dataset.phase=String(phase);
+    render(1200);
+    if(J>=0.80&&params.has('lit')){hero.classList.add('lit');for(let i=0;i<5;i++)seedCrossing((0.16+Math.random()*0.68)*W,(0.60+Math.random()*0.30)*H);render(1200);}
+  }else{
+    hero.dataset.phase='0';phase=0;
+    wallStart=performance.now();          // LIVE: the descent auto-plays from load (no audio needed)
+    raf=requestAnimationFrame(loop);
+    if(params.has('demo')){begin();setTimeout(()=>{let i=0;const id=setInterval(()=>{tapDark((0.14+Math.random()*0.72)*W,(0.58+Math.random()*0.36)*H);if(++i>=6)clearInterval(id);},700);},22000);}
+  }
 })();
-
-/* ── nav condense on scroll ─────────────────────────────────────────────────── */
-const nav=document.getElementById('nav');
-addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
-
-/* ── reveal on enter ────────────────────────────────────────────────────────── */
-const io=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){
-  setTimeout(()=>e.target.classList.add('in'), (e.target.dataset.d||0));
-  io.unobserve(e.target);}})},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
-document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.d=(i%5)*90;io.observe(el)});
 </script>
 </body>
 </html>
