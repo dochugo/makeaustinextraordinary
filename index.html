@@ -222,7 +222,7 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
   const params=new URLSearchParams(location.search);
   const STATIC=reduce||params.has('still')||params.has('p');
 
-  let W=0,H=0,stars=[],lights=[],cityfield=[],crossings=[],count=0,phase=-1;
+  let W=0,H=0,stars=[],lights=[],crossings=[],count=0,phase=-1;
   let J=reduce?1:0,audioLevel=0,playing=false,actx=null,analyser=null,tdata=null,raf=null;
   let audioEver=false,doneLatch=false,wallStart=null;   // the descent is LOCKED to the song
 
@@ -230,9 +230,6 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
   const lerp=(a,b,t)=>a+(b-a)*t;
   const smooth=(v,e0,e1)=>{const t=clamp01((v-e0)/(e1-e0));return t*t*(3-2*t);};
   const easeOut=t=>1-Math.pow(1-t,3);
-  const easeIn=t=>t*t;
-  // a crossfade window: fades in across [z0,z1], holds, fades out across [z2,z3]
-  const win=(v,z0,z1,z2,z3)=>smooth(v,z0,z1)*(1-smooth(v,z2,z3));
 
   // ── the journey → J(0..1): ONE continuous exponential descent (van Wijk laminar). The old
   //    8-keyframe curve eased to a STOP at every node (velocity→0, eight times) — that was the
@@ -250,14 +247,16 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     else{const q=1-x; d=(1-1.5*R)+(R*R-q*q)/(2*R);}   // ease down to rest at the valley
     return clamp01(d/A);
   }
-  // the shared log-zoom: every octave scales by 2^(ZK·J), so all grow at ONE perceived speed.
-  // DOT0/E0F/N0 are per-octave frame-fill bases (E0F is a factor of H) — tuned by eye.
-  const ZK=6.0, DOT0=0.85, E0F=0.161, N0=0.106;
-  const phaseFor=j=>j<0.22?0:j<0.74?1:j<0.90?2:3;
+  // ── ONE WORLD, ONE ZOOM (laminar Powers-of-Ten) ──────────────────────────────
+  // There is a single object: Earth. Its apparent radius Rpx = R0·2^(ZK·J) is THE tracked size
+  // (3px far off → far past the frame). Every city light lives ON the surface at a true offset in
+  // world-units; its apparent size/position = (Rpx/RE)·(its world value). So as J runs, EVERY
+  // feature's size is Rpx×constant — continuous by construction. No object ever hands off to a
+  // differently-sized one: the dot, the marble, the continent and the valley are one Earth at four
+  // zooms. RE = Earth's radius in world-units (so 1 wu ≈ 6.371 km).
+  const RE=1000, R0=3, ZK=20;
+  const phaseFor=j=>j<0.18?0:j<0.52?1:j<0.85?2:3;
 
-  // the dark river winding through the valley (a city, unnamed) — cross-position by depth
-  const riverU=d=>0.18*Math.sin(d*3.0+0.5)-0.10;
-  const riverHalf=d=>0.05+0.11*d;
   // fixed city-light specks for Earth's night hemisphere (lower-right) — seed the gold to come
   const earthLights=[[0.30,0.26,0.9],[0.44,0.10,0.7],[0.22,0.42,0.8],[0.50,0.30,0.6],[0.16,0.30,0.7],[0.36,0.48,0.6],[0.28,0.16,0.55],[0.40,0.40,0.65]];
 
@@ -266,79 +265,68 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     stars=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.0+0.3,
       a:Math.random()*0.5+0.15,tw:Math.random()*0.008+0.002,dir:Math.random()<0.5?1:-1,pale:Math.random()<0.25}));
   }
-  // the Austin valley (arrival) — perspective: far=small/dim/dense near the horizon, near=large/bright
-  function buildLights(){
-    const n=Math.min(150,Math.round(W*H/9000));
-    lights=[];let g=0;
-    while(lights.length<n&&g++<n*8){
-      const d=Math.pow(Math.random(),0.7);
-      let u;
-      if(Math.random()<0.5)u=-0.12+(Math.random()-0.5)*0.7*(0.5+0.5*d);   // downtown cluster
-      else u=(Math.random()*2-1)*(0.34+0.66*d);                          // the sprawl, wider when near
-      if(Math.abs(u-riverU(d))<riverHalf(d))continue;                    // carve the river
-      lights.push({d,u,r:0.5+d*1.7,baseA:(0.30+0.62*d)*(Math.random()*0.4+0.72),
-        phase:Math.random()*6.28,tw:Math.random()*1.1+0.35,drift:(Math.random()*2-1)*8*d*d,user:false,sx:0,sy:0});
-    }
+  // THE ONE FIELD — every city light lives ON Earth's surface at a true offset from Austin (0,0),
+  // measured in world-units (1 wu ≈ 6.371 km). render draws each at F + z·offset, size z·(its size):
+  // so a light IS the surface at whatever zoom we're at — no separate "continent" or "valley" layer.
+  //   • the Texas metros are placed at real bearings/distances, so the night continent is honest;
+  //   • Austin is a scale-free cloud — equal lights per octave, each light's size ∝ its distance
+  //     from centre — so as one tier fills the frame the next resolves out of the dark, with no
+  //     empty zoom and no pop, all the way down to a single porch light you could tap.
+  function addLight(x,y,size,core){
+    lights.push({x,y,size,r:Math.random()*1+1.3,baseA:0.55+Math.random()*0.45,
+      tw:Math.random()*1.1+0.4,phase:Math.random()*6.28,core:!!core,user:false,sx:0,sy:0});
   }
-  // the night-lit continent (Black-Marble look): gold clusters on black; Austin at center is our dive target
-  function buildCityfield(){
-    cityfield=[];
+  function buildField(){
+    lights=[];
+    const KM=1/6.371;                                   // one kilometre in world-units (RE=1000≡6371km)
+    // the other Texas metros — real bearings & distances from Austin; visible as the night continent
     const metros=[
-      {x:0.50,y:0.50,n:78,s:0.15,core:true},   // AUSTIN — the dive target
-      {x:0.43,y:0.29,n:52,s:0.12},             // Dallas-Fort Worth (NNW)
-      {x:0.62,y:0.67,n:58,s:0.13},             // Houston (SE)
-      {x:0.39,y:0.60,n:38,s:0.10},             // San Antonio (SW)
-      {x:0.72,y:0.44,n:20,s:0.09},             // outliers
-      {x:0.29,y:0.45,n:16,s:0.09},
-      {x:0.58,y:0.20,n:14,s:0.08}
+      {x: 46*KM, y:-300*KM, span:60, n:58},             // Dallas–Fort Worth (N)
+      {x:150*KM, y: 175*KM, span:52, n:60},             // Houston (SE)
+      {x:-72*KM, y: 118*KM, span:30, n:38},             // San Antonio (SSW)
+      {x:-250*KM,y:-150*KM, span:22, n:16},             // outliers / West Texas
+      {x: 300*KM,y:-250*KM, span:20, n:14},
+      {x:-40*KM, y: 330*KM, span:18, n:12}
     ];
     for(const m of metros){
+      const span=m.span*KM;
       for(let i=0;i<m.n;i++){
-        const a=Math.random()*6.283,rr=Math.pow(Math.random(),0.6)*m.s;
-        cityfield.push({x:m.x+Math.cos(a)*rr,y:m.y+Math.sin(a)*rr*0.92,
-          r:Math.random()*1.3+0.5,a:Math.random()*0.5+0.4,tw:Math.random()*1.2+0.4,ph:Math.random()*6.28,core:!!m.core});
+        const a=Math.random()*6.283, rr=Math.pow(Math.random(),0.62)*span;
+        addLight(m.x+Math.cos(a)*rr, m.y+Math.sin(a)*rr, 0.16+Math.random()*0.5, false);
       }
     }
-    for(let i=0;i<64;i++)cityfield.push({x:Math.random(),y:Math.random(),r:Math.random()*0.7+0.3,
-      a:Math.random()*0.22+0.08,tw:Math.random()+0.3,ph:Math.random()*6.28,core:false});
+    // AUSTIN — a bright downtown core (the dive target) …
+    for(let i=0;i<80;i++){
+      const a=Math.random()*6.283, rr=Math.pow(Math.random(),0.7)*0.9;
+      addLight(Math.cos(a)*rr, Math.sin(a)*rr, 0.02+Math.random()*0.05, true);
+    }
+    // the ring between Austin and the far metros — suburbs, hill country, I-35 towns — so the
+    // approach (continent → metro) never empties out mid-zoom.
+    for(let i=0;i<360;i++){
+      const off=6+Math.pow(Math.random(),1.6)*42;       // 6–48 wu out from Austin
+      const a=Math.random()*6.283;
+      addLight(Math.cos(a)*off, Math.sin(a)*off, off*0.055*(0.6+Math.random()*0.8), false);
+    }
+    // … Austin itself wrapped in a self-similar cloud spanning 13 octaves (metro-wide → one porch
+    // light). Equal count per octave × size ∝ distance ⇒ uniform visual density at EVERY zoom.
+    const RAUS=5.6, OCT=13;                             // Austin metro radius (~36 km) · octaves of detail
+    for(let i=0;i<1900;i++){
+      const k=Math.random()*OCT;
+      const off=RAUS*Math.pow(2,-k);
+      const a=Math.random()*6.283, rr=off*(0.55+Math.random()*0.75);
+      addLight(Math.cos(a)*rr, Math.sin(a)*rr, off*0.15*(0.6+Math.random()*0.8), false);
+    }
   }
 
   function size(){
     W=window.innerWidth;H=window.innerHeight;
     canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.width=W+'px';canvas.style.height=H+'px';
     ctx.setTransform(DPR,0,0,DPR,0,0);
-    buildStars();buildLights();buildCityfield();
+    buildStars();buildField();
   }
 
   // ── procedural layers ───────────────────────────────────────────────────────
 
-  // A) the pale blue dot — reference grade: indigo→periwinkle sky, a soft sunbeam, ONE clear mote
-  function drawDot(scale,alpha,fx,fy,ts){
-    if(alpha<=0.002)return;
-    ctx.save();ctx.globalAlpha=alpha;
-    ctx.translate(fx,fy);ctx.scale(scale,scale);ctx.translate(-fx,-fy);   // zoom locked on the focus
-    const sky=ctx.createLinearGradient(0,0,W*0.14,H);
-    sky.addColorStop(0,'#070a16');sky.addColorStop(0.38,'#1b2242');sky.addColorStop(0.68,'#39456e');sky.addColorStop(1,'#586490');
-    ctx.fillStyle=sky;ctx.fillRect(-W,-H,W*3,H*3);
-    // the sunbeam — a soft diagonal band of scattered light, threaded through the mote
-    ctx.save();ctx.translate(fx,H*0.5);ctx.rotate(-0.14);
-    const bw=W*0.15;
-    const beam=ctx.createLinearGradient(-bw,0,bw,0);
-    beam.addColorStop(0,'rgba(150,170,214,0)');beam.addColorStop(0.5,'rgba(178,198,238,0.30)');beam.addColorStop(1,'rgba(150,170,214,0)');
-    ctx.fillStyle=beam;ctx.fillRect(-bw,-H,bw*2,H*2.4);
-    ctx.restore();
-    // faint stars (sparse — we're inside the solar system)
-    for(const s of stars){const a=s.a*0.45;ctx.fillStyle='rgba(220,228,244,'+a+')';ctx.beginPath();ctx.arc(s.x,s.y,s.r*0.8,0,6.283);ctx.fill();}
-    // THE mote — drawn AT the focus, so its center pixel stays locked as we zoom in
-    const tw=STATIC?1:(0.84+0.16*Math.sin(ts*0.0016));
-    const glow=ctx.createRadialGradient(fx,fy,0,fx,fy,16);
-    glow.addColorStop(0,'rgba(196,218,246,'+(0.58*tw)+')');
-    glow.addColorStop(0.4,'rgba(150,186,224,'+(0.24*tw)+')');
-    glow.addColorStop(1,'rgba(150,186,224,0)');
-    ctx.fillStyle=glow;ctx.beginPath();ctx.arc(fx,fy,16,0,6.283);ctx.fill();
-    ctx.fillStyle='rgba(226,238,251,'+tw+')';ctx.beginPath();ctx.arc(fx,fy,2.0,0,6.283);ctx.fill();
-    ctx.restore();ctx.globalAlpha=1;
-  }
 
   // B) Earth — a LIT blue marble: an offset sun-highlight (3D shading), a soft day/night
   //    TERMINATOR (the thing that reads as a sphere), an atmospheric rim, sphere-mapped
@@ -412,22 +400,23 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     ctx.restore();ctx.globalAlpha=1;
   }
 
-  // C) the night-lit continent — gold clusters on black, zooming toward Austin at center
-  function drawNightField(scale,alpha,cx,cy,ts){
-    if(alpha<=0.002)return;
+  // C) the far backdrop — the pale-blue-dot sky (indigo→periwinkle) + a soft sunbeam. This is a
+  //    WASH, not a tracked object: it only fades out as we pull out of the solar system, so it can
+  //    never cause a size-pop. The mote we track is Earth itself (drawEarth), not a painted dot.
+  function drawSky(alpha,fx){
     ctx.save();ctx.globalAlpha=alpha;
-    ctx.fillStyle='#060c18';ctx.fillRect(0,0,W,H);   // navy-black — matches Earth's night limb (seamless)
-    ctx.translate(cx,cy);ctx.scale(scale,scale);
-    const span=Math.max(W,H)*1.3;
-    for(const c of cityfield){
-      const px=(c.x-0.5)*span,py=(c.y-0.5)*span;
-      const tw=STATIC?0.9:(0.7+0.3*Math.sin(ts*0.0012*c.tw+c.ph));
-      let br=c.a*tw;if(br>1)br=1;
-      ctx.beginPath();ctx.arc(px,py,c.r,0,6.283);
-      ctx.fillStyle='rgba(233,201,138,'+br+')';
-      ctx.shadowBlur=c.core?7:4;ctx.shadowColor='rgba(233,201,138,'+(br*0.8)+')';ctx.fill();
-    }
-    ctx.shadowBlur=0;
+    // space is near-black — a faint cool wash toward the sunbeam side, NOT a bright sky, so the
+    // pale blue dot stands out (Star's reference is a dark field with soft light-shafts).
+    const sky=ctx.createLinearGradient(0,0,W*0.2,H);
+    sky.addColorStop(0,'#04060e');sky.addColorStop(0.5,'#0a0f20');sky.addColorStop(1,'#141d38');
+    ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+    // the sunbeam — the mote of dust suspended in a sunbeam; a soft shaft threaded through the dot
+    ctx.save();ctx.translate(fx,H*0.5);ctx.rotate(-0.16);
+    const bw=W*0.16;
+    const beam=ctx.createLinearGradient(-bw,0,bw,0);
+    beam.addColorStop(0,'rgba(150,168,210,0)');beam.addColorStop(0.5,'rgba(190,196,222,0.24)');beam.addColorStop(1,'rgba(150,168,210,0)');
+    ctx.fillStyle=beam;ctx.fillRect(-bw,-H,bw*2,H*2.4);
+    ctx.restore();
     ctx.restore();ctx.globalAlpha=1;
   }
 
@@ -435,101 +424,89 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     ctx.clearRect(0,0,W,H);
     ctx.fillStyle='#04060e';ctx.fillRect(0,0,W,H);
 
-    // ── THE AUTEUR CAMERA ───────────────────────────────────────────────────────
-    // F = the tracked focus, the pixel we lock onto. It rides a CURVED path (a quadratic
-    // Bézier that bows down-left mid-flight, then settles to centre) — a dramatic
-    // swing-in, not a straight dolly. Every space layer is anchored to F, so the tracked
-    // centre pixel stays continuous through every handoff (no drift, no jump).
-    const fe=smooth(J,0.0,0.54);
-    const P0x=W*0.585,P0y=H*0.415,Pcx=W*0.30,Pcy=H*0.66,P2x=W*0.5,P2y=H*0.5;
-    const iu=1-fe;
-    const fx=iu*iu*P0x+2*iu*fe*Pcx+fe*fe*P2x;
-    const fy=iu*iu*P0y+2*iu*fe*Pcy+fe*fe*P2y;
-    // a gentle orbital ROLL that unwinds to level before the valley (horizon stays true)
-    const rot=lerp(-0.075,0,smooth(J,0.0,0.72));
+    // ── ONE WORLD, ONE ZOOM ──────────────────────────────────────────────────────
+    // F = Austin, the tracked pixel — a gentle continuous settle to centre (a lateral pan; it
+    // never touches the zoom). Rpx = Earth's apparent radius = THE single tracked size (3px far
+    // off → far past the frame). z = px per world-unit = Rpx/RE. EVERYTHING below is drawn at
+    // F + z·(a world value): the globe, and every city light on its surface. So the tracked size
+    // is Rpx×constant everywhere and at every instant — laminar by construction, no seam to cross.
+    const fe=smooth(J,0.0,0.55);
+    const fx=lerp(W*0.585,W*0.5,fe), fy=lerp(H*0.42,H*0.5,fe);
+    const Rpx=R0*Math.pow(2,ZK*J);
+    const z=Rpx/RE;
+    const frame=Math.max(W,H);
 
-    // the space octaves ride the orbital roll together (dot → Earth → continent)
-    ctx.save();
-    ctx.translate(W*0.5,H*0.5);ctx.rotate(rot);ctx.translate(-W*0.5,-H*0.5);
+    // 1) the far backdrop — pale-blue-dot sky + sunbeam, then the starfield of space. Both are
+    //    washes (opacity only), fading as we leave the solar system and the marble grows.
+    const skyA=reduce?0:(1-smooth(J,0.05,0.17));
+    if(skyA>0.002)drawSky(skyA,fx);
+    const starA=reduce?0:(1-smooth(J,0.16,0.40));
+    if(starA>0.01)for(const s of stars){
+      const a=s.a*0.7*starA;ctx.fillStyle='rgba(220,228,244,'+a.toFixed(3)+')';
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r*0.8,0,6.283);ctx.fill();
+    }
 
-    // ── THE LAMINAR ZOOM: one exponential, shared by every octave ────────────────
-    // S=2^(ZK·J), and J is linear in time → d(log size)/dt is CONSTANT and identical for the
-    // dot, the Earth and the continent. The seams between them carry no change in velocity (the
-    // old per-layer lerps each accelerated then decelerated; this does not). Only the alphas
-    // crossfade (opacity, not speed) — so the octaves hand off invisibly while the fall never
-    // changes pace. This is the whole cure for the jerk.
-    const S=Math.pow(2,ZK*J);
+    // 2) EARTH — the only object, and it IS the pale blue dot: full-alpha from the first frame so
+    //    we always see it. A tiny legible halo while it's only a few pixels; a lit marble as it
+    //    grows; the disc caps once it dwarfs the frame (its interior is uniform night by then, so
+    //    freezing it is imperceptible).
+    const eA=reduce?1:smooth(J,0,0.008);
+    if(Rpx<44){
+      const dg=ctx.createRadialGradient(fx,fy,0,fx,fy,15);
+      dg.addColorStop(0,'rgba(198,220,247,'+(0.55*eA).toFixed(3)+')');
+      dg.addColorStop(0.5,'rgba(150,186,224,'+(0.18*eA).toFixed(3)+')');
+      dg.addColorStop(1,'rgba(150,186,224,0)');
+      ctx.fillStyle=dg;ctx.beginPath();ctx.arc(fx,fy,15,0,6.283);ctx.fill();
+    }
+    drawEarth(fx,fy,Math.min(Rpx,2.8*frame),eA);
 
-    // A) pale blue dot — a mote far off, growing with the shared zoom; fades as Earth takes over
-    const dotScale=DOT0*S;
-    const dotA=reduce?0:(1-smooth(J,0.22,0.34));
-    if(dotA>0.002)drawDot(dotScale,dotA,fx,fy,ts);
+    // 3) the DIVE INTO NIGHT — as the marble fills the frame we fall onto its night side. A navy
+    //    wash pooled at F ramps in (opacity, not size) so the surface reads as Earth-at-night and
+    //    the city lights get a uniform dark ground. Continuous — no scene swap, no tracked size.
+    const nightA=reduce?1:smooth(J,0.22,0.44);
+    if(nightA>0.002){
+      const np=ctx.createRadialGradient(fx,fy,0,fx,fy,frame*1.15);
+      np.addColorStop(0,'rgba(6,12,24,'+nightA.toFixed(3)+')');
+      np.addColorStop(0.62,'rgba(6,11,22,'+(nightA*0.99).toFixed(3)+')');
+      np.addColorStop(1,'rgba(5,9,18,'+(nightA*0.92).toFixed(3)+')');
+      ctx.fillStyle=np;ctx.fillRect(0,0,W,H);
+    }
 
-    // B) Earth — a marble born at F, grows past frame at the SAME rate; we fall through to night
-    const eA=win(J,0.18,0.30,0.54,0.64);
-    if(eA>0.002)drawEarth(fx,fy,H*E0F*S,eA);
+    // 4) the SURFACE CITY-LIGHTS — one field, one zoom: the night continent → Austin → its
+    //    districts → the valley of single lights you could tap. Each light is drawn at F + z·offset,
+    //    size z·(its size) capped to a few px, fading up out of the sub-pixel dark as the zoom
+    //    resolves it — so nothing ever pops in; where there was dark, a light simply becomes.
+    const pulse=0.85+audioLevel*0.7;
+    for(const L of lights){
+      if(L.user)continue;
+      const sx=fx+z*L.x, sy=fy+z*L.y; L.sx=sx; L.sy=sy;
+      if(sx<-30||sx>W+30||sy<-30||sy>H+30)continue;         // cull off-frame
+      const ap=z*L.size;
+      if(ap<0.12)continue;                                   // still sub-pixel — part of the dark
+      const r=ap<0.85?0.85:(ap>3.2?3.2:ap);
+      const tw=STATIC?0.9:(0.72+0.28*Math.sin(ts*0.0011*L.tw+L.phase));
+      let br=L.baseA*tw*pulse*clamp01(ap*1.7);if(br>1)br=1;
+      ctx.beginPath();ctx.arc(sx,sy,r,0,6.283);
+      ctx.fillStyle='rgba(233,201,138,'+br.toFixed(3)+')';
+      if(r>1.05){ctx.shadowBlur=L.core?8:4;ctx.shadowColor='rgba(233,201,138,'+(br*0.75).toFixed(3)+')';}
+      ctx.fill();ctx.shadowBlur=0;
+    }
 
-    // C) night-lit continent → region → metro — same rate, one fall toward Austin at F
-    const nA=win(J,0.52,0.62,0.80,0.90);
-    if(nA>0.002)drawNightField(N0*S,nA,fx,fy,ts);
-    ctx.restore();   // end the orbital roll — the valley is level
-
-    // D) Austin valley arrival — camera pitches from top-down to oblique; the horizon rises
-    const valA=reduce?1:smooth(J,0.80,0.93);
-    const arrival=reduce?1:smooth(J,0.82,1.0);
-    const horizonY=H*(-0.10+0.54*arrival);
-    if(valA>0.01){
-      // the valley sky — navy, matching the night-continent we just left (seamless colour)
-      const skyTop=ctx.createLinearGradient(0,0,0,Math.max(1,horizonY));
-      skyTop.addColorStop(0,'rgba(6,12,24,'+valA.toFixed(3)+')');
-      skyTop.addColorStop(1,'rgba(12,16,30,'+(0.45*valA).toFixed(3)+')');
-      ctx.fillStyle=skyTop;ctx.fillRect(0,0,W,Math.max(0,horizonY)+2);
-      // a few stars above the horizon
-      for(const s of stars){
-        if(s.y>=horizonY)continue;
-        const a=s.a*0.5*arrival;if(a<=0.01)continue;
-        ctx.fillStyle=s.pale?'rgba(169,203,233,'+a+')':'rgba(230,236,248,'+a+')';
-        ctx.beginPath();ctx.arc(s.x,s.y,s.r*0.7,0,6.283);ctx.fill();
-      }
-      // dusk band at the rising horizon — city light-pollution glow
-      const band=ctx.createLinearGradient(0,horizonY-H*0.34,0,horizonY+H*0.22);
-      band.addColorStop(0,'rgba(22,20,32,0)');
-      band.addColorStop(0.52,'rgba(60,44,46,'+(0.5*valA)+')');
-      band.addColorStop(0.72,'rgba(150,96,60,'+(0.42*valA)+')');
-      band.addColorStop(0.83,'rgba(233,201,138,'+(0.36*valA)+')');
-      band.addColorStop(1,'rgba(20,14,16,0)');
-      ctx.fillStyle=band;ctx.fillRect(0,0,W,H);
-      const vg=ctx.createLinearGradient(0,horizonY,0,H);
-      vg.addColorStop(0,'rgba(28,24,18,0)');vg.addColorStop(1,'rgba(18,14,9,'+(0.5*valA)+')');
-      ctx.fillStyle=vg;ctx.fillRect(0,Math.max(0,horizonY),W,H);
-
-      // the valley — people, in perspective, breathing with the song
-      const pulse=0.85+audioLevel*0.7;
-      for(const L of lights){
-        if(!L.user){
-          const dd=Math.pow(L.d,1.4);
-          L.sy=horizonY+dd*(H-horizonY);
-          const drift=STATIC?0:Math.sin(ts*0.0002+L.phase)*L.drift;
-          L.sx=W*0.5+(L.u*(0.30+0.70*L.d))*W*0.52+drift;
-        }
-        const tw=STATIC?0.9:(0.70+0.30*Math.sin(ts*0.0011*L.tw+L.phase));
-        let br=L.baseA*valA*tw*pulse;if(br>1)br=1;
-        const rr=L.user?L.r*1.5:L.r;
-        ctx.beginPath();ctx.arc(L.sx,L.sy,rr,0,6.283);
-        ctx.fillStyle=L.user?'rgba(255,243,216,'+Math.min(1,br+0.3)+')':'rgba(233,201,138,'+br+')';
-        ctx.shadowBlur=L.user?18:9;ctx.shadowColor='rgba(233,201,138,'+Math.min(0.9,br+0.2)+')';ctx.fill();
-      }
-      ctx.shadowBlur=0;
-
-      // crossings — the gold threads
-      for(const c of crossings){
-        if(!STATIC&&c.t<1)c.t=Math.min(1,c.t+0.02);
-        const tt=easeOut(c.t);
-        const ex=c.a.sx+(c.b.sx-c.a.sx)*tt,ey=c.a.sy+(c.b.sy-c.a.sy)*tt;
-        ctx.beginPath();ctx.moveTo(c.a.sx,c.a.sy);ctx.lineTo(ex,ey);
-        ctx.strokeStyle='rgba(233,201,138,'+(0.5+0.4*c.t)+')';ctx.lineWidth=1.1;
-        ctx.shadowBlur=8;ctx.shadowColor='rgba(233,201,138,.7)';ctx.stroke();ctx.shadowBlur=0;
-      }
+    // 5) the crossings you kindle — screen-fixed (the zoom has latched at the valley by now)
+    for(const L of lights){
+      if(!L.user)continue;
+      const tw=STATIC?0.95:(0.8+0.2*Math.sin(ts*0.002+L.phase));
+      ctx.beginPath();ctx.arc(L.sx,L.sy,L.r*1.5,0,6.283);
+      ctx.fillStyle='rgba(255,243,216,'+Math.min(1,L.baseA*tw).toFixed(3)+')';
+      ctx.shadowBlur=18;ctx.shadowColor='rgba(233,201,138,.8)';ctx.fill();ctx.shadowBlur=0;
+    }
+    for(const c of crossings){
+      if(!STATIC&&c.t<1)c.t=Math.min(1,c.t+0.02);
+      const tt=easeOut(c.t);
+      const ex=c.a.sx+(c.b.sx-c.a.sx)*tt,ey=c.a.sy+(c.b.sy-c.a.sy)*tt;
+      ctx.beginPath();ctx.moveTo(c.a.sx,c.a.sy);ctx.lineTo(ex,ey);
+      ctx.strokeStyle='rgba(233,201,138,'+(0.5+0.4*c.t)+')';ctx.lineWidth=1.1;
+      ctx.shadowBlur=8;ctx.shadowColor='rgba(233,201,138,.7)';ctx.stroke();ctx.shadowBlur=0;
     }
   }
 
@@ -565,7 +542,7 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
   }
 
   function seedCrossing(px,py){
-    const L={d:0.6,u:0,r:Math.random()*1+1.4,baseA:1,phase:0,tw:1,drift:0,user:true,sx:px,sy:py};
+    const L={x:0,y:0,size:0,r:Math.random()*1+1.4,baseA:1,phase:0,tw:1,core:false,user:true,sx:px,sy:py};
     lights.push(L);
     let best=null,bd=Infinity;
     for(const o of lights){if(o===L)continue;const dx=o.sx-px,dy=o.sy-py,dq=dx*dx+dy*dy;if(dq<bd){bd=dq;best=o;}}
