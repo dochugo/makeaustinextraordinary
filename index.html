@@ -76,7 +76,10 @@ nav .right{display:flex;align-items:center;gap:1.7rem}
 
 /* ── hero ───────────────────────────────────────────────────────────────────── */
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:8rem var(--gut) 5rem;z-index:2}
+  text-align:center;padding:0;z-index:2;overflow:hidden}
+/* the hero is the film — a full-bleed, isolated iframe (its own starfield, no collision with #stars) */
+.filmframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;z-index:2;background:var(--space)}
+.hero .scrollcue{z-index:3}
 /* the sunbeam the dot is suspended in */
 .sunbeam{position:absolute;top:-10%;left:50%;width:min(52rem,120vw);height:120%;transform:translateX(-50%) rotate(14deg);
   transform-origin:top center;pointer-events:none;z-index:1;opacity:.55;
@@ -193,17 +196,7 @@ footer .xmark{font-size:1.8rem}
 
 <!-- ── HERO ─────────────────────────────────────────────────────────────────── -->
 <header class="hero" id="top">
-  <div class="sunbeam"></div>
-  <div class="dot" aria-hidden="true"></div>
-  <div class="eyebrow reveal">A pale blue dot</div>
-  <h1 class="sagan reveal">Look again at that dot. That's here. That's home. That's <em>us</em> —
-    <span class="hush">everyone you love, on a mote of dust suspended in a sunbeam.</span></h1>
-  <p class="turn reveal">One of those motes has a name. And a river, and a hill country, and a strange bright gravity that keeps pulling the extraordinary toward it.</p>
-  <div class="wordmark reveal">
-    <span class="xmark"><svg viewBox="0 0 100 100"><use href="#maxx"/></svg></span>
-    <span class="txt">Make Austin Extraordinary</span>
-  </div>
-  <div class="fullword reveal">Now is the time</div>
+  <iframe class="filmframe" src="film.html" title="Make Austin Extraordinary — the film" scrolling="no" loading="eager"></iframe>
   <div class="scrollcue" aria-hidden="true"><span class="rail"></span>Scroll</div>
 </header>
 
