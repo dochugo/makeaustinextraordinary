@@ -300,12 +300,12 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     const KM=1/6.371;                                   // one kilometre in world-units (RE=1000≡6371km)
     // the other Texas metros — real bearings & distances from Austin; visible as the night continent
     const metros=[
-      {x: 46*KM, y:-300*KM, span:60, n:58},             // Dallas–Fort Worth (N)
-      {x:150*KM, y: 175*KM, span:52, n:60},             // Houston (SE)
-      {x:-72*KM, y: 118*KM, span:30, n:38},             // San Antonio (SSW)
-      {x:-250*KM,y:-150*KM, span:22, n:16},             // outliers / West Texas
-      {x: 300*KM,y:-250*KM, span:20, n:14},
-      {x:-40*KM, y: 330*KM, span:18, n:12}
+      {x: 90*KM, y:-279*KM, span:60, n:58},             // Dallas–Fort Worth — N, up the I-35
+      {x:228*KM, y:  57*KM, span:52, n:56},             // Houston — due E, a touch S
+      {x:-72*KM, y:  94*KM, span:34, n:40},             // San Antonio — SW, down the I-35
+      {x: 57*KM, y:-142*KM, span:26, n:22},             // Waco — N, the I-35 midpoint
+      {x: 33*KM, y: 274*KM, span:24, n:18},             // Corpus Christi — S, down to the Gulf coast
+      {x:305*KM, y: 120*KM, span:16, n:10}              // Beaumont / SE Texas — far E
     ];
     for(const m of metros){
       const span=m.span*KM;
@@ -375,14 +375,16 @@ body{font-family:var(--sans);color:var(--ivory);background:var(--space);overflow
     ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.fill();
     ctx.save();ctx.beginPath();ctx.arc(cx,cy,R,0,6.283);ctx.clip();
     // 3) CONTINENTS — REAL Natural Earth coastlines (110m, public-domain), orthographic-projected
-    //    and centred on Texas, so the Americas face us: Pacific to the left, Atlantic to the right,
-    //    Greenland up top — honest, recognizable Earth (Star: "add the contours of the earth").
-    //    The sub-viewer point drifts ±14° over the descent — a gentle orbit that "catches better
-    //    views" of the limb (Star's cinematic sweep) while the tracked target stays put.
+    //    and centred on AUSTIN's true coordinates, so the point we bore into IS Austin: North America
+    //    faces us (Pacific left, Atlantic right, Greenland up), and the light-field below — pinned to
+    //    screen-centre — blooms exactly where Austin sits (Star, 2026-07-09: "the lights are located
+    //    not in Austin, Texas"). The sub-viewer starts as an oblique ¾ view of the continent and
+    //    SETTLES dead-on Austin before the lights take the frame — a cinematic arc that lands honest.
     const LAND=window.EARTH_LAND;
     if(LAND&&R>2){
-      const lat0=31*D2R;                                 // sub-viewer latitude ≈ central Texas
-      const lon0=(-99+(STATIC?0:14*Math.sin(J*Math.PI)))*D2R;   // longitude ≈ Texas, sweeping ±14°
+      const settle=STATIC?1:smooth(J,0.05,0.46);         // 0→1: oblique continent view → locked on Austin
+      const lat0=(30.27+(1-settle)*7.5)*D2R;             // Austin 30.27°N; opens ~7.5° higher (top-down on N.A.)
+      const lon0=(-97.74-(1-settle)*19)*D2R;             // Austin 97.74°W; the orbit sweeps in from ~19° west
       const s0=Math.sin(lat0), c0=Math.cos(lat0);
       ctx.lineJoin='round';
       ctx.fillStyle='rgba(74,99,68,0.95)';               // land — a lit green-khaki
